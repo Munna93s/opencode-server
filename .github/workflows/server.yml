@@ -14,11 +14,12 @@ jobs:
 
       - name: Install Tools
         run: |
+          sudo mkdir -p --mode=0755 /usr/share/keyrings
+          curl -fsSL https://cloudflare.com | sudo tee /usr/share/keyrings/cloudflare-public-v2.gpg >/dev/null
+          echo 'deb [signed-by=/usr/share/keyrings/cloudflare-public-v2.gpg] https://cloudflare.com any main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
           sudo apt-get update -y
-          sudo apt-get install -y ffmpeg python3-pip wget
+          sudo apt-get install -y ffmpeg python3-pip cloudflared
           sudo npm install -g opencode-ai
-          wget -q https://github.com
-          sudo dpkg -i cloudflared-linux-amd64.deb
 
       - name: Start Server & Send Link
         env:
