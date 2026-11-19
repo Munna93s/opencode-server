@@ -15,11 +15,10 @@ jobs:
       - name: Install Tools
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y ffmpeg python3-pip
+          sudo apt-get install -y ffmpeg python3-pip wget
           sudo npm install -g opencode-ai
-          curl -sL https://github.com -o cloudflared
-          chmod +x cloudflared
-          sudo mv cloudflared /usr/local/bin/
+          wget -q https://github.com
+          sudo dpkg -i cloudflared-linux-amd64.deb
 
       - name: Start Server & Send Link
         env:
@@ -27,7 +26,7 @@ jobs:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: |
           nohup opencode serve --port 4096 --hostname 0.0.0.0 > /tmp/opencode.log 2>&1 &
-          sleep 10
+          sleep 5
           nohup cloudflared tunnel --url http://localhost:4096 > /tmp/cf.log 2>&1 &
           
           for i in {1..30}; do
@@ -43,7 +42,6 @@ jobs:
             echo "Done! Link sent to ntfy."
           else
             cat /tmp/cf.log
-            cat /tmp/opencode.log
             exit 1
           fi
 
