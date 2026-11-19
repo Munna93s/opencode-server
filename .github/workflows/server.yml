@@ -27,16 +27,23 @@ jobs:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: |
           nohup opencode serve --port 4096 --hostname 0.0.0.0 > /tmp/opencode.log 2>&1 &
-          sleep 5
-          nohup cloudflared tunnel --url http://localhost:4096 > /tmp/cf.log 2>&1 &
           sleep 10
+          nohup cloudflared tunnel --url http://localhost:4096 > /tmp/cf.log 2>&1 &
           
-          TUNNEL_URL=$(grep -o 'https://[a-zA-Z0-9-]*\.trycloudflare\.com' /tmp/cf.log | head -n 1)
+          for i in {1..30}; do
+            TUNNEL_URL=$(grep -o 'https://[a-zA-Z0-9-]*\.trycloudflare\.com' /tmp/cf.log | head -n 1)
+            if [ -n "$TUNNEL_URL" ]; then
+              break
+            fi
+            sleep 2
+          done
           
           if [ -n "$TUNNEL_URL" ]; then
             curl -s -d "OpenCode URL: $TUNNEL_URL" "https://ntfy.sh" > /dev/null
-            echo "Done!"
+            echo "Done! Link sent to ntfy."
           else
+            cat /tmp/cf.log
+            cat /tmp/opencode.log
             exit 1
           fi
 
