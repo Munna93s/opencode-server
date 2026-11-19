@@ -16,7 +16,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y ffmpeg python3-pip
-          curl -fsSL https://opencode.ai | bash
+          sudo npm install -g opencode-ai
           curl -sL https://github.com -o cloudflared
           chmod +x cloudflared
           sudo mv cloudflared /usr/local/bin/
@@ -26,7 +26,6 @@ jobs:
           OPENCODE_SERVER_PASSWORD: ${{ secrets.SERVER_PASS }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: |
-          export PATH="$HOME/.opencode/bin:$PATH"
           nohup opencode serve --port 4096 --hostname 0.0.0.0 > /tmp/opencode.log 2>&1 &
           sleep 5
           nohup cloudflared tunnel --url http://localhost:4096 > /tmp/cf.log 2>&1 &
