@@ -1,0 +1,33 @@
+{
+  "round": 1,
+  "verification_mode": "llm_standalone_first",
+  "repair_pass_used": false,
+  "clips": [
+    {
+      "title": "Gamer realizes what he is doing in this bizarre game",
+      "original_rank": 1,
+      "decision": "kept",
+      "reason": "The clip opens with a self-contained setup question (\"What the fuck is this game?\"), develops through escalating confusion, and lands on a clear realization and payoff (\"That's red hole!\" / \"Oh my god!\"). A new viewer can follow the mini-arc without prior context, and it does not end on a continuation signal or cut off mid-point. It is brief at 33 seconds but meets the hard minimum and preserves semantic completeness.",
+      "verification_transcript_source": "original",
+      "verification_transcript_reason": "overlap ratio 0.00 across 0 adjacent subtitle pairs",
+      "verification_transcript_path": null,
+      "judge_keep": true,
+      "judge_reason": "The clip opens with a self-contained setup question (\"What the fuck is this game?\"), develops through escalating confusion, and lands on a clear realization and payoff (\"That's red hole!\" / \"Oh my god!\"). A new viewer can follow the mini-arc without prior context, and it does not end on a continuation signal or cut off mid-point. It is brief at 33 seconds but meets the hard minimum and preserves semantic completeness.",
+      "standalone_score": 0.78,
+      "verification_status": "verified",
+      "start_time": "00:00:17",
+      "end_time": "00:00:50",
+      "video_part": "part01",
+      "evidence_excerpt": "What the fuck is this game? Is that all? What the hell? What the fuck is all I'm doing in this game? That's red hole! Oh my god!",
+      "repair_diagnosis": "none",
+      "repair_planner_attempted": false,
+      "repairable": null,
+      "planner_reason": null,
+      "rejudge_keep": null,
+      "rejudge_reason": null,
+      "selected_in_final_top_n": true
+    }
+  ],
+  "analysis_timestamp": "2026-11-19T21:49:16.345394Z",
+  "run_id": "20261119T214814Z-23656c81"
+}

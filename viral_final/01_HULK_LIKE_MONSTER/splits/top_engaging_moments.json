@@ -1,0 +1,47 @@
+{
+  "top_engaging_moments": [
+    {
+      "title": "Gamer realizes what he is doing in this bizarre game",
+      "start_time": "00:00:17",
+      "end_time": "00:00:50",
+      "duration_seconds": 33,
+      "summary": "A streamer reacts with escalating confusion and shock while playing a strange game, building from questioning the game to a sudden realization and an Oh my god moment.",
+      "engagement_details": {
+        "engagement_level": "high"
+      },
+      "why_engaging": "This moment captures genuine escalating reactions from confusion to shock, making it highly curiosity-driven and ideal for short-form platforms. The progression from asking what the game is to the sudden red hole reveal creates a natural payoff arc that works standalone without needing the rest of the video.",
+      "tags": [
+        "humorous",
+        "reaction",
+        "gaming",
+        "highlight",
+        "live-chemistry"
+      ],
+      "timing": {
+        "video_part": "part01",
+        "start_time": "00:00:17",
+        "end_time": "00:00:50",
+        "duration": "33s"
+      },
+      "rank": 1,
+      "evidence_excerpt": "What the fuck is this game? Is that all? What the hell? What the fuck is all I'm doing in this game? That's red hole! Oh my god!",
+      "intent_alignment_score": 0.85,
+      "suggested_start_time": null,
+      "suggested_end_time": null,
+      "repair_strategy": "none",
+      "repair_diagnosis": "none",
+      "verification_notes": "The clip opens with a self-contained setup question (\"What the fuck is this game?\"), develops through escalating confusion, and lands on a clear realization and payoff (\"That's red hole!\" / \"Oh my god!\"). A new viewer can follow the mini-arc without prior context, and it does not end on a continuation signal or cut off mid-point. It is brief at 33 seconds but meets the hard minimum and preserves semantic completeness.",
+      "verification_status": "verified",
+      "selection_confidence": 0.78
+    }
+  ],
+  "total_moments": 1,
+  "analysis_timestamp": "2026-11-19T21:49:16.345372Z",
+  "aggregation_criteria": "Agentic verification with standalone-first LLM review",
+  "analysis_summary": {
+    "verification_mode": "llm_standalone_first",
+    "repair_pass_used": false,
+    "selected_after_verification": 1
+  },
+  "honorable_mentions": []
+}

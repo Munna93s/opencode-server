@@ -12,11 +12,19 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Install Tools
+      - name: Restore Environment (setup.sh)
         run: |
-          sudo apt-get update -y
-          sudo apt-get install -y ffmpeg python3-pip
-          sudo npm install -g @opencode/cli cloudflared
+          chmod +x setup.sh
+          # Full restore is best-effort: a missing external apt repo must not
+          # prevent the server from starting. The next step verifies essentials.
+          bash setup.sh || echo "setup.sh returned non-zero; continuing with fallback checks."
+
+      - name: Verify / Fallback Tools
+        run: |
+          command -v ffmpeg >/dev/null || { sudo apt-get update -y && sudo apt-get install -y ffmpeg; }
+          python3 -m pip --version >/dev/null 2>&1 || sudo apt-get install -y python3-pip
+          command -v opencode >/dev/null || npm install -g @opencode/cli
+          command -v cloudflared >/dev/null || npm install -g cloudflared
 
       - name: Start Server & Show Link
         env:

@@ -1,0 +1,22 @@
+{
+  "agentic_analysis_enabled": true,
+  "mode": "engaging_moments",
+  "language": "en",
+  "user_intent": "the single most explosive high-energy curiosity-driven moment that would get maximum views on TikTok and YouTube Shorts",
+  "clip_duration_preference": {
+    "preset": "auto",
+    "label": "Auto (30s-3m)",
+    "min_seconds": 30,
+    "max_seconds": 180,
+    "ideal_min_seconds": 45,
+    "ideal_max_seconds": 180,
+    "guidance": "Use the most natural engaging clip length between 30 seconds and 3 minutes. Prefer 45 seconds to 3 minutes when that captures the full context and payoff."
+  },
+  "target_clip_count": 1,
+  "pre_verify_pool_size": 4,
+  "verification_mode": "llm_standalone_first",
+  "retry_budget": 1,
+  "total_parts": 1,
+  "analysis_timestamp": "2026-11-19T21:48:14.248245Z",
+  "run_id": "20261119T214814Z-23656c81"
+}

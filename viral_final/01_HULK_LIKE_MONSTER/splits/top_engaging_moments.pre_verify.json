@@ -1,0 +1,40 @@
+{
+  "top_engaging_moments": [
+    {
+      "title": "Gamer realizes what he is doing in this bizarre game",
+      "start_time": "00:00:17",
+      "end_time": "00:00:50",
+      "duration_seconds": 33,
+      "summary": "A streamer reacts with escalating confusion and shock while playing a strange game, building from questioning the game to a sudden realization and an Oh my god moment.",
+      "engagement_details": {
+        "engagement_level": "high"
+      },
+      "why_engaging": "This moment captures genuine escalating reactions from confusion to shock, making it highly curiosity-driven and ideal for short-form platforms. The progression from asking what the game is to the sudden red hole reveal creates a natural payoff arc that works standalone without needing the rest of the video.",
+      "tags": [
+        "humorous",
+        "reaction",
+        "gaming",
+        "highlight",
+        "live-chemistry"
+      ],
+      "_source_video_part": "part01",
+      "_source_rank": 1,
+      "timing": {
+        "video_part": "part01",
+        "start_time": "00:00:17",
+        "end_time": "00:00:50",
+        "duration": "33s"
+      },
+      "rank": 1
+    }
+  ],
+  "total_moments": 1,
+  "analysis_timestamp": "2026-11-19T21:48:50.904479Z",
+  "aggregation_criteria": "Deterministic pre-verification pool built from per-part engaging moments",
+  "analysis_summary": {
+    "highest_engagement_themes": [],
+    "total_engaging_content_time": "N/A",
+    "recommendation": "Pre-verification pool assembled deterministically before standalone review"
+  },
+  "honorable_mentions": []
+}

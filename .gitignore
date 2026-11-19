@@ -1,0 +1,19 @@
+# Large generated video artifacts — never push to GitHub.
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.avi
+*.m4v
+*.wmv
+*.flv
+*.ts
+*.zip
+*.tar.gz
+*.tgz
+
+# Python / cache noise
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
