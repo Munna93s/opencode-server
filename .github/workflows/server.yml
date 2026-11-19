@@ -3,6 +3,10 @@ name: OpenCode Cloud Server
 on:
   workflow_dispatch:
 
+# Needed so the fallback github.token can also push when GH_PAT is not configured.
+permissions:
+  contents: write
+
 jobs:
   run-server:
     runs-on: ubuntu-latest
@@ -11,6 +15,29 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+        with:
+          # Persists the token in local git config so `git push` works inside
+          # the session without anyone having to supply a token again.
+          token: ${{ secrets.GH_PAT || github.token }}
+          persist-credentials: true
+
+      - name: Configure git push authentication (GH_PAT)
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "${GH_PAT:-}" ]; then
+            git config --global credential.helper store
+            printf 'https://x-access-token:%s@github.com\n' "$GH_PAT" > "$HOME/.git-credentials"
+            chmod 600 "$HOME/.git-credentials"
+            echo "Git push auth configured from repository GH_PAT secret."
+          else
+            echo "GH_PAT secret is not set; using checkout token (contents: write)."
+          fi
+          GIT_TERMINAL_PROMPT=0 git push --dry-run origin HEAD:main >/dev/null 2>&1 \
+            && echo "Push auth check: OK" \
+            || echo "WARNING: push auth check failed; verify GH_PAT secret."
 
       - name: Restore Environment (setup.sh)
         run: |
