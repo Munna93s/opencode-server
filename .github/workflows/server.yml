@@ -18,7 +18,7 @@ jobs:
           sudo apt-get install -y ffmpeg python3-pip
           sudo npm install -g opencode-ai cloudflared
 
-      - name: Start Server & Send Link
+      - name: Start Server & Show Link
         env:
           OPENCODE_SERVER_PASSWORD: ${{ secrets.SERVER_PASS }}
         run: |
@@ -35,8 +35,9 @@ jobs:
           done
           
           if [ -n "$TUNNEL_URL" ]; then
-            curl -s -d "OpenCode URL: $TUNNEL_URL" "https://ntfy.sh"
-            echo "Done! Link sent."
+            echo "=========================================="
+            echo "YOUR OPENCODE LINK: $TUNNEL_URL"
+            echo "=========================================="
           else
             cat /tmp/cf.log
             exit 1
