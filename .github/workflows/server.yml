@@ -43,5 +43,6 @@ jobs:
             exit 1
           fi
 
-          sleep 19800
-          
+      - name: Keep Server Running (5.5 Hours)
+        run: sleep 19800
+        
