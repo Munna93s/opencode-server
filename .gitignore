@@ -12,6 +12,9 @@
 *.tar.gz
 *.tgz
 
+# Local third-party app clones + their virtualenvs/models (recreated by setup.sh)
+/facefusion/
+
 # Python / cache noise
 __pycache__/
 *.py[cod]

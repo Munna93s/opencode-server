@@ -12,10 +12,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SUDO=""
 if [ "$(id -u)" -ne 0 ]; then SUDO="sudo"; fi
 
-echo "==> [1/5] apt: updating package index"
+echo "==> [1/6] apt: updating package index"
 $SUDO apt-get update -y
 
-echo "==> [2/5] apt: installing 245 manually-installed packages"
+echo "==> [2/6] apt: installing 245 manually-installed packages"
 if ! $SUDO apt-get install -y --no-install-recommends \
   7zip \
   7zip-rar \
@@ -269,12 +269,12 @@ then
     aria2 rsync parallel shellcheck tree || echo "WARN: essential apt install failed" >&2
 fi
 
-echo "==> [3/5] pip: installing 98 Python packages"
+echo "==> [3/6] pip: installing 98 Python packages"
 if ! python3 -m pip install --break-system-packages -r "$SCRIPT_DIR/requirements.txt"; then
   echo "WARNING: some pip packages failed to build (OS-provided ones are covered by apt)." >&2
 fi
 
-echo "==> [4/5] npm/pipx: installing global JS tools and Python CLI tools"
+echo "==> [4/6] npm/pipx: installing global JS tools and Python CLI tools"
 if ! npm install -g \
   @bazel/bazelisk@v1.28.1 \
   @opencode/cli@2.3.2 \
@@ -293,11 +293,35 @@ fi
 pipx install --force ansible-core==2.22.0 2>/dev/null || echo "WARN: pipx install ansible-core failed" >&2
 pipx install --force yamllint==1.38.0 2>/dev/null || echo "WARN: pipx install yamllint failed" >&2
 
-echo "==> [5/5] OpenCode skills: restoring from backup"
+echo "==> [5/6] OpenCode skills: restoring from backup"
 mkdir -p "$HOME/.config/opencode/skill"
 if [ -d "$SCRIPT_DIR/skills" ]; then
   cp -a "$SCRIPT_DIR/skills/." "$HOME/.config/opencode/skill/"
   echo "    restored: $(find "$SCRIPT_DIR/skills" -name SKILL.md | wc -l) skill(s)"
 fi
 
-echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version"
+echo "==> [6/6] FaceFusion 3.9.2: isolated clone + venv"
+# FaceFusion pins numpy/onnxruntime/pillow/gradio versions that clash with the
+# global toolchain, so it lives in ./facefusion/venv and is never pip-installed
+# system-wide. See skills/facefusion/SKILL.md.
+FACEFUSION_DIR="$SCRIPT_DIR/facefusion"
+if [ ! -d "$FACEFUSION_DIR/.git" ]; then
+  git clone --depth 1 https://github.com/facefusion/facefusion.git "$FACEFUSION_DIR" \
+    || echo "WARNING: FaceFusion clone failed" >&2
+fi
+if [ -d "$FACEFUSION_DIR" ]; then
+  if [ ! -x "$FACEFUSION_DIR/venv/bin/python" ]; then
+    python3 -m venv "$FACEFUSION_DIR/venv" \
+      || echo "WARNING: FaceFusion venv creation failed" >&2
+  fi
+  if [ -x "$FACEFUSION_DIR/venv/bin/python" ]; then
+    # The installer resolves `pip` from PATH, NOT from the interpreter that
+    # runs it. Prepending the venv bin dir is required or deps land in ~/.local.
+    (
+      cd "$FACEFUSION_DIR"
+      PATH="$PWD/venv/bin:$PATH" ./venv/bin/python install.py default --skip-conda
+    ) || echo "WARNING: FaceFusion dependency install failed" >&2
+  fi
+fi
+
+echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version"

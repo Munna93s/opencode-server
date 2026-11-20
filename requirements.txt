@@ -99,3 +99,8 @@ yt-dlp==2026.10.26
 zipp==3.23.0
 zope.interface==8.2
 zstandard==0.25.0
+
+# --- FaceFusion 3.9.2 (installed 2026-11-20) ---
+# Its pinned deps are intentionally NOT in this global list: they are installed
+# into the isolated ./facefusion/venv from requirements-facefusion.txt by
+# setup.sh step [6/6]. See skills/facefusion/SKILL.md for usage.
