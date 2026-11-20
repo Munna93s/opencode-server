@@ -34,14 +34,20 @@ From the repo root, every command looks like:
 
 A harmless `onnxruntime` PCI-bus warning on this VM is normal.
 
-## First run: download models
+## Models (already downloaded on this server)
 
-`install.py` only installs Python packages. Models are fetched on demand or all
-at once (large — check free disk first):
+All models are present in `facefusion/.assets` — **39 GB, 242 files**. They are
+git-ignored along with the rest of the clone and are not pushed to GitHub.
+
+`install.py` only installs Python packages; models are fetched on demand or all
+at once. To reproduce the full cache on a fresh machine (check free disk first):
 
 ```bash
 cd facefusion && PATH="$PWD/venv/bin:$PATH" ./venv/bin/python facefusion.py force-download
 ```
+
+Or set `FACEFUSION_DOWNLOAD_MODELS=1` when running `setup.sh`, which makes step
+[6/6] do this automatically. It is opt-in because of the size.
 
 ## Headless run (image or video)
 

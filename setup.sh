@@ -320,6 +320,13 @@ if [ -d "$FACEFUSION_DIR" ]; then
     (
       cd "$FACEFUSION_DIR"
       PATH="$PWD/venv/bin:$PATH" ./venv/bin/python install.py default --skip-conda
+      # All models are ~39 GB / 242 files. Opt in with
+      # FACEFUSION_DOWNLOAD_MODELS=1 so a normal setup.sh run stays fast;
+      # otherwise models are fetched on first use, or via the documented command.
+      if [ "${FACEFUSION_DOWNLOAD_MODELS:-0}" = "1" ]; then
+        PATH="$PWD/venv/bin:$PATH" ./venv/bin/python facefusion.py force-download \
+          || echo "WARNING: FaceFusion model download failed" >&2
+      fi
     ) || echo "WARNING: FaceFusion dependency install failed" >&2
   fi
 fi
