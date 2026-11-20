@@ -126,3 +126,15 @@ zstandard==0.25.0
 # opencode/nemotron-3.5-super-vl-free, so even text-only models can analyze
 # screenshots / frame grids / QA strips. setup.sh also writes the model's
 # `modalities.input = ["text","image"]` into ~/.config/opencode/opencode.json.
+
+# --- Video editors: OpenCut (installed by setup.sh, no new Python packages) ---
+# OpenCut-classic (working web editor, Next.js): bun install in ./OpenCut-classic
+# plus local Postgres/Redis via `docker compose up -d db redis serverless-redis-http`;
+# start with `bun dev:web` (http://localhost:3000).
+# OpenCut rewrite (in development, Rust core + moon): pinned toolchain in
+# OpenCut/.prototools installed with `proto use` (moon 2.3.3, bun 1.3.11, rust
+# 1.97.0); deps installed per app with `bun install --cwd apps/web|apps/api`.
+# Start rewrite UI with `bun run dev` in OpenCut/apps/web (http://localhost:5173)
+# and API with `bun run dev` in OpenCut/apps/api (http://localhost:8787).
+# `bun` global npm package and `proto` (https://moonrepo.dev/install/proto.sh)
+# are installed by setup.sh; clones are gitignored and recreated on setup.

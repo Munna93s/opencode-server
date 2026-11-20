@@ -3,7 +3,7 @@
 # setup.sh — reproduce the toolchain captured from the OpenCode cloud server
 # Generated : 2026-11-19 22:25:48
 # Source    : /home/runner/work/opencode-server/opencode-server
-# Contents  : apt packages, pip packages, npm globals, pipx tools, OpenCode skills
+# Contents  : apt packages, pip packages, npm globals, pipx tools, OpenCode skills, OpenCut editors
 # Usage     : bash setup.sh            (run as root, or via sudo)
 # =============================================================================
 set -euo pipefail
@@ -278,6 +278,7 @@ echo "==> [4/7] npm/pipx: installing global JS tools and Python CLI tools"
 if ! npm install -g \
   @bazel/bazelisk@v1.28.1 \
   @opencode/cli@2.3.2 \
+  bun@1.4.5 \
   cloudflared@0.7.3 \
   corepack@0.36.0 \
   n@11.0.0 \
@@ -399,4 +400,45 @@ if [ -d "$COMFYUI_DIR" ]; then
   fi
 fi
 
+echo "==> OpenCut editors: classic (working) + rewrite (in development)"
+# proto installs the tool versions pinned in OpenCut/.prototools (moon, bun, rust).
+# bun itself is installed as an npm global in step [4/7] above.
+if ! command -v proto >/dev/null 2>&1; then
+  bash <(curl -fsSL https://moonrepo.dev/install/proto.sh) \
+    || echo "WARNING: proto install failed" >&2
+fi
+export PATH="$HOME/.proto/bin:$PATH"
+
+OPENCUT_DIR="$SCRIPT_DIR/OpenCut"
+CLASSIC_DIR="$SCRIPT_DIR/OpenCut-classic"
+if [ ! -d "$OPENCUT_DIR/.git" ]; then
+  git clone --depth 1 https://github.com/OpenCut-app/OpenCut.git "$OPENCUT_DIR" \
+    || echo "WARNING: OpenCut rewrite clone failed" >&2
+fi
+if [ ! -d "$CLASSIC_DIR/.git" ]; then
+  git clone --depth 1 https://github.com/OpenCut-app/opencut-classic.git "$CLASSIC_DIR" \
+    || echo "WARNING: OpenCut classic clone failed" >&2
+fi
+# The rewrite has no root package.json; each app under apps/ installs its own deps.
+if [ -d "$OPENCUT_DIR" ]; then
+  (
+    cd "$OPENCUT_DIR"
+    export PATH="$HOME/.proto/bin:$PATH"
+    proto use || echo "WARNING: proto use failed" >&2
+    bun install --cwd apps/web || echo "WARNING: OpenCut web deps failed" >&2
+    bun install --cwd apps/api || echo "WARNING: OpenCut api deps failed" >&2
+  ) || true
+fi
+# Classic needs local Postgres + Redis and a Next.js dev server.
+if [ -d "$CLASSIC_DIR" ]; then
+  (
+    cd "$CLASSIC_DIR"
+    [ -f apps/web/.env.local ] || cp apps/web/.env.example apps/web/.env.local
+    bun install || echo "WARNING: OpenCut classic deps failed" >&2
+    docker compose up -d db redis serverless-redis-http \
+      || echo "WARNING: OpenCut classic services failed" >&2
+  ) || true
+fi
+
 echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version; ./ComfyUI/venv/bin/python ./ComfyUI/main.py --help"
+echo "==> OpenCut start commands: classic: cd OpenCut-classic && bun dev:web (http://localhost:3000); rewrite: cd OpenCut/apps/web && bun run dev (http://localhost:5173); rewrite API: cd OpenCut/apps/api && bun run dev (http://localhost:8787)"

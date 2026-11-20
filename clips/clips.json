@@ -1,0 +1,191 @@
+{
+  "source": {
+    "name": "IShowSpeed",
+    "title": "GTA 6 FINALE LAST MISSION — live 2026-11-20",
+    "url": "https://www.youtube.com/live/OIeLbmyraRQ",
+    "topic": "GTA 6"
+  },
+  "covered": [
+    0.0,
+    0.0
+  ],
+  "clips": [
+    {
+      "type": "shocking",
+      "style": "hookcard",
+      "hook": "Speed *locks onto the target* through the scope in GTA 6 😱",
+      "title": "Clutch Saved My Life",
+      "caption": "Stay right there — IShowSpeed holds his aim in the GTA 6 finale.",
+      "score": 92,
+      "why": "A tense sniper-scope moment with a clear on-screen trigger and a shocked facecam.",
+      "hashtags": [
+        "#gta6clips",
+        "#gta6",
+        "#ishowspeed",
+        "#streamhighlights",
+        "#gta6funny",
+        "#gta6india",
+        "#gta6gameplay",
+        "#shorts",
+        "#reels"
+      ],
+      "alt_hooks": [
+        "Speed locks onto the target through the scope in GTA 6 😱",
+        "Locked On — IShowSpeed in GTA 6 😱"
+      ],
+      "start": 0.0,
+      "seconds": 34.0,
+      "picked_by": "existing capture",
+      "files": [
+        {
+          "file": "clutch_saved_my_life__hookcard.mp4",
+          "template": "hookcard"
+        },
+        {
+          "file": "clutch_saved_my_life__stack.mp4",
+          "template": "stack"
+        },
+        {
+          "file": "clutch_saved_my_life__bubble.mp4",
+          "template": "bubble"
+        }
+      ],
+      "job": null
+    },
+    {
+      "type": "funny",
+      "style": "hookcard",
+      "hook": "Everything turns *RED* while Speed wears his HULK sweater in GTA 6 😭",
+      "title": "Hulk Joke",
+      "caption": "Bro, turn it to red, hulk — IShowSpeed and crew lose it in GTA 6.",
+      "score": 88,
+      "why": "A red screen wash plus Speed's HULK sweater make the joke land visually.",
+      "hashtags": [
+        "#gta6clips",
+        "#gta6",
+        "#ishowspeed",
+        "#streamhighlights",
+        "#gta6funny",
+        "#gta6india",
+        "#gta6gameplay",
+        "#shorts",
+        "#reels"
+      ],
+      "alt_hooks": [
+        "Everything turns RED while Speed wears his HULK sweater in GTA 6 😭",
+        "Red Hulk — IShowSpeed in GTA 6 😱"
+      ],
+      "start": 0.0,
+      "seconds": 30.0,
+      "picked_by": "existing capture",
+      "files": [
+        {
+          "file": "hulk_joke__hookcard.mp4",
+          "template": "hookcard"
+        },
+        {
+          "file": "hulk_joke__stack.mp4",
+          "template": "stack"
+        },
+        {
+          "file": "hulk_joke__bubble.mp4",
+          "template": "bubble"
+        }
+      ],
+      "job": null
+    },
+    {
+      "type": "funny",
+      "style": "hookcard",
+      "hook": "Speed is *shocked* by this GTA 6 finale moment 😱",
+      "title": "He Wants Hat Me",
+      "caption": "Speed's jaw drops as the crew pushes through the GTA 6 finale.",
+      "score": 84,
+      "why": "A visible jaw-drop reaction with a dark-corridor payoff.",
+      "hashtags": [
+        "#gta6clips",
+        "#gta6",
+        "#ishowspeed",
+        "#streamhighlights",
+        "#gta6funny",
+        "#gta6india",
+        "#gta6gameplay",
+        "#shorts",
+        "#reels"
+      ],
+      "alt_hooks": [
+        "Speed is shocked by this GTA 6 finale moment 😱",
+        "No Way — IShowSpeed in GTA 6 😱"
+      ],
+      "start": 0.0,
+      "seconds": 25.0,
+      "picked_by": "existing capture",
+      "files": [
+        {
+          "file": "he_wants_hat_me__hookcard.mp4",
+          "template": "hookcard"
+        },
+        {
+          "file": "he_wants_hat_me__stack.mp4",
+          "template": "stack"
+        },
+        {
+          "file": "he_wants_hat_me__bubble.mp4",
+          "template": "bubble"
+        }
+      ],
+      "job": null
+    },
+    {
+      "type": "funny",
+      "style": "hookcard",
+      "hook": "Speed *loses it laughing* in the GTA 6 warehouse 😭",
+      "title": "Barcode Chaos",
+      "caption": "Speed points and cracks up as the squad gets chaotic in GTA 6.",
+      "score": 80,
+      "why": "Genuine laughter and pointing in the facecam over a foggy, red-lit warehouse.",
+      "hashtags": [
+        "#gta6clips",
+        "#gta6",
+        "#ishowspeed",
+        "#streamhighlights",
+        "#gta6funny",
+        "#gta6india",
+        "#gta6gameplay",
+        "#shorts",
+        "#reels"
+      ],
+      "alt_hooks": [
+        "Speed loses it laughing in the GTA 6 warehouse 😭",
+        "Cracking Up — IShowSpeed in GTA 6 😱"
+      ],
+      "start": 0.0,
+      "seconds": 30.0,
+      "picked_by": "existing capture",
+      "files": [
+        {
+          "file": "barcode_chaos__hookcard.mp4",
+          "template": "hookcard"
+        },
+        {
+          "file": "barcode_chaos__stack.mp4",
+          "template": "stack"
+        },
+        {
+          "file": "barcode_chaos__bubble.mp4",
+          "template": "bubble"
+        }
+      ],
+      "job": null
+    }
+  ],
+  "settings": {
+    "template": [
+      "hookcard",
+      "stack",
+      "bubble"
+    ],
+    "length": "short",
+    "accent": null
+  }
+}
