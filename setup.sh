@@ -299,6 +299,13 @@ if [ -d "$SCRIPT_DIR/skills" ]; then
   cp -a "$SCRIPT_DIR/skills/." "$HOME/.config/opencode/skill/"
   echo "    restored: $(find "$SCRIPT_DIR/skills" -name SKILL.md | wc -l) skill(s)"
 fi
+# Beyond GTA Clips: private venv + Whisper/face models (~220 MB) under
+# ~/.beyondgtaclips. Re-running is safe; downloads are cached. Keeps the
+# skill's heavy deps out of the system Python.
+BGC_SETUP="$SCRIPT_DIR/skills/beyondgtaclips/scripts/setup_env.py"
+if [ -f "$BGC_SETUP" ]; then
+  python3 "$BGC_SETUP" || echo "WARNING: beyondgtaclips setup failed" >&2
+fi
 
 echo "==> [6/7] FaceFusion 3.9.2: isolated clone + venv"
 # FaceFusion pins numpy/onnxruntime/pillow/gradio versions that clash with the

@@ -104,3 +104,9 @@ zstandard==0.25.0
 # Their pinned deps are intentionally NOT in this global list: they are installed
 # into per-app venvs from requirements-<app>.txt by setup.sh steps [6/7] and
 # [7/7]. See skills/facefusion/SKILL.md and skills/comfyui/SKILL.md for usage.
+
+# --- Isolated skill env: beyondgtaclips (installed by setup.sh step [5/7]) ---
+# ~/.beyondgtaclips/venv (not system-wide): faster-whisper,
+# opencv-python-headless, pillow, numpy, yt-dlp[default]; plus Whisper
+# tiny/base models and the OpenCV YuNet face model. See
+# skills/beyondgtaclips/SKILL.md for usage.
