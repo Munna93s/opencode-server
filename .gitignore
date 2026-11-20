@@ -17,6 +17,7 @@
 /ComfyUI/
 /OpenCut/
 /OpenCut-classic/
+/neonclipping/
 
 # Python / cache noise
 __pycache__/

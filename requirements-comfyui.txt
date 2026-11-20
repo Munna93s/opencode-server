@@ -1,5 +1,5 @@
 # ComfyUI (installed 2026-11-20) — pinned dependencies for its isolated venv.
-# Installed by setup.sh step [7/7] into ./ComfyUI/venv; NEVER into the global
+# Installed by setup.sh step [7/8] into ./ComfyUI/venv; NEVER into the global
 # interpreter (torch/numpy/Pillow conflict with the system toolchain).
 # Source: https://github.com/comfyanonymous/ComfyUI @ a20552b5e
 aiohappyeyeballs==2.7.1

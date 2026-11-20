@@ -6,7 +6,7 @@ description: Use the locally installed ComfyUI on this server to run image/video
 # ComfyUI (local install)
 
 ComfyUI lives at `./ComfyUI/` in the repo root (git-ignored, recreated by
-`setup.sh` step [7/7]). Its dependencies are in `./ComfyUI/venv` — **never**
+`setup.sh` step [7/8]). Its dependencies are in `./ComfyUI/venv` — **never**
 install them system-wide: they pull `torch`, `torchvision` and a different
 `numpy`/`Pillow` stack that would break the server toolchain.
 

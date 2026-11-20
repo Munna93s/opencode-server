@@ -105,7 +105,7 @@ zstandard==0.25.0
 # into per-app venvs from requirements-<app>.txt by setup.sh steps [6/7] and
 # [7/7]. See skills/facefusion/SKILL.md and skills/comfyui/SKILL.md for usage.
 
-# --- Isolated skill env: beyondgtaclips (installed by setup.sh step [5/7]) ---
+# --- Isolated skill env: beyondgtaclips (installed by setup.sh step [5/8]) ---
 # ~/.beyondgtaclips/venv (not system-wide): faster-whisper,
 # opencv-python-headless, pillow, numpy, yt-dlp[default], and the
 # bgutil-ytdlp-pot-provider plugin for YouTube's PO-token bot check; plus
@@ -113,19 +113,25 @@ zstandard==0.25.0
 # supplied with YOUTUBE_COOKIES_FILE=/path/to/cookies.txt. See
 # skills/beyondgtaclips/SKILL.md for usage.
 
-# --- Isolated skill env: ortha-clipper (installed by setup.sh step [5/7]) ---
+# --- Isolated skill env: ortha-clipper (installed by setup.sh step [5/8]) ---
 # uv-managed PEP 723 script deps (not system-wide): yt-dlp[default],
 # faster-whisper (pinned av<18), pillow, numpy, imageio-ffmpeg. Prewarmed into
 # uv's cache by `uv run --script skills/ortha-clipper/clipper.py --help`. Unlike
 # beyondgtaclips this one can clip a LIVE stream from a rolling 4-minute
 # buffer. See skills/ortha-clipper/SKILL.md for usage.
 
-# --- Image input skill: image-vision (installed by setup.sh step [5/7]) ---
+# --- Image input skill: image-vision (installed by setup.sh step [5/8]) ---
 # No Python/system packages. `skills/image-vision/vision.sh` attaches an image
 # via `opencode run --file` to the free vision-language model
 # opencode/nemotron-3.5-super-vl-free, so even text-only models can analyze
 # screenshots / frame grids / QA strips. setup.sh also writes the model's
 # `modalities.input = ["text","image"]` into ~/.config/opencode/opencode.json.
+
+# --- Isolated app: neonclipping (installed by setup.sh step [8/8]) ---
+# Pinned deps in requirements-neonclipping.txt, installed into ./neonclipping/.venv
+# (not system-wide): fastapi, uvicorn, yt-dlp, faster-whisper, ctranslate2, av,
+# opencv-python-headless, pillow, numpy, streamlink, pytchat. The clone (with its
+# venv, models and data/ clips) is gitignored. See skills/neonclipping/SKILL.md.
 
 # --- Video editors: OpenCut (installed by setup.sh, no new Python packages) ---
 # OpenCut-classic (working web editor, Next.js): bun install in ./OpenCut-classic

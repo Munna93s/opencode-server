@@ -12,10 +12,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SUDO=""
 if [ "$(id -u)" -ne 0 ]; then SUDO="sudo"; fi
 
-echo "==> [1/7] apt: updating package index"
+echo "==> [1/8] apt: updating package index"
 $SUDO apt-get update -y
 
-echo "==> [2/7] apt: installing 245 manually-installed packages"
+echo "==> [2/8] apt: installing 245 manually-installed packages"
 if ! $SUDO apt-get install -y --no-install-recommends \
   7zip \
   7zip-rar \
@@ -269,12 +269,12 @@ then
     aria2 rsync parallel shellcheck tree || echo "WARN: essential apt install failed" >&2
 fi
 
-echo "==> [3/7] pip: installing 98 Python packages"
+echo "==> [3/8] pip: installing 98 Python packages"
 if ! python3 -m pip install --break-system-packages -r "$SCRIPT_DIR/requirements.txt"; then
   echo "WARNING: some pip packages failed to build (OS-provided ones are covered by apt)." >&2
 fi
 
-echo "==> [4/7] npm/pipx: installing global JS tools and Python CLI tools"
+echo "==> [4/8] npm/pipx: installing global JS tools and Python CLI tools"
 if ! npm install -g \
   @bazel/bazelisk@v1.28.1 \
   @opencode/cli@2.3.2 \
@@ -294,7 +294,7 @@ fi
 pipx install --force ansible-core==2.22.0 2>/dev/null || echo "WARN: pipx install ansible-core failed" >&2
 pipx install --force yamllint==1.38.0 2>/dev/null || echo "WARN: pipx install yamllint failed" >&2
 
-echo "==> [5/7] OpenCode skills: restoring from backup"
+echo "==> [5/8] OpenCode skills: restoring from backup"
 mkdir -p "$HOME/.config/opencode/skill"
 if [ -d "$SCRIPT_DIR/skills" ]; then
   cp -a "$SCRIPT_DIR/skills/." "$HOME/.config/opencode/skill/"
@@ -347,7 +347,7 @@ p.write_text(json.dumps(cfg, indent=2) + "\n")
 PY
 fi
 
-echo "==> [6/7] FaceFusion 3.9.2: isolated clone + venv"
+echo "==> [6/8] FaceFusion 3.9.2: isolated clone + venv"
 # FaceFusion pins numpy/onnxruntime/pillow/gradio versions that clash with the
 # global toolchain, so it lives in ./facefusion/venv and is never pip-installed
 # system-wide. See skills/facefusion/SKILL.md.
@@ -378,7 +378,7 @@ if [ -d "$FACEFUSION_DIR" ]; then
   fi
 fi
 
-echo "==> [7/7] ComfyUI: isolated clone + venv"
+echo "==> [7/8] ComfyUI: isolated clone + venv"
 # ComfyUI pulls torch/torchvision and a conflicting numpy/Pillow stack, so it
 # gets its own venv instead of touching the global toolchain. See
 # skills/comfyui/SKILL.md for usage.
@@ -402,7 +402,7 @@ fi
 
 echo "==> OpenCut editors: classic (working) + rewrite (in development)"
 # proto installs the tool versions pinned in OpenCut/.prototools (moon, bun, rust).
-# bun itself is installed as an npm global in step [4/7] above.
+# bun itself is installed as an npm global in step [4/8] above.
 if ! command -v proto >/dev/null 2>&1; then
   bash <(curl -fsSL https://moonrepo.dev/install/proto.sh) \
     || echo "WARNING: proto install failed" >&2
@@ -440,5 +440,28 @@ if [ -d "$CLASSIC_DIR" ]; then
   ) || true
 fi
 
-echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version; ./ComfyUI/venv/bin/python ./ComfyUI/main.py --help"
+echo "==> [8/8] NeonClipping: isolated clone + venv"
+# NeonClipping pins its own faster-whisper/av/opencv stack; keep it out of the
+# global toolchain. It is a local FastAPI app at http://127.0.0.1:8770.
+# See skills/neonclipping/SKILL.md for usage.
+NEON_DIR="$SCRIPT_DIR/neonclipping"
+if [ ! -d "$NEON_DIR/.git" ]; then
+  git clone --depth 1 https://github.com/iamajmeena/neonclipping.git "$NEON_DIR" \
+    || echo "WARNING: NeonClipping clone failed" >&2
+fi
+if [ -d "$NEON_DIR" ]; then
+  if [ ! -x "$NEON_DIR/.venv/bin/python" ]; then
+    python3 -m venv "$NEON_DIR/.venv" \
+      || echo "WARNING: NeonClipping venv creation failed" >&2
+  fi
+  if [ -x "$NEON_DIR/.venv/bin/python" ]; then
+    "$NEON_DIR/.venv/bin/python" -m pip install --upgrade pip wheel setuptools \
+      || echo "WARNING: NeonClipping pip upgrade failed" >&2
+    "$NEON_DIR/.venv/bin/python" -m pip install -r "$SCRIPT_DIR/requirements-neonclipping.txt" \
+      || echo "WARNING: NeonClipping dependency install failed" >&2
+  fi
+fi
+
+echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version; ./ComfyUI/venv/bin/python ./ComfyUI/main.py --help; ./neonclipping/.venv/bin/python -c \"import fastapi, faster_whisper; print('neonclipping ok')\""
 echo "==> OpenCut start commands: classic: cd OpenCut-classic && bun dev:web (http://localhost:3000); rewrite: cd OpenCut/apps/web && bun run dev (http://localhost:5173); rewrite API: cd OpenCut/apps/api && bun run dev (http://localhost:8787)"
+echo "==> NeonClipping start: ./neonclipping/.venv/bin/python ./neonclipping/app.py (http://127.0.0.1:8770)"
