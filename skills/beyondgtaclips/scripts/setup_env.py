@@ -22,7 +22,8 @@ MODELS = ENV_DIR / "models"
 DATA = Path(os.environ.get("BEYONDGTACLIPS_HOME") or Path.home() / "BeyondGTAClips")
 HERE = Path(__file__).resolve().parent
 
-PACKAGES = ["faster-whisper", "opencv-python-headless", "pillow", "numpy", "yt-dlp[default]"]
+PACKAGES = ["faster-whisper", "opencv-python-headless", "pillow", "numpy", "yt-dlp[default]",
+            "bgutil-ytdlp-pot-provider"]
 FACE_MODEL_URL = ("https://github.com/opencv/opencv_zoo/raw/main/models/"
                   "face_detection_yunet/face_detection_yunet_2023mar.onnx")
 

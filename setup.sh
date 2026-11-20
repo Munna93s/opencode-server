@@ -306,6 +306,16 @@ BGC_SETUP="$SCRIPT_DIR/skills/beyondgtaclips/scripts/setup_env.py"
 if [ -f "$BGC_SETUP" ]; then
   python3 "$BGC_SETUP" || echo "WARNING: beyondgtaclips setup failed" >&2
 fi
+# YouTube's PO-token bot check needs the bgutil provider server (datacenter IPs).
+# Start it on loopback when Docker is available; harmless otherwise.
+if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
+  if ! docker ps --format '{{.Names}}' 2>/dev/null | grep -qx bgutil-provider; then
+    docker rm -f bgutil-provider >/dev/null 2>&1 || true
+    docker run --name bgutil-provider -d --init \
+      -p 127.0.0.1:4416:4416 brainicism/bgutil-ytdlp-pot-provider >/dev/null 2>&1 \
+      || echo "WARNING: bgutil PO-token provider failed to start" >&2
+  fi
+fi
 # Ortha Clipper: keeps a rolling live-stream buffer and cuts chat/audio spike
 # moments while a stream is still live. Its PEP 723 script deps (yt-dlp,
 # faster-whisper, pillow, numpy, imageio-ffmpeg) are installed by uv into its

@@ -107,8 +107,10 @@ zstandard==0.25.0
 
 # --- Isolated skill env: beyondgtaclips (installed by setup.sh step [5/7]) ---
 # ~/.beyondgtaclips/venv (not system-wide): faster-whisper,
-# opencv-python-headless, pillow, numpy, yt-dlp[default]; plus Whisper
-# tiny/base models and the OpenCV YuNet face model. See
+# opencv-python-headless, pillow, numpy, yt-dlp[default], and the
+# bgutil-ytdlp-pot-provider plugin for YouTube's PO-token bot check; plus
+# Whisper tiny/base models and the OpenCV YuNet face model. Cookies can be
+# supplied with YOUTUBE_COOKIES_FILE=/path/to/cookies.txt. See
 # skills/beyondgtaclips/SKILL.md for usage.
 
 # --- Isolated skill env: ortha-clipper (installed by setup.sh step [5/7]) ---

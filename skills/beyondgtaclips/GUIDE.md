@@ -123,7 +123,7 @@ Changing a hook or style takes about 15 seconds: nothing is downloaded again.
 
 | Problem | Fix |
 |---|---|
-| "YouTube asks to confirm you're not a bot" | You searched a lot in a short time. Wait 20-30 minutes and try again. |
+| "YouTube asks to confirm you're not a bot" | You searched a lot in a short time. Wait 20-30 minutes, or set `YOUTUBE_COOKIES_FILE=/path/to/cookies.txt` with cookies exported from a signed-in browser. |
 | "This stream is still LIVE" | Wait until it ends, or pick a finished stream. |
 | "Unable to extract" / downloads fail | Say: "update yt-dlp for beyondgtaclips". |
 | ChatGPT keeps asking for permission | Choose "Always allow" for this chat. |

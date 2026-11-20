@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["yt-dlp[default]", "faster-whisper", "pillow", "numpy", "imageio-ffmpeg"]
+# dependencies = ["yt-dlp[default]", "faster-whisper", "av<18", "pillow", "numpy", "imageio-ffmpeg"]
 # ///
 """Ortha Clipper: stream -> chat-spike moments -> captioned 9:16 shorts.
 

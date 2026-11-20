@@ -168,8 +168,14 @@ ends with zero clips.
 ## 5. When something goes wrong
 
 - YouTube asks for a login or "not a bot" (happens after many searches in a short time):
-  wait 15-30 minutes, or add `--cookies chrome` (the browser the user is signed in with;
-  ask the user first, it reads that browser's YouTube login).
+  wait 15-30 minutes, add `--cookies chrome` (the browser the user is signed in with;
+  ask the user first, it reads that browser's YouTube login), or set
+  `YOUTUBE_COOKIES_FILE=/path/to/cookies.txt` to use a Netscape-format cookies file
+  (export it from a signed-in browser; e.g. with the "Get cookies.txt LOCALLY" extension).
+  On a server/VPS the `bgutil-ytdlp-pot-provider` plugin plus its loopback Docker server
+  (`docker run --name bgutil-provider -d --init -p 127.0.0.1:4416:4416
+  brainicism/bgutil-ytdlp-pot-provider`) are installed by setup; a PO token does not
+  bypass an IP-level block, so a residential proxy may still be needed.
 - Downloads fail with "unable to extract": update yt-dlp: `~/.beyondgtaclips/venv/bin/pip install -U yt-dlp`.
 - An AI CLI is not signed in: it switches to agent mode by itself with `--brain auto`.
 - Run the same command again after any stop: everything is cached and resumes.
