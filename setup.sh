@@ -462,6 +462,13 @@ if [ -d "$NEON_DIR" ]; then
   fi
 fi
 
+# Auto-archive completed OpenCode child sessions (keeps user top-level sessions active)
+chmod +x "$SCRIPT_DIR/scripts/archive-child-sessions" 2>/dev/null || true
+mkdir -p /tmp/opencode 2>/dev/null || true
+if [ -x "$SCRIPT_DIR/scripts/archive-child-sessions" ] && ! pgrep -f "scripts/archive-child-sessions --watch" >/dev/null 2>&1; then
+  nohup "$SCRIPT_DIR/scripts/archive-child-sessions" --watch 30 >> /tmp/opencode/archive-child-sessions.log 2>&1 &
+fi
+
 echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version; ./ComfyUI/venv/bin/python ./ComfyUI/main.py --help; ./neonclipping/.venv/bin/python -c \"import fastapi, faster_whisper; print('neonclipping ok')\""
 echo "==> OpenCut start commands: classic: cd OpenCut-classic && bun dev:web (http://localhost:3000); rewrite: cd OpenCut/apps/web && bun run dev (http://localhost:5173); rewrite API: cd OpenCut/apps/api && bun run dev (http://localhost:8787)"
 echo "==> NeonClipping start: ./neonclipping/.venv/bin/python ./neonclipping/app.py (http://127.0.0.1:8770)"

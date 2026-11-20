@@ -1,0 +1,206 @@
+#!/usr/bin/env python3
+"""
+Archive completed OpenCode child sessions automatically.
+
+- Archives only sessions that have a parentID (child/subagent sessions created by OpenCode).
+- Never archives top-level (user-created) sessions.
+- Skips sessions that are still active/running.
+- Archives sessions whose work is complete (succeeded/failed/interrupted, or idle and not busy).
+
+Examples:
+  # one-time dry run (show what would be archived)
+  ./scripts/archive-child-sessions --dry-run
+
+  # one-time archive of completed child sessions
+  ./scripts/archive-child-sessions
+
+  # keep running and auto-archive completed child sessions every 30s
+  ./scripts/archive-child-sessions --watch 30
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import subprocess
+import sys
+import time
+from typing import Any, Dict, List, Set
+
+
+def run(cmd: List[str]) -> subprocess.CompletedProcess:
+    return subprocess.run(cmd, text=True, capture_output=True)
+
+
+def opencode_api(args: List[str]) -> Any:
+    p = run(["opencode", "api", *args])
+    if p.returncode != 0:
+        msg = (p.stderr or p.stdout or "").strip()
+        raise RuntimeError(f"opencode api {' '.join(args)} failed ({p.returncode}): {msg}")
+    out = (p.stdout or "").strip()
+    if not out:
+        return None
+    try:
+        return json.loads(out)
+    except json.JSONDecodeError:
+        i = out.find("{")
+        j = out.find("[")
+        idxs = [x for x in (i, j) if x != -1]
+        if not idxs:
+            raise
+        return json.loads(out[min(idxs):])
+
+
+def get_active_ids() -> Set[str]:
+    try:
+        data = opencode_api(["session.active"]) or {}
+        if isinstance(data, dict) and isinstance(data.get("data"), dict):
+            return set(data["data"].keys())
+        if isinstance(data, dict):
+            return set(data.keys())
+    except Exception as e:
+        print(f"[warn] could not fetch active sessions: {e}", file=sys.stderr)
+    return set()
+
+
+def list_sessions(limit: int) -> List[Dict[str, Any]]:
+    # Fetch newest sessions first; paginate if needed.
+    sessions: List[Dict[str, Any]] = []
+    cursor = None
+    remaining = max(1, limit)
+    while remaining > 0:
+        page = min(100, remaining)
+        args = ["session.list", "--param", f"limit={page}", "--param", "order=desc"]
+        if cursor:
+            args += ["--param", f"cursor={cursor}"]
+        data = opencode_api(args)
+        if not isinstance(data, dict):
+            break
+        items = data.get("data") or []
+        if not isinstance(items, list) or not items:
+            break
+        for s in items:
+            if isinstance(s, dict):
+                sessions.append(s)
+        remaining -= len(items)
+        cur = data.get("cursor") or {}
+        nxt = cur.get("next") if isinstance(cur, dict) else None
+        if not nxt:
+            break
+        cursor = str(nxt)
+    return sessions
+
+
+def is_archived(session: Dict[str, Any]) -> bool:
+    t = session.get("time") or {}
+    return bool(t.get("archived"))
+
+
+def is_child(session: Dict[str, Any]) -> bool:
+    pid = session.get("parentID")
+    return isinstance(pid, str) and pid.strip() != ""
+
+
+def is_finished(session: Dict[str, Any], active_ids: Set[str]) -> bool:
+    sid = session.get("id")
+    if not sid or sid in active_ids:
+        return False
+    outcome = session.get("outcome")
+    t = session.get("time") or {}
+    idle = t.get("idle")
+    busy = t.get("busy")
+    if outcome in {"succeeded", "failed", "interrupted"}:
+        return True
+    # Fallback: idle and not actively busy (or idle >= busy)
+    if idle:
+        if busy is None:
+            return True
+        try:
+            return float(idle) >= float(busy)
+        except Exception:
+            return True
+    return False
+
+
+def archive_session(session_id: str, dry_run: bool) -> None:
+    if dry_run:
+        return
+    opencode_api([
+        "session.update",
+        "--param", f"sessionID={session_id}",
+        "--data", json.dumps({"archived": True}),
+    ])
+
+
+def sweep(limit: int, dry_run: bool) -> Dict[str, int]:
+    active_ids = get_active_ids()
+    sessions = list_sessions(limit)
+    stats = {"scanned": 0, "children": 0, "archived": 0, "skipped_active": 0, "skipped_incomplete": 0, "errors": 0}
+    for s in sessions:
+        sid = s.get("id")
+        if not isinstance(sid, str):
+            continue
+        stats["scanned"] += 1
+        if not is_child(s):
+            continue
+        stats["children"] += 1
+        if is_archived(s):
+            continue
+        if sid in active_ids:
+            stats["skipped_active"] += 1
+            continue
+        if not is_finished(s, active_ids):
+            stats["skipped_incomplete"] += 1
+            continue
+        title = s.get("title") or ""
+        label = "WOULD_ARCHIVE" if dry_run else "ARCHIVED"
+        try:
+            archive_session(sid, dry_run)
+            stats["archived"] += 1
+            print(f"{label} child={sid} parent={s.get('parentID')} outcome={s.get('outcome')} title={title!r}")
+        except Exception as e:
+            stats["errors"] += 1
+            print(f"ERROR child={sid}: {e}", file=sys.stderr)
+    return stats
+
+
+def print_summary(stats: Dict[str, int], dry_run: bool) -> None:
+    mode = "dry-run" if dry_run else "apply"
+    print(
+        f"[{mode}] scanned={stats['scanned']} child_seen={stats['children']} archived={stats['archived']} "
+        f"skipped_active={stats['skipped_active']} skipped_incomplete={stats['skipped_incomplete']} errors={stats['errors']}"
+    )
+    print("Top-level (user-created) sessions are never archived by this command.")
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description="Archive completed OpenCode child sessions; keep user top-level sessions active.")
+    ap.add_argument("--dry-run", action="store_true", help="Show what would be archived without changing sessions.")
+    ap.add_argument("--limit", type=int, default=300, help="Max recent sessions to scan per sweep (default: 300).")
+    ap.add_argument("--watch", type=int, nargs="?", const=30, metavar="SECONDS",
+                    help="Run continuously and sweep every N seconds (default: 30).")
+    args = ap.parse_args()
+
+    if args.watch is None:
+        stats = sweep(args.limit, args.dry_run)
+        print_summary(stats, args.dry_run)
+        return 1 if stats["errors"] else 0
+
+    interval = max(5, int(args.watch))
+    print(f"Watching: auto-archiving completed child sessions every {interval}s (scan limit {args.limit}). Ctrl+C to stop.")
+    try:
+        while True:
+            try:
+                stats = sweep(args.limit, args.dry_run)
+                if stats["archived"] or stats["errors"]:
+                    print_summary(stats, args.dry_run)
+            except Exception as e:
+                print(f"[error] sweep failed: {e}", file=sys.stderr)
+            time.sleep(interval)
+    except KeyboardInterrupt:
+        print("\nStopped.")
+        return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
