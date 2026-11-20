@@ -130,7 +130,9 @@ zstandard==0.25.0
 # --- Isolated app: neonclipping (installed by setup.sh step [8/8]) ---
 # Pinned deps in requirements-neonclipping.txt, installed into ./neonclipping/.venv
 # (not system-wide): fastapi, uvicorn, yt-dlp, faster-whisper, ctranslate2, av,
-# opencv-python-headless, pillow, numpy, streamlink, pytchat, plus the
+# opencv-python-headless (av pinned to 16.1.0: av 19 removed the
+# `metadata_errors` argument faster-whisper 1.2.1 passes to av.open), pillow,
+# numpy, streamlink, pytchat, plus the
 # bgutil-ytdlp-pot-provider plugin for YouTube's PO-token bot check (needs the
 # local provider container on 127.0.0.1:4416 and fresh browser cookies at
 # YOUTUBE_COOKIES_FILE=/tmp/opencode/youtube_cookies.txt). The clone (with its
