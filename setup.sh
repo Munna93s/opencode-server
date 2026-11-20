@@ -294,6 +294,13 @@ fi
 pipx install --force ansible-core==2.22.0 2>/dev/null || echo "WARN: pipx install ansible-core failed" >&2
 pipx install --force yamllint==1.38.0 2>/dev/null || echo "WARN: pipx install yamllint failed" >&2
 
+# Free creator/SEO research CLI tools (YouTube transcripts, Instagram/public media research)
+if [ -x "$SCRIPT_DIR/scripts/install-creator-tools.sh" ]; then
+  bash "$SCRIPT_DIR/scripts/install-creator-tools.sh" || echo "WARN: creator tools install failed" >&2
+else
+  python3 -m pip install --break-system-packages --upgrade youtube-transcript-api instaloader gallery-dl >/dev/null 2>&1     || echo "WARN: creator tools pip install failed" >&2
+fi
+
 echo "==> [5/8] OpenCode skills: restoring from backup"
 mkdir -p "$HOME/.config/opencode/skill"
 if [ -d "$SCRIPT_DIR/skills" ]; then

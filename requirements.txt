@@ -149,3 +149,11 @@ zstandard==0.25.0
 # and API with `bun run dev` in OpenCut/apps/api (http://localhost:8787).
 # `bun` global npm package and `proto` (https://moonrepo.dev/install/proto.sh)
 # are installed by setup.sh; clones are gitignored and recreated on setup.
+
+# --- Social/creator research CLI tools (installed 2026-11-20) ---
+# Free/open-source helpers for YouTube/Instagram research (captions, metadata,
+# public profile/media inspection). Installed into user/system Python by setup.sh.
+youtube-transcript-api==1.2.5
+instaloader==4.16
+gallery-dl==1.32.20
+defusedxml==0.7.1
