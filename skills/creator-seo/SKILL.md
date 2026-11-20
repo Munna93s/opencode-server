@@ -70,3 +70,40 @@ gallery-dl --dump-json "<url>" | head
 - Cannot directly post/manage accounts without the user's account access, tokens, or API/OAuth setup (and IG/YT APIs have restrictions).
 - No always-on background posting from a session that ends; provide ready-to-post packages and a manual/scheduled plan the user can execute.
 - Respect copyright, platform Terms of Service, and privacy. Use downloads/reposts only when the user has rights/permission.
+
+## Active Campaign: Lauren Hamden GTA 6 Clipping (Reach / "Sisters")
+- Campaign page: https://reachclipping.com/Sisters — $5,000 Lauren Hamden GTA 6 Clipping Campaign (Live)
+- User pages: https://www.instagram.com/laurenhamdenfanpage (primary), https://www.instagram.com/_bot_clan_ig_
+- Bio link: `https://lozzahamden.click/` (user confirmed already in bio — keep it present)
+
+### Mandatory rules (must follow for every clip/caption)
+- **Platforms:** TikTok and Instagram Reels only.
+- **Source:** Clip must feature Lauren Hamden's **GTA 6 playthrough livestream** moments (funny moments, memorable quotes, reactions).
+- **Account:** Branded/themed Lauren Hamden clipping/fan account.
+- **Caption must include:** `#LaurenHamden` and tag `@LaurenHamden` (required).
+- **No negatives:** Do not portray Lauren Hamden in a negative light.
+- **Not allowed:** AI-generated videos, any logos, view/engagement manipulation (botting, reposts, collab posts, or other manipulation).
+- **Submission:** Submit video link within **30 minutes** of posting via Whop Content Rewards.
+- **Payout/eligibility:** MVR 10,000 approved views; $1.50/1K views (min $15, max $250 per video) on TikTok/Instagram. At least **50% audience** from USA, CA, AU, UK, NZ.
+
+### Default caption format to use (tailor hook/context to the actual clip)
+```text
+[STRONG HOOK — the funniest/shocking moment in caps, 0-2 sec focus] 😱
+
+@LaurenHamden [1-2 lines: what happened + best quote/reaction from the GTA 6 livestream clip]
+
+[CTA: question to drive comments + ask to save/share] 👇
+
+Follow @laurenhamdenfanpage for daily @LaurenHamden GTA 6 livestream funny moments, fails & highlights 🎮
+
+#LaurenHamden #GTA6 #GTA6Gameplay #GTA6Funny #GTA6Fails #GTA6Clips #GTAVI #ViceCity #TwitchClips #GamingReels
+```
+
+### Caption checklist (before giving/posting)
+- [ ] First line is a scroll-stopping hook matching the clip's peak moment
+- [ ] Includes `@LaurenHamden` tag and `#LaurenHamden` hashtag
+- [ ] Context/quote is accurate to the clip (consistent name: Lauren Hamden)
+- [ ] Has a comment CTA and save/share CTA
+- [ ] 8–10 relevant hashtags at the end (proper `#tag` format, no broken/merged tags)
+- [ ] No duplicate follow lines, no logos mentioned/added, no AI-claim, not negative toward Lauren
+- [ ] Remind: bio has `https://lozzahamden.click/`, submit link within 30 min, 10k MVR, 50% US/CA/AU/UK/NZ audience
