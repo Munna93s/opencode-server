@@ -6,7 +6,7 @@ description: Use the locally installed FaceFusion 3.9.2 on this server to swap f
 # FaceFusion (local install)
 
 FaceFusion lives at `./facefusion/` in the repo root (git-ignored, recreated by
-`setup.sh` step [6/6]). Its dependencies are in `./facefusion/venv` — **never**
+`setup.sh` step [6/7]). Its dependencies are in `./facefusion/venv` — **never**
 install them system-wide: they pin `numpy==2.5.4`, `onnxruntime==1.31.0`,
 `pillow==11.3.0` and `gradio==5.50.0`, which would break the server toolchain.
 

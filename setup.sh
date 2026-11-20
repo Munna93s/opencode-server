@@ -12,10 +12,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SUDO=""
 if [ "$(id -u)" -ne 0 ]; then SUDO="sudo"; fi
 
-echo "==> [1/6] apt: updating package index"
+echo "==> [1/7] apt: updating package index"
 $SUDO apt-get update -y
 
-echo "==> [2/6] apt: installing 245 manually-installed packages"
+echo "==> [2/7] apt: installing 245 manually-installed packages"
 if ! $SUDO apt-get install -y --no-install-recommends \
   7zip \
   7zip-rar \
@@ -269,12 +269,12 @@ then
     aria2 rsync parallel shellcheck tree || echo "WARN: essential apt install failed" >&2
 fi
 
-echo "==> [3/6] pip: installing 98 Python packages"
+echo "==> [3/7] pip: installing 98 Python packages"
 if ! python3 -m pip install --break-system-packages -r "$SCRIPT_DIR/requirements.txt"; then
   echo "WARNING: some pip packages failed to build (OS-provided ones are covered by apt)." >&2
 fi
 
-echo "==> [4/6] npm/pipx: installing global JS tools and Python CLI tools"
+echo "==> [4/7] npm/pipx: installing global JS tools and Python CLI tools"
 if ! npm install -g \
   @bazel/bazelisk@v1.28.1 \
   @opencode/cli@2.3.2 \
@@ -293,14 +293,14 @@ fi
 pipx install --force ansible-core==2.22.0 2>/dev/null || echo "WARN: pipx install ansible-core failed" >&2
 pipx install --force yamllint==1.38.0 2>/dev/null || echo "WARN: pipx install yamllint failed" >&2
 
-echo "==> [5/6] OpenCode skills: restoring from backup"
+echo "==> [5/7] OpenCode skills: restoring from backup"
 mkdir -p "$HOME/.config/opencode/skill"
 if [ -d "$SCRIPT_DIR/skills" ]; then
   cp -a "$SCRIPT_DIR/skills/." "$HOME/.config/opencode/skill/"
   echo "    restored: $(find "$SCRIPT_DIR/skills" -name SKILL.md | wc -l) skill(s)"
 fi
 
-echo "==> [6/6] FaceFusion 3.9.2: isolated clone + venv"
+echo "==> [6/7] FaceFusion 3.9.2: isolated clone + venv"
 # FaceFusion pins numpy/onnxruntime/pillow/gradio versions that clash with the
 # global toolchain, so it lives in ./facefusion/venv and is never pip-installed
 # system-wide. See skills/facefusion/SKILL.md.
@@ -324,4 +324,26 @@ if [ -d "$FACEFUSION_DIR" ]; then
   fi
 fi
 
-echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version"
+echo "==> [7/7] ComfyUI: isolated clone + venv"
+# ComfyUI pulls torch/torchvision and a conflicting numpy/Pillow stack, so it
+# gets its own venv instead of touching the global toolchain. See
+# skills/comfyui/SKILL.md for usage.
+COMFYUI_DIR="$SCRIPT_DIR/ComfyUI"
+if [ ! -d "$COMFYUI_DIR/.git" ]; then
+  git clone --depth 1 https://github.com/comfyanonymous/ComfyUI.git "$COMFYUI_DIR" \
+    || echo "WARNING: ComfyUI clone failed" >&2
+fi
+if [ -d "$COMFYUI_DIR" ]; then
+  if [ ! -x "$COMFYUI_DIR/venv/bin/python" ]; then
+    python3 -m venv "$COMFYUI_DIR/venv" \
+      || echo "WARNING: ComfyUI venv creation failed" >&2
+  fi
+  if [ -x "$COMFYUI_DIR/venv/bin/python" ]; then
+    "$COMFYUI_DIR/venv/bin/python" -m pip install --upgrade pip wheel setuptools \
+      || echo "WARNING: ComfyUI pip upgrade failed" >&2
+    "$COMFYUI_DIR/venv/bin/python" -m pip install -r "$SCRIPT_DIR/requirements-comfyui.txt" \
+      || echo "WARNING: ComfyUI dependency install failed" >&2
+  fi
+fi
+
+echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version; ./ComfyUI/venv/bin/python ./ComfyUI/main.py --help"
