@@ -325,6 +325,26 @@ if [ -f "$ORTHA_SCRIPT" ] && command -v uv >/dev/null 2>&1; then
   uv run --script "$ORTHA_SCRIPT" --help >/dev/null 2>&1 \
     || echo "WARNING: ortha-clipper dependency prewarm failed" >&2
 fi
+# Image vision: let any (even text-only) model actually see images by delegating
+# to the free OpenCode VL model. No API key or extra package needed. Declare
+# image input for that model so native --file / Read attachment works too.
+VISION_SH="$SCRIPT_DIR/skills/image-vision/vision.sh"
+if [ -f "$VISION_SH" ]; then
+  chmod +x "$VISION_SH"
+  python3 - <<'PY' || echo "WARNING: vision modalities config failed" >&2
+import json, pathlib
+p = pathlib.Path.home() / ".config/opencode/opencode.json"
+try:
+    cfg = json.loads(p.read_text()) if p.exists() else {}
+except Exception:
+    cfg = {}
+mods = cfg.setdefault("provider", {}).setdefault("opencode", {}).setdefault("models", {}).setdefault("nemotron-3.5-super-vl-free", {})
+mods["name"] = "Nemotron 3.5 Super VL Free"
+mods["modalities"] = {"input": ["text", "image"], "output": ["text"]}
+p.parent.mkdir(parents=True, exist_ok=True)
+p.write_text(json.dumps(cfg, indent=2) + "\n")
+PY
+fi
 
 echo "==> [6/7] FaceFusion 3.9.2: isolated clone + venv"
 # FaceFusion pins numpy/onnxruntime/pillow/gradio versions that clash with the
