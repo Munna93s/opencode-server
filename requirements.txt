@@ -110,3 +110,10 @@ zstandard==0.25.0
 # opencv-python-headless, pillow, numpy, yt-dlp[default]; plus Whisper
 # tiny/base models and the OpenCV YuNet face model. See
 # skills/beyondgtaclips/SKILL.md for usage.
+
+# --- Isolated skill env: ortha-clipper (installed by setup.sh step [5/7]) ---
+# uv-managed PEP 723 script deps (not system-wide): yt-dlp[default],
+# faster-whisper, pillow, numpy, imageio-ffmpeg. Prewarmed into uv's cache by
+# `uv run --script skills/ortha-clipper/clipper.py --help`. Unlike
+# beyondgtaclips this one can clip a LIVE stream from a rolling 4-minute
+# buffer. See skills/ortha-clipper/SKILL.md for usage.

@@ -306,6 +306,15 @@ BGC_SETUP="$SCRIPT_DIR/skills/beyondgtaclips/scripts/setup_env.py"
 if [ -f "$BGC_SETUP" ]; then
   python3 "$BGC_SETUP" || echo "WARNING: beyondgtaclips setup failed" >&2
 fi
+# Ortha Clipper: keeps a rolling live-stream buffer and cuts chat/audio spike
+# moments while a stream is still live. Its PEP 723 script deps (yt-dlp,
+# faster-whisper, pillow, numpy, imageio-ffmpeg) are installed by uv into its
+# own cache; prewarm them here so live clipping starts without a delay.
+ORTHA_SCRIPT="$SCRIPT_DIR/skills/ortha-clipper/clipper.py"
+if [ -f "$ORTHA_SCRIPT" ] && command -v uv >/dev/null 2>&1; then
+  uv run --script "$ORTHA_SCRIPT" --help >/dev/null 2>&1 \
+    || echo "WARNING: ortha-clipper dependency prewarm failed" >&2
+fi
 
 echo "==> [6/7] FaceFusion 3.9.2: isolated clone + venv"
 # FaceFusion pins numpy/onnxruntime/pillow/gradio versions that clash with the
