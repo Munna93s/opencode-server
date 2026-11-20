@@ -16,6 +16,14 @@ This VM has no NVIDIA GPU: runs are CPU-only. YouTube links are fast because
 the app uses YouTube's own word-timed captions and downloads only the chosen
 sections. Twitch VODs and local MP4s need local speech recognition and are slow.
 
+YouTube from this datacenter IP is bot-checked, so the venv also has the
+`bgutil-ytdlp-pot-provider` plugin (Docker container `bgutil-provider` on
+127.0.0.1:4416, started by `setup.sh`). Fresh browser cookies are still needed:
+export a Netscape `cookies.txt` while logged into YouTube and save it at
+`/tmp/opencode/youtube_cookies.txt` (or set `YOUTUBE_COOKIES_FILE`). Expired
+cookies produce "Sign in to confirm you're not a bot" — replace them, don't
+retry with the old file. Add `--js-runtimes node` when calling yt-dlp manually.
+
 ## Paths
 
 - App: `./neonclipping/app.py`
