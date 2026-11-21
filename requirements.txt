@@ -1,5 +1,8 @@
 # Full `pip freeze` captured from source server on 2026-11-19 22:25:48
 # Note: a few entries are OS-provided Python packages; apt installs those via setup.sh.
+# Image-vision tooling (skills/image-vision: see.sh + auto-vision-watch.sh) needs
+# no extra pip package: it uses the already-installed `opencode` CLI and the free
+# opencode/nemotron-3.5-super-vl-free model. Only scripts were added to setup.sh.
 
 argcomplete==3.7.2
 attrs==25.4.0

@@ -356,6 +356,18 @@ mods["modalities"] = {"input": ["text", "image"], "output": ["text"]}
 p.parent.mkdir(parents=True, exist_ok=True)
 p.write_text(json.dumps(cfg, indent=2) + "\n")
 PY
+  # Auto image inbox: a dropped/attached image gets described by the free VL
+  # model into ~/image-inbox/LAST_SEEN.md, plus a `see` shortcut for any shell.
+  VISION_DIR="$SCRIPT_DIR/skills/image-vision"
+  mkdir -p "$HOME/image-inbox" /tmp/opencode/inbox "$HOME/Downloads" "$HOME/Pictures" 2>/dev/null || true
+  chmod +x "$VISION_DIR/see.sh" "$VISION_DIR/auto-vision-watch.sh" 2>/dev/null || true
+  mkdir -p "$HOME/.local/bin"
+  ln -sf "$VISION_DIR/see.sh" "$HOME/.local/bin/see"
+  VISION_WATCH="$VISION_DIR/auto-vision-watch.sh"
+  if [ -x "$VISION_WATCH" ] && ! pgrep -f "auto-vision-watch.sh" >/dev/null 2>&1; then
+    nohup "$VISION_WATCH" >> /tmp/opencode/image-vision-watch.log 2>&1 &
+  fi
+  echo "    image vision ready: see | ~/image-inbox/LAST_SEEN.md"
 fi
 # Image upload page: for chats where the attached image never reaches disk.
 # Stdlib-only server; saves to /tmp/opencode/vision_uploads and writes the

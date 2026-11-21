@@ -1,6 +1,6 @@
 ---
 name: image-vision
-description: Image input support for any model. Use this whenever you need to actually SEE an image - screenshots, frame grids, video QA strips, memes, diagrams, charts, UI mockups - and the current model says "this model does not support image input" or "Cannot read image". Delegates to the free OpenCode vision-language model opencode/nemotron-3.5-super-vl-free via `vision.sh <path> [question]`, which attaches the image with `opencode run --file`. Also ships a browser upload server (`upload_server.py`) for when chat attachments never reach the server disk. No API key needed. Also useful as a general second opinion on images.
+description: Image input support for any model. Use this whenever you need to actually SEE an image - screenshots, frame grids, video QA strips, memes, diagrams, charts, UI mockups - and the current model says "this model does not support image input" or "Cannot read image". Delegates to the free OpenCode vision-language model opencode/nemotron-3.5-super-vl-free via `vision.sh <path> [question]`, which attaches the image with `opencode run --file`. Also ships a browser upload server (`upload_server.py`) for when chat attachments never reach the server disk, plus an auto-watch inbox (`~/image-inbox`) with a `see` command that describes dropped images into `~/image-inbox/LAST_SEEN.md`. No API key needed. Also useful as a general second opinion on images.
 ---
 
 # Image Vision (see images from any model)
@@ -42,6 +42,30 @@ Env: `VISION_UPLOAD_PORT` (default 8388), `VISION_UPLOAD_DIR` (default
 `/tmp/opencode/vision_uploads`). Stdlib only, no new packages. Run it in the
 background / with a process manager if it must stay available.
 
+## Automatic "user sent an image in chat" workflow
+
+Chat attachments are handed straight to the active model. If that model is
+text-only, the harness replies `Cannot read image (this model does not support
+image input)` and usually **no local file is kept** — so there is nothing to read
+afterwards. Setup.sh installs complementary helpers for this case:
+
+- `see` (symlink at `~/.local/bin/see`, script `see.sh`): prints a description of
+  a given image path, or of the newest image found in `~/image-inbox`,
+  `/tmp/opencode/inbox`, `~/Downloads` or `~/Pictures` (which includes the
+  browser uploader's `VISION_UPLOAD_DIR` if configured to `/tmp/opencode/inbox`).
+- `auto-vision-watch.sh`: a background watcher started by setup.sh. It notices
+  new images in those folders, runs the VL model on them and appends the result
+  to `~/image-inbox/LAST_SEEN.md`.
+
+Agent procedure when the user says they sent an image (or you see the
+`Cannot read image` error):
+
+1. Run `cat ~/image-inbox/LAST_SEEN.md` — the watcher may already have described it.
+2. Otherwise run `see` (no args) from the shell; it picks the newest image.
+3. If no file exists, open `http://localhost:8388/` (browser upload server) or ask
+   the user to save the image into `~/image-inbox` and say "done".
+4. Never answer "I can't see images" without trying these steps first.
+
 ## Good prompts
 
 - "Describe this image in detail. List all visible text/UI. If a streamer facecam
@@ -56,7 +80,10 @@ background / with a process manager if it must stay available.
 
 - The VL model bills to the OpenCode free tier; no API key or extra install needed.
 - Default path when installed: `skills/image-vision/vision.sh` in the repo, copied
-  to `~/.config/opencode/skill/image-vision/` by setup.sh.
+  to `~/.config/opencode/skill/image-vision/` by setup.sh (along with `see.sh`,
+  `auto-vision-watch.sh` and `upload_server.py`).
+- Watcher logs: `/tmp/opencode/image-vision-watch.log`; processed-image state:
+  `/tmp/opencode/image-vision-seen.tsv`. Delete the state file to force a re-scan.
 - `~/.config/opencode/opencode.json` also declares `modalities.input = ["text",
   "image"]` for `nemotron-3.5-super-vl-free`, so native image attachment works if
   you switch the whole session to that model.
