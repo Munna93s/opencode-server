@@ -370,13 +370,18 @@ PY
   echo "    image vision ready: see | ~/image-inbox/LAST_SEEN.md"
 fi
 # Image upload page: for chats where the attached image never reaches disk.
-# Stdlib-only server; saves to /tmp/opencode/vision_uploads and writes the
-# latest path to /tmp/opencode/vision_latest.txt. See skills/image-vision/SKILL.md.
+# Stdlib-only server. Started with VISION_UPLOAD_DIR=/tmp/opencode/inbox so the
+# auto-vision watcher describes every upload into ~/image-inbox/LAST_SEEN.md;
+# the latest path is also written to /tmp/opencode/vision_latest.txt.
 VISION_UPLOAD="$SCRIPT_DIR/skills/image-vision/upload_server.py"
 if [ -f "$VISION_UPLOAD" ]; then
   chmod +x "$VISION_UPLOAD"
   mkdir -p "$HOME/.local/bin"
   ln -sf "$VISION_UPLOAD" "$HOME/.local/bin/image-upload"
+  if ! pgrep -f "image-vision/upload_server.py|skills/image-vision/upload_server.py" >/dev/null 2>&1; then
+    VISION_UPLOAD_DIR=/tmp/opencode/inbox nohup python3 "$VISION_UPLOAD" \
+      >> /tmp/opencode/image-upload.log 2>&1 &
+  fi
 fi
 # OCR: read text out of screenshots/images with local Tesseract (eng + hin).
 # The apt packages above provide the engine and traineddata; pytesseract comes

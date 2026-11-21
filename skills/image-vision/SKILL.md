@@ -39,8 +39,10 @@ bash vision.sh "$(cat /tmp/opencode/vision_latest.txt)" "Describe the image"
 ```
 
 Env: `VISION_UPLOAD_PORT` (default 8388), `VISION_UPLOAD_DIR` (default
-`/tmp/opencode/vision_uploads`). Stdlib only, no new packages. Run it in the
-background / with a process manager if it must stay available.
+`/tmp/opencode/vision_uploads`). Stdlib only, no new packages. Setup.sh starts it
+with `VISION_UPLOAD_DIR=/tmp/opencode/inbox`, so every browser upload is picked up
+by `auto-vision-watch.sh` and described into `~/image-inbox/LAST_SEEN.md`
+automatically. Run it manually in the background if it is not listening.
 
 ## Automatic "user sent an image in chat" workflow
 
