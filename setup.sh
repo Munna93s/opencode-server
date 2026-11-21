@@ -357,6 +357,15 @@ p.parent.mkdir(parents=True, exist_ok=True)
 p.write_text(json.dumps(cfg, indent=2) + "\n")
 PY
 fi
+# Image upload page: for chats where the attached image never reaches disk.
+# Stdlib-only server; saves to /tmp/opencode/vision_uploads and writes the
+# latest path to /tmp/opencode/vision_latest.txt. See skills/image-vision/SKILL.md.
+VISION_UPLOAD="$SCRIPT_DIR/skills/image-vision/upload_server.py"
+if [ -f "$VISION_UPLOAD" ]; then
+  chmod +x "$VISION_UPLOAD"
+  mkdir -p "$HOME/.local/bin"
+  ln -sf "$VISION_UPLOAD" "$HOME/.local/bin/image-upload"
+fi
 # OCR: read text out of screenshots/images with local Tesseract (eng + hin).
 # The apt packages above provide the engine and traineddata; pytesseract comes
 # from requirements.txt. Install a short `ocr` CLI alias pointing at the skill.

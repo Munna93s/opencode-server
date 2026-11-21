@@ -1,6 +1,6 @@
 ---
 name: image-vision
-description: Image input support for any model. Use this whenever you need to actually SEE an image - screenshots, frame grids, video QA strips, memes, diagrams, charts, UI mockups - and the current model says "this model does not support image input" or "Cannot read image". Delegates to the free OpenCode vision-language model opencode/nemotron-3.5-super-vl-free via `vision.sh <path> [question]`, which attaches the image with `opencode run --file`. No API key needed. Also useful as a general second opinion on images.
+description: Image input support for any model. Use this whenever you need to actually SEE an image - screenshots, frame grids, video QA strips, memes, diagrams, charts, UI mockups - and the current model says "this model does not support image input" or "Cannot read image". Delegates to the free OpenCode vision-language model opencode/nemotron-3.5-super-vl-free via `vision.sh <path> [question]`, which attaches the image with `opencode run --file`. Also ships a browser upload server (`upload_server.py`) for when chat attachments never reach the server disk. No API key needed. Also useful as a general second opinion on images.
 ---
 
 # Image Vision (see images from any model)
@@ -25,6 +25,22 @@ bash vision.sh /path/to/image.jpg "Describe what you see and where the facecam i
 The script runs `opencode run --model <vision-model> --file <image> <question>`,
 so the image is attached in a vision-capable session and the answer comes back
 as plain text you can act on. It works even when the calling model is text-only.
+
+## When the image never arrives on disk
+
+If a chat attachment produces "Cannot read image" and no new image file exists on
+the server, use the built-in browser uploader:
+
+```bash
+python3 skills/image-vision/upload_server.py          # or: image-upload
+# open http://localhost:8388/ in a browser, pick the image, click Upload
+cat /tmp/opencode/vision_latest.txt                    # path of the last upload
+bash vision.sh "$(cat /tmp/opencode/vision_latest.txt)" "Describe the image"
+```
+
+Env: `VISION_UPLOAD_PORT` (default 8388), `VISION_UPLOAD_DIR` (default
+`/tmp/opencode/vision_uploads`). Stdlib only, no new packages. Run it in the
+background / with a process manager if it must stay available.
 
 ## Good prompts
 

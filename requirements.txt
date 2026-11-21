@@ -127,6 +127,10 @@ zstandard==0.25.0
 # opencode/nemotron-3.5-super-vl-free, so even text-only models can analyze
 # screenshots / frame grids / QA strips. setup.sh also writes the model's
 # `modalities.input = ["text","image"]` into ~/.config/opencode/opencode.json.
+# `skills/image-vision/upload_server.py` (stdlib only; `image-upload` alias)
+# serves a browser upload page at http://localhost:8388/ for the case where a
+# chat attachment never lands on disk; last saved path goes to
+# /tmp/opencode/vision_latest.txt. No extra Python/system packages.
 
 # --- OCR skill: ocr (installed by setup.sh step [2/8] and [5/8]) ---
 # apt: tesseract-ocr, tesseract-ocr-eng, tesseract-ocr-hin; pip: pytesseract.
