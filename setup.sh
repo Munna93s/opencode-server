@@ -482,6 +482,23 @@ if [ -d "$NEON_DIR" ]; then
   fi
 fi
 
+echo "==> Instagram Growth OS (igos): local Instagram audit/planning CLI"
+# Ethos6/instagram-growth-os (MIT). Stdlib-only CLI for Insights CSV audit,
+# hook/caption/profile linting, beat sheets/SRT, planning, humanize/detect.
+# Cloned into tools/instagram-growth-os and installed editable so `igos` is on PATH.
+IGOS_DIR="$SCRIPT_DIR/tools/instagram-growth-os"
+if [ ! -d "$IGOS_DIR/.git" ] && [ ! -f "$IGOS_DIR/pyproject.toml" ]; then
+  mkdir -p "$SCRIPT_DIR/tools"
+  git clone --depth 1 https://github.com/Ethos6/instagram-growth-os.git "$IGOS_DIR" \
+    || echo "WARNING: instagram-growth-os clone failed" >&2
+  rm -rf "$IGOS_DIR/.git"
+fi
+if [ -f "$IGOS_DIR/pyproject.toml" ]; then
+  python3 -m pip install -e "$IGOS_DIR" --break-system-packages \
+    || python3 -m pip install -e "$IGOS_DIR" \
+    || echo "WARNING: instagram-growth-os install failed" >&2
+fi
+
 # Auto-archive completed OpenCode child sessions (keeps user top-level sessions active)
 chmod +x "$SCRIPT_DIR/scripts/archive-child-sessions" 2>/dev/null || true
 mkdir -p /tmp/opencode 2>/dev/null || true
@@ -496,6 +513,6 @@ if [ -x "$SCRIPT_DIR/scripts/opencode-watchdog.sh" ] && ! pgrep -f "scripts/open
   nohup "$SCRIPT_DIR/scripts/opencode-watchdog.sh" >> /tmp/opencode/watchdog.log 2>&1 &
 fi
 
-echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; tesseract --list-langs; ocr --help; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version; ./ComfyUI/venv/bin/python ./ComfyUI/main.py --help; ./neonclipping/.venv/bin/python -c \"import fastapi, faster_whisper; print('neonclipping ok')\""
+echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; tesseract --list-langs; ocr --help; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version; ./ComfyUI/venv/bin/python ./ComfyUI/main.py --help; ./neonclipping/.venv/bin/python -c \"import fastapi, faster_whisper; print('neonclipping ok')\"; igos --version"
 echo "==> OpenCut start commands: classic: cd OpenCut-classic && bun dev:web (http://localhost:3000); rewrite: cd OpenCut/apps/web && bun run dev (http://localhost:5173); rewrite API: cd OpenCut/apps/api && bun run dev (http://localhost:8787)"
 echo "==> NeonClipping start: ./neonclipping/.venv/bin/python ./neonclipping/app.py (http://127.0.0.1:8770)"

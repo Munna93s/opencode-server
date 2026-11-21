@@ -164,3 +164,10 @@ youtube-transcript-api==1.2.5
 instaloader==4.16
 gallery-dl==1.32.20
 defusedxml==0.7.1
+
+# --- Instagram Growth OS / igos (installed 2026-11-21) ---
+# Ethos6/instagram-growth-os (MIT), stdlib-only CLI for Instagram audit/planning.
+# Cloned to tools/instagram-growth-os and installed editable by setup.sh:
+# `python3 -m pip install -e tools/instagram-growth-os`.
+# Provides: igos audit/hook/caption/beats/humanize/detect/profile/plan/carousel/limits.
+instagram-growth-os==1.0.1
