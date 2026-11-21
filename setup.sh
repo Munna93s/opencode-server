@@ -350,6 +350,9 @@ try:
     cfg = json.loads(p.read_text()) if p.exists() else {}
 except Exception:
     cfg = {}
+cfg["$schema"] = "https://opencode.ai/config.json"
+# Vision-capable default so chat image attachments work directly in new sessions.
+cfg["model"] = "opencode/nemotron-3.5-super-vl-free"
 mods = cfg.setdefault("provider", {}).setdefault("opencode", {}).setdefault("models", {}).setdefault("nemotron-3.5-super-vl-free", {})
 mods["name"] = "Nemotron 3.5 Super VL Free"
 mods["modalities"] = {"input": ["text", "image"], "output": ["text"]}

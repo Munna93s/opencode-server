@@ -86,8 +86,9 @@ Agent procedure when the user says they sent an image (or you see the
   `auto-vision-watch.sh` and `upload_server.py`).
 - Watcher logs: `/tmp/opencode/image-vision-watch.log`; processed-image state:
   `/tmp/opencode/image-vision-seen.tsv`. Delete the state file to force a re-scan.
-- `~/.config/opencode/opencode.json` also declares `modalities.input = ["text",
-  "image"]` for `nemotron-3.5-super-vl-free`, so native image attachment works if
-  you switch the whole session to that model.
+- `~/.config/opencode/opencode.json` sets `model = "opencode/nemotron-3.5-super-vl-free"`
+  as the default (and declares `modalities.input = ["text", "image"]`), so **new
+  sessions see chat image attachments natively**. Existing sessions keep their
+  original model — start a new session, or use the upload/inbox helpers.
 - For videos, extract a frame first (`ffmpeg -ss 10 -i video.mp4 -frames:v 1 out.jpg`)
   or use the `sheet.jpg` / `*_qa.jpg` that ortha-clipper already produces.
