@@ -3,7 +3,7 @@
 # setup.sh — reproduce the toolchain captured from the OpenCode cloud server
 # Generated : 2026-11-19 22:25:48
 # Source    : /home/runner/work/opencode-server/opencode-server
-# Contents  : apt packages, pip packages, npm globals, pipx tools, OpenCode skills, OpenCut editors
+# Contents  : apt packages, pip packages, npm globals, pipx tools, OpenCode skills, OpenCut editors, Ollama (built from source)
 # Usage     : bash setup.sh            (run as root, or via sudo)
 # =============================================================================
 set -euo pipefail
@@ -511,6 +511,25 @@ if [ -d "$NEON_DIR" ]; then
   fi
 fi
 
+echo "==> Ollama: build from https://github.com/ollama/ollama.git"
+# Ollama server binary built from source (Go). CPU-only by default; GPU backends
+# (CUDA/ROCm/MLX/Vulkan) require additional build args and system libraries.
+if ! command -v ollama >/dev/null 2>&1; then
+  OLLAMA_SRC="$(mktemp -d)"
+  if git clone --depth 1 https://github.com/ollama/ollama.git "$OLLAMA_SRC/ollama" >/dev/null 2>&1; then
+    OLLAMA_VERSION="$(cd "$OLLAMA_SRC/ollama" && git describe --tags --first-parent --abbrev=7 --long --dirty --always | sed -e 's/^v//g')"
+    if ( cd "$OLLAMA_SRC/ollama" && go build -ldflags="-w -s -X=github.com/ollama/ollama/version.Version=$OLLAMA_VERSION -X=github.com/ollama/ollama/server.mode=release" -o /usr/local/bin/ollama . ) >/dev/null 2>&1; then
+      chmod +x /usr/local/bin/ollama
+      echo "    ollama $(ollama --version 2>/dev/null | head -1) installed to /usr/local/bin"
+    else
+      echo "WARNING: Ollama build from source failed" >&2
+    fi
+  else
+    echo "WARNING: Ollama git clone failed" >&2
+  fi
+  rm -rf "$OLLAMA_SRC"
+fi
+
 echo "==> Instagram Growth OS (igos): local Instagram audit/planning CLI"
 # Ethos6/instagram-growth-os (MIT). Stdlib-only CLI for Insights CSV audit,
 # hook/caption/profile linting, beat sheets/SRT, planning, humanize/detect.
@@ -542,6 +561,6 @@ if [ -x "$SCRIPT_DIR/scripts/opencode-watchdog.sh" ] && ! pgrep -f "scripts/open
   nohup "$SCRIPT_DIR/scripts/opencode-watchdog.sh" >> /tmp/opencode/watchdog.log 2>&1 &
 fi
 
-echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; tesseract --list-langs; ocr --help; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version; ./ComfyUI/venv/bin/python ./ComfyUI/main.py --help; ./neonclipping/.venv/bin/python -c \"import fastapi, faster_whisper; print('neonclipping ok')\"; igos --version"
+echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; tesseract --list-langs; ocr --help; ollama --version; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version; ./ComfyUI/venv/bin/python ./ComfyUI/main.py --help; ./neonclipping/.venv/bin/python -c \"import fastapi, faster_whisper; print('neonclipping ok')\"; igos --version"
 echo "==> OpenCut start commands: classic: cd OpenCut-classic && bun dev:web (http://localhost:3000); rewrite: cd OpenCut/apps/web && bun run dev (http://localhost:5173); rewrite API: cd OpenCut/apps/api && bun run dev (http://localhost:8787)"
 echo "==> NeonClipping start: ./neonclipping/.venv/bin/python ./neonclipping/app.py (http://127.0.0.1:8770)"
