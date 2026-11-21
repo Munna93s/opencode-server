@@ -71,6 +71,7 @@ python-apt==3.1.0+ubuntu1.1
 python-dateutil==2.9.0
 python-debian==1.0.1+ubuntu2
 python-magic==0.4.27
+pytesseract==0.3.13
 PyYAML==6.0.3
 referencing==0.36.2
 requests==2.32.5
@@ -126,6 +127,12 @@ zstandard==0.25.0
 # opencode/nemotron-3.5-super-vl-free, so even text-only models can analyze
 # screenshots / frame grids / QA strips. setup.sh also writes the model's
 # `modalities.input = ["text","image"]` into ~/.config/opencode/opencode.json.
+
+# --- OCR skill: ocr (installed by setup.sh step [2/8] and [5/8]) ---
+# apt: tesseract-ocr, tesseract-ocr-eng, tesseract-ocr-hin; pip: pytesseract.
+# `skills/ocr/ocr.py` (aliased to ~/.local/bin/ocr) reads text verbatim from
+# screenshots with eng+hin, with optional --psm/--scale/--json word boxes.
+# No API key or vision model needed; see skills/ocr/SKILL.md.
 
 # --- Isolated app: neonclipping (installed by setup.sh step [8/8]) ---
 # Pinned deps in requirements-neonclipping.txt, installed into ./neonclipping/.venv

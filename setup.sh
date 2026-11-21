@@ -243,6 +243,9 @@ if ! $SUDO apt-get install -y --no-install-recommends \
   temurin-17-jdk \
   temurin-21-jdk \
   temurin-25-jdk \
+  tesseract-ocr \
+  tesseract-ocr-eng \
+  tesseract-ocr-hin \
   texinfo \
   time \
   tk \
@@ -266,7 +269,8 @@ then
   echo "WARNING: full apt set failed (external repos may be missing); installing essential subset." >&2
   $SUDO apt-get install -y --no-install-recommends \
     python3-pip python3-venv ffmpeg git git-lfs gh curl wget jq unzip zip \
-    aria2 rsync parallel shellcheck tree || echo "WARN: essential apt install failed" >&2
+    aria2 rsync parallel shellcheck tree tesseract-ocr tesseract-ocr-eng \
+    tesseract-ocr-hin || echo "WARN: essential apt install failed" >&2
 fi
 
 echo "==> [3/8] pip: installing 98 Python packages"
@@ -352,6 +356,15 @@ mods["modalities"] = {"input": ["text", "image"], "output": ["text"]}
 p.parent.mkdir(parents=True, exist_ok=True)
 p.write_text(json.dumps(cfg, indent=2) + "\n")
 PY
+fi
+# OCR: read text out of screenshots/images with local Tesseract (eng + hin).
+# The apt packages above provide the engine and traineddata; pytesseract comes
+# from requirements.txt. Install a short `ocr` CLI alias pointing at the skill.
+OCR_PY="$SCRIPT_DIR/skills/ocr/ocr.py"
+if [ -f "$OCR_PY" ]; then
+  chmod +x "$OCR_PY"
+  mkdir -p "$HOME/.local/bin"
+  ln -sf "$OCR_PY" "$HOME/.local/bin/ocr"
 fi
 
 echo "==> [6/8] FaceFusion 3.9.2: isolated clone + venv"
@@ -483,6 +496,6 @@ if [ -x "$SCRIPT_DIR/scripts/opencode-watchdog.sh" ] && ! pgrep -f "scripts/open
   nohup "$SCRIPT_DIR/scripts/opencode-watchdog.sh" >> /tmp/opencode/watchdog.log 2>&1 &
 fi
 
-echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version; ./ComfyUI/venv/bin/python ./ComfyUI/main.py --help; ./neonclipping/.venv/bin/python -c \"import fastapi, faster_whisper; print('neonclipping ok')\""
+echo "==> Done. Verify with: ffmpeg -version | head -1; yt-dlp --version; opencode --version; gh --version; tesseract --list-langs; ocr --help; ./facefusion/venv/bin/python ./facefusion/facefusion.py --version; ./ComfyUI/venv/bin/python ./ComfyUI/main.py --help; ./neonclipping/.venv/bin/python -c \"import fastapi, faster_whisper; print('neonclipping ok')\""
 echo "==> OpenCut start commands: classic: cd OpenCut-classic && bun dev:web (http://localhost:3000); rewrite: cd OpenCut/apps/web && bun run dev (http://localhost:5173); rewrite API: cd OpenCut/apps/api && bun run dev (http://localhost:8787)"
 echo "==> NeonClipping start: ./neonclipping/.venv/bin/python ./neonclipping/app.py (http://127.0.0.1:8770)"
