@@ -179,6 +179,13 @@ defusedxml==0.7.1
 # Provides: igos audit/hook/caption/beats/humanize/detect/profile/plan/carousel/limits.
 instagram-growth-os==1.0.1
 
+# --- Video Editing skill: video-editing (installed 2026-11-22) ---
+# awesome-genmedia/skills video-editing/SKILL.md. Uses each::sense API for
+# AI-powered video editing (color grading, speed, style transfer, trimming,
+# effects, format, transitions). No Python/system packages: only Bash(curl *)
+# and WebFetch, both already allowed OpenCode tools. Needs an eachlabs.ai API
+# key (EACHLABS_API_KEY). See skills/video-editing/SKILL.md for usage.
+
 # --- Open-Sora (installed 2026-11-22) ---
 # hpcaitech/Open-Sora (text/video-to-video diffusion). Cloned to ./Open-Sora/ with an
 # isolated venv at ./Open-Sora/.venv (git-ignored, recreated by setup.sh). This VM has
