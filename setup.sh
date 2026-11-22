@@ -591,6 +591,13 @@ if [ -f "$IGOS_DIR/pyproject.toml" ]; then
     || echo "WARNING: instagram-growth-os install failed" >&2
 fi
 
+# `kaam` command: har naye kaam se pehle installed skills / tools / AI check karega.
+# Jal्दी से chalayein: `kaam '<aapka kam>'` (pehle check, phir related skill/tool/AI use karega).
+chmod +x "$SCRIPT_DIR/scripts/kaam.sh" 2>/dev/null || true
+mkdir -p "$HOME/.local/bin" 2>/dev/null || true
+ln -sf "$SCRIPT_DIR/scripts/kaam.sh" "$HOME/.local/bin/kaam"
+echo "    kaam command ready: ~/.local/bin/kaam"
+
 # Auto-archive completed OpenCode child sessions (keeps user top-level sessions active)
 chmod +x "$SCRIPT_DIR/scripts/archive-child-sessions" 2>/dev/null || true
 mkdir -p /tmp/opencode 2>/dev/null || true

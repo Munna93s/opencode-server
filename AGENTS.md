@@ -8,6 +8,21 @@
 
 Whenever the user installs any new skill, tool, Python/npm/apt package, or AI model on this server, immediately update `setup.sh`, `requirements.txt`, and the `skills/` folder as soon as the work is done. Then push every change except large video files (`*.mp4`, `*.zip`) directly to the GitHub repository `Munna93s/opencode-server`.
 
+### Kam shuru karne se pehle check (Pre-check rule — hamesha follow karein)
+
+Jab bhi user koi naya kam bataye (`jo kam karna hai`), toh sabse pehle ye check karein:
+
+1. `./scripts/kaam.sh "<user ka kam>"` chalayein (ya `~/.local/bin/kaam "<kam>"`). Ye installed skills (`skills/` folder), CLI tools (ffmpeg, yt-dlp, tesseract, ollama, opencode, igos, ocr, image-upload, see), pip packages, aur AI models (Ollama + OpenCode default model) ki list nikalega.
+2. User ke kam se related installed skill / tool / AI select karein (script ki "SIFARISH" section mein dekhein).
+3. Usi installed skill / tool / AI ka use karke kam shuru karein.
+4. Agar koi zaroori skill / tool / AI install nahi hai, toh user se poochein — phir `setup.sh`, `requirements.txt` aur `skills/` update karke install karwayein, aur badlaav GitHub (`Munna93s/opencode-server`) par push karein.
+
+Yeh rule har baar kaam shuru karne se pehle lagu hogi taaki pehle check karein, phir related install cheezon ka use karein.
+
+### English (same rule, for reference)
+
+Before starting any user task, always run `./scripts/kaam.sh "<task>"` (or `~/.local/bin/kaam "<task>"`). It inventories installed skills (`skills/`), CLI tools, pip packages, and AI models (Ollama + OpenCode default). Then pick the related installed skill/tool/AI from the "SIFARISH" section and use it to start the work. If something needed isn't installed, ask the user, then update `setup.sh`, `requirements.txt`, and `skills/`, install it, and push to GitHub (`Munna93s/opencode-server`).
+
 ## Supporting notes
 
 - Git push authentication is configured automatically on server start by `.github/workflows/server.yml` using the repository's `GH_PAT` secret. Do not ask the user for a token unless that secret is missing or invalid.
