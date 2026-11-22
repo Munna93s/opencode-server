@@ -511,6 +511,50 @@ if [ -d "$NEON_DIR" ]; then
   fi
 fi
 
+echo "==> Open-Sora: isolated clone + venv (CPU-only, no GPU on this VM)"
+# hpcaitech/Open-Sora is a text/video-to-video diffusion model. It needs PyTorch
+# and colossalai; this VM has no NVIDIA GPU so everything is CPU-only and video
+# generation will be very slow — suitable for setup/testing, not production
+# rendering. Its `setup.py` pins torch==2.4.0 and av==13.1.0 which are not
+# buildable on Python 3.14 / newer FFmpeg, so we bypass those pins (--no-deps,
+# newer av/colossalai) and install CPU torch from PyTorch's CPU wheel index.
+# Lives in ./Open-Sora/.venv (git-ignored, recreated by setup.sh).
+# See skills/opensora/SKILL.md for usage.
+OPENSORA_DIR="$SCRIPT_DIR/Open-Sora"
+if [ ! -d "$OPENSORA_DIR/.git" ]; then
+  git clone --depth 1 https://github.com/hpcaitech/Open-Sora.git "$OPENSORA_DIR" \
+    || echo "WARNING: Open-Sora clone failed" >&2
+fi
+if [ -d "$OPENSORA_DIR" ]; then
+  if [ ! -x "$OPENSORA_DIR/.venv/bin/python" ]; then
+    python3 -m venv "$OPENSORA_DIR/.venv" \
+      || echo "WARNING: Open-Sora venv creation failed" >&2
+  fi
+  if [ -x "$OPENSORA_DIR/.venv/bin/python" ]; then
+    OPENSORA_PY="$OPENSORA_DIR/.venv/bin/python"
+    "$OPENSORA_PY" -m pip install --upgrade pip wheel setuptools \
+      || echo "WARNING: Open-Sora pip upgrade failed" >&2
+    # CPU-only PyTorch (no GPU on this VM).
+    "$OPENSORA_PY" -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu \
+      || echo "WARNING: Open-Sora torch install failed" >&2
+    # Remaining upstream requirements; av bumped to >=14 because av==13.1.0
+    # fails to compile against the system FFmpeg 8, and colossalai is installed
+    # --no-deps + psutil because its 0.5.0 pin conflicts with torch 2.15 on
+    # Python 3.14 (import still works).
+    "$OPENSORA_PY" -m pip install \
+      "colossalai>=0.4.4" "mmengine>=0.10.3" "ftfy>=6.2.0" "accelerate>=0.29.2" \
+      "av>=14" "liger-kernel==0.5.2" "pandas>=2.0.3" "pandarallel>=1.6.5" \
+      "openai>=1.52.2" "wandb>=0.17.0" "tensorboard>=2.14.0" "pre-commit>=3.5.0" \
+      "omegaconf>=2.3.0" "pyarrow" "psutil" \
+      || echo "WARNING: Open-Sora dependency install (partial) failed" >&2
+    "$OPENSORA_PY" -m pip install --no-deps colossalai psutil \
+      || echo "WARNING: Open-Sora colossalai/psutil install failed" >&2
+    # Register the package without the torch==2.4.0 pin in setup.py.
+    "$OPENSORA_PY" -m pip install -e "$OPENSORA_DIR" --no-deps \
+      || echo "WARNING: Open-Sora editable install failed" >&2
+  fi
+fi
+
 echo "==> Ollama: build from https://github.com/ollama/ollama.git"
 # Ollama server binary built from source (Go). CPU-only by default; GPU backends
 # (CUDA/ROCm/MLX/Vulkan) require additional build args and system libraries.

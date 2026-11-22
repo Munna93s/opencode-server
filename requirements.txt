@@ -178,3 +178,17 @@ defusedxml==0.7.1
 # `python3 -m pip install -e tools/instagram-growth-os`.
 # Provides: igos audit/hook/caption/beats/humanize/detect/profile/plan/carousel/limits.
 instagram-growth-os==1.0.1
+
+# --- Open-Sora (installed 2026-11-22) ---
+# hpcaitech/Open-Sora (text/video-to-video diffusion). Cloned to ./Open-Sora/ with an
+# isolated venv at ./Open-Sora/.venv (git-ignored, recreated by setup.sh). This VM has
+# no NVIDIA GPU so it is CPU-only and generation is very slow; torch is installed from
+# PyTorch's CPU wheel index and the restrictive torch==2.4.0 / av==13.1.0 pins in the
+# upstream setup.py are bypassed (--no-deps, av>=14, colossalai --no-deps + psutil).
+# Upstream pip pins (for reference when a GPU/older Python is available):
+#   torch==2.4.0, torchvision==0.19.0, colossalai>=0.4.4, mmengine>=0.10.3,
+#   ftfy>=6.2.0, accelerate>=0.29.2, av==13.1.0, liger-kernel==0.5.2,
+#   pandas>=2.0.3, pandarallel>=1.6.5, openai>=1.52.2, wandb>=0.17.0,
+#   tensorboard>=2.14.0, omegaconf>=2.3.0, pyarrow
+# These are NOT in the global list: they are installed into ./Open-Sora/.venv by
+# setup.sh so they never clash with the global toolchain / FaceFusion / ComfyUI.
