@@ -23,6 +23,13 @@ export a Netscape `cookies.txt` while logged into YouTube and save it at
 `/tmp/opencode/youtube_cookies.txt` (or set `YOUTUBE_COOKIES_FILE`). Expired
 cookies produce "Sign in to confirm you're not a bot" — replace them, don't
 retry with the old file. Add `--js-runtimes node` when calling yt-dlp manually.
+If YouTube returns `UNPLAYABLE` / "This content isn't available" for *every*
+client and even a control video, that is an IP-level block, not a cookie
+problem: PO tokens and fresh cookies will not help. Download the video
+elsewhere and use a local MP4 instead (Upload video in the UI, or
+`NEONCLIPPING_COOKIES_FILE` is irrelevant for local files).
+The app also needs `beautifulsoup4` (pinned in `requirements-neonclipping.txt`);
+without it startup fails with `ModuleNotFoundError: No module named 'bs4'`.
 
 ## Paths
 
@@ -36,7 +43,7 @@ retry with the old file. Add `--js-runtimes node` when calling yt-dlp manually.
 
 ```bash
 ./neonclipping/.venv/bin/python -c \
-  "import fastapi, uvicorn, yt_dlp, numpy, cv2, faster_whisper, PIL; print('imports ok')"
+  "import fastapi, uvicorn, yt_dlp, numpy, cv2, faster_whisper, PIL, bs4; print('imports ok')"
 curl -s http://127.0.0.1:8770/healthz
 ```
 
