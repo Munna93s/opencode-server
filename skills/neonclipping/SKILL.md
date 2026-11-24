@@ -20,7 +20,9 @@ YouTube from this datacenter IP is bot-checked, so the venv also has the
 `bgutil-ytdlp-pot-provider` plugin (Docker container `bgutil-provider` on
 127.0.0.1:4416, started by `setup.sh`). Fresh browser cookies are still needed:
 export a Netscape `cookies.txt` while logged into YouTube and save it at
-`/tmp/opencode/youtube_cookies.txt` (or set `YOUTUBE_COOKIES_FILE`). Expired
+`neonclipping/data/youtube_cookies.txt` (auto-detected) or set
+`NEONCLIPPING_COOKIES_FILE=/path/to/cookies.txt` when starting the app.
+`YOUTUBE_COOKIES_FILE` is NOT read by this app. Expired
 cookies produce "Sign in to confirm you're not a bot" — replace them, don't
 retry with the old file. Add `--js-runtimes node` when calling yt-dlp manually.
 If YouTube returns `UNPLAYABLE` / "This content isn't available" for *every*
@@ -30,6 +32,12 @@ elsewhere and use a local MP4 instead (Upload video in the UI, or
 `NEONCLIPPING_COOKIES_FILE` is irrelevant for local files).
 The app also needs `beautifulsoup4` (pinned in `requirements-neonclipping.txt`);
 without it startup fails with `ModuleNotFoundError: No module named 'bs4'`.
+
+An authenticated HTTP proxy also bypasses the IP block: start the app with
+`HTTPS_PROXY`/`HTTP_PROXY` (and lowercase equivalents) set to
+`http://USER:PASS@HOST:PORT`. yt-dlp inside the app honours these env vars;
+keep `NO_PROXY=127.0.0.1,localhost,::1` so the local PO-token provider still
+works. Cookies are still required. Proxy downloads can be very slow.
 
 ## Paths
 
