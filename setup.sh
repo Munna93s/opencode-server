@@ -305,6 +305,21 @@ else
   python3 -m pip install --break-system-packages --upgrade youtube-transcript-api instaloader gallery-dl >/dev/null 2>&1     || echo "WARN: creator tools pip install failed" >&2
 fi
 
+echo "==> Remotion: React video framework (npm project)"
+# Remotion starter project lives in ./remotion-starter (committed sans node_modules).
+# npm install recreates node_modules so `npm start` / `npm build` work out of the box.
+REMOTION_DIR="$SCRIPT_DIR/remotion-starter"
+if [ -d "$REMOTION_DIR" ] && [ -f "$REMOTION_DIR/package.json" ]; then
+  (
+    cd "$REMOTION_DIR"
+    npm install --no-audit --no-fund 2>/dev/null \
+      || echo "WARNING: Remotion npm install failed" >&2
+  )
+  echo "    remotion-starter ready: cd remotion-starter && npm start"
+else
+  echo "WARNING: remotion-starter directory not found" >&2
+fi
+
 echo "==> [5/8] OpenCode skills: restoring from backup"
 mkdir -p "$HOME/.config/opencode/skill"
 if [ -d "$SCRIPT_DIR/skills" ]; then

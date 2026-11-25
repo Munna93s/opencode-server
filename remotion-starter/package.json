@@ -1,0 +1,26 @@
+{
+  "name": "remotion-starter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "remotion preview",
+    "build": "remotion render src/index.ts HelloWorld out.mp4 --image-format jpeg",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["remotion", "video", "react"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@remotion/cli": "^4.0.547",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.547"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.3",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}

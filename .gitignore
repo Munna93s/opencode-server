@@ -20,6 +20,12 @@
 /neonclipping/
 /Open-Sora/
 
+# Remotion starter project (Node.js deps are reinstalled by setup.sh)
+/remotion-starter/node_modules/
+/remotion-starter/out.mp4
+/remotion-starter/*.png
+!remotion-starter/prettier.config.ts
+
 # Python / cache noise
 __pycache__/
 *.py[cod]
