@@ -354,6 +354,16 @@ for YT_TOOL in "$SCRIPT_DIR"/skills/yt-*/*.py; do
   [ -f "$YT_TOOL" ] && chmod +x "$YT_TOOL"
 done
 echo "    YouTube skills ready: yt-script/yt-package/yt-edit/yt-retention/yt-shorts/yt-viral/yt-seo/yt-chapters/yt-comment/yt-plan/yt-audit (voice: ~/.config/opencode/youtube/voice.md)"
+# Ootto-AI skills (installed 2026-11-26): the full claude-content-skills pack
+# (55 MIT prompt skills, including content-factory/virality/humanizer/hook-mining)
+# plus ootto-watch as `watch-video`. All restored by the generic cp above; no new
+# pip/npm packages. watch-video needs yt-dlp + ffmpeg (already installed) and,
+# only for caption-less videos, faster-whisper from ~/.beyondgtaclips/venv.
+# See templates/ootto-skills.md for source links and attribution.
+if [ -f "$SCRIPT_DIR/skills/watch-video/scripts/watch.py" ]; then
+  chmod +x "$SCRIPT_DIR/skills/watch-video/scripts/watch.py"
+fi
+echo "    Ootto skills ready: 55 content skills + watch-video (no new packages)"
 # MCP: GitMCP remote documentation server (free, no API key). Registered in the
 # global OpenCode config so any project repo can be searched for live docs/code.
 # See skills/mcp-research/SKILL.md and templates/mcp-review.md.

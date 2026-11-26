@@ -233,6 +233,15 @@ instagram-growth-os==1.0.1
 # Shared voice profile is seeded by setup.sh to ~/.config/opencode/youtube/voice.md.
 # Optional public research can use the yt-dlp pin already listed above.
 
+# --- Ootto-AI skills (installed 2026-11-26) ---
+# Full Ootto-AI/claude-content-skills pack (55 prompt skills) + Ootto-AI/ootto-watch
+# (skills/watch-video) vendored as SKILL.md folders. See templates/ootto-skills.md
+# for source links, attribution and per-skill notes. NO new pip package: the
+# content skills are prompts and hook-mining/mine_hooks.py is stdlib-only.
+# watch-video needs yt-dlp + ffmpeg (already pinned/installed above); for videos
+# without captions, faster-whisper is already available in the isolated
+# ~/.beyondgtaclips/venv created by setup.sh step [5/8] (run that interpreter).
+
 # --- MCP research skill: mcp-research (installed 2026-11-26) ---
 # GitMCP is a FREE REMOTE MCP server registered by setup.sh with
 # `opencode mcp add --global gitmcp --url https://gitmcp.io/docs`. No pip/npm
