@@ -217,3 +217,10 @@ instagram-growth-os==1.0.1
 # groq/openai/gpt-oss-120b, with a 3600s (3600000ms) cooldown and cycle-back.
 # Credentials are read from GEMINI_API_KEY / GROQ_API_KEY via {env:...} references;
 # no keys are stored in this repository. No new pip dependency is required.
+
+# --- Saved PAT push command (installed 2026-11-26) ---
+# scripts/push-with-workflows.sh (alias: push-with-workflows) pushes commits that
+# touch .github/workflows/* when the default GitHub App token is rejected for
+# lacking `workflows` permission. It reads WORKFLOW_PAT / GH_PAT from the env or
+# ~/.config/opencode/.env.local; no token is stored in the repo. Documented as
+# skills/gh-workflow-push/SKILL.md so kaam.sh can discover it. No pip package.

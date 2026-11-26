@@ -632,6 +632,12 @@ mkdir -p "$HOME/.local/bin" 2>/dev/null || true
 ln -sf "$SCRIPT_DIR/scripts/kaam.sh" "$HOME/.local/bin/kaam"
 echo "    kaam command ready: ~/.local/bin/kaam"
 
+# Push workflow files that the default GitHub App token cannot update.
+# Token comes from WORKFLOW_PAT / GH_PAT / ~/.config/opencode/.env.local.
+chmod +x "$SCRIPT_DIR/scripts/push-with-workflows.sh" 2>/dev/null || true
+ln -sf "$SCRIPT_DIR/scripts/push-with-workflows.sh" "$HOME/.local/bin/push-with-workflows"
+echo "    push-with-workflows ready: set WORKFLOW_PAT, then run push-with-workflows"
+
 # Auto-archive completed OpenCode child sessions (keeps user top-level sessions active)
 chmod +x "$SCRIPT_DIR/scripts/archive-child-sessions" 2>/dev/null || true
 mkdir -p /tmp/opencode 2>/dev/null || true
