@@ -11,6 +11,7 @@ import { HormoziCaptions } from "./components/HormoziCaptions";
 import { SmoothZoom } from "./components/SmoothZoom";
 import { TrendyTextOverlay } from "./components/TrendyTextOverlay";
 import { DynamicBroll } from "./components/DynamicBroll";
+import { DriftReelComp } from "./components/DriftReel";
 
 export const FPS = 30;
 export const DURATION_IN_FRAMES = 300; // 10 seconds
@@ -64,8 +65,11 @@ export const Root = () => (
   <>
     <ReelsTemplate />
     <YouTubeTemplate />
+    <DriftReelComp />
   </>
 );
+
+export { DriftReelComp };
 
 const fillStyle: React.CSSProperties = {
   position: "absolute",
