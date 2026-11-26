@@ -1,0 +1,115 @@
+name: OpenCode Cloud Server
+
+on:
+  workflow_dispatch:
+
+# Needed so the fallback github.token can also push when GH_PAT is not configured.
+permissions:
+  contents: write
+
+jobs:
+  run-server:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          # Persists the token in local git config so `git push` works inside
+          # the session without anyone having to supply a token again.
+          token: ${{ secrets.GH_PAT || github.token }}
+          persist-credentials: true
+
+      - name: Configure git push authentication (GH_PAT)
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "${GH_PAT:-}" ]; then
+            git config --global credential.helper store
+            printf 'https://x-access-token:%s@github.com\n' "$GH_PAT" > "$HOME/.git-credentials"
+            chmod 600 "$HOME/.git-credentials"
+            echo "Git push auth configured from repository GH_PAT secret."
+          else
+            echo "GH_PAT secret is not set; using checkout token (contents: write)."
+          fi
+          GIT_TERMINAL_PROMPT=0 git push --dry-run origin HEAD:main >/dev/null 2>&1 \
+            && echo "Push auth check: OK" \
+            || echo "WARNING: push auth check failed; verify GH_PAT secret."
+
+      - name: Restore Environment (setup.sh)
+        run: |
+          chmod +x setup.sh
+          # Full restore is best-effort: a missing external apt repo must not
+          # prevent the server from starting. The next step verifies essentials.
+          bash setup.sh || echo "setup.sh returned non-zero; continuing with fallback checks."
+
+      - name: Restore OpenCode auto-fallback config + API keys
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.config/opencode"
+
+          # Sanitized config (env references only, never inline secrets).
+          cp config/opencode.json "$HOME/.config/opencode/opencode.json"
+          cp config/rate-limit-fallback.json "$HOME/.config/opencode/rate-limit-fallback.json"
+
+          # Keys come from GitHub Secrets. Keep the local copy private and
+          # export them to the later "Start Server" step via GITHUB_ENV.
+          umask 077
+          keys="$HOME/.config/opencode/.env.local"
+          {
+            printf 'GEMINI_API_KEY=%s\n' "${GEMINI_API_KEY:-}"
+            printf 'GROQ_API_KEY=%s\n' "${GROQ_API_KEY:-}"
+          } > "$keys"
+          chmod 600 "$keys"
+          {
+            printf 'GEMINI_API_KEY=%s\n' "${GEMINI_API_KEY:-}"
+            printf 'GROQ_API_KEY=%s\n' "${GROQ_API_KEY:-}"
+          } >> "$GITHUB_ENV"
+
+          # Make sure the fallback plugin package is present even on a fresh runner.
+          opencode plugin add '@azumag/opencode-rate-limit-fallback@2.1.1' >/dev/null 2>&1 \
+            || echo "WARNING: fallback plugin install failed; OpenCode will retry on startup."
+
+          echo "OpenCode fallback config restored (free -> Gemini -> Groq, 3600s cooldown)."
+
+      - name: Verify / Fallback Tools
+        run: |
+          command -v ffmpeg >/dev/null || { sudo apt-get update -y && sudo apt-get install -y ffmpeg; }
+          python3 -m pip --version >/dev/null 2>&1 || sudo apt-get install -y python3-pip
+          command -v opencode >/dev/null || npm install -g @opencode/cli
+          command -v cloudflared >/dev/null || npm install -g cloudflared
+
+      - name: Start Server & Show Link
+        env:
+          OPENCODE_SERVER_PASSWORD: ${{ secrets.SERVER_PASS }}
+        run: |
+          nohup opencode serve --port 4096 --hostname 0.0.0.0 > /tmp/opencode.log 2>&1 &
+          sleep 5
+          nohup cloudflared tunnel --url http://localhost:4096 > /tmp/cf.log 2>&1 &
+          
+          for i in {1..30}; do
+            TUNNEL_URL=$(grep -o 'https://[a-zA-Z0-9-]*\.trycloudflare\.com' /tmp/cf.log | head -n 1)
+            if [ -n "$TUNNEL_URL" ]; then
+              break
+            fi
+            sleep 2
+          done
+          
+          if [ -n "$TUNNEL_URL" ]; then
+            echo "=========================================="
+            echo "YOUR OPENCODE LINK: $TUNNEL_URL"
+            echo "=========================================="
+          else
+            cat /tmp/cf.log
+            exit 1
+          fi
+
+      - name: Keep Server Running (5.5 Hours)
+        run: sleep 19800
+        
