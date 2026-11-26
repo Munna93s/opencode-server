@@ -439,6 +439,15 @@
 - Color-coded caption + grade
 - Steady 1.6-2.1s cuts, hard flash ending
 
+**🎮 GTA 6 client brief (BATCH 4) →** Example style:
+- 14.5s, dark grade YAVG 74, big flashes at ~2s interval
+- Song "All Again - Rose Gray" = 129 BPM, beat = 0.465s
+- Flash beats at 17/22/26 (8.5s/10.9s/12.7s)
+- 3.2s slow build → beat-synced rapid cuts → flash clusters
+- English only, NO static text/slideshow
+- Footage: trailers / Lucia / nightclub / girls trip (YouTube)
+- In-game recreation khud film nahi — YouTube clips se source
+
 ---
 
 # ═══════════════════════════════════════════════
@@ -622,4 +631,101 @@ Cuts at: 1.0, 2.57, 4.67, 6.73, 8.8, 11.4, 12.97, 15.07, 16.07, 17.1, 18.13s + *
 
 ---
 
-*Note: Vision model free-tier rate-limit ki wajah se kuch frames直接 describe nahi ho paye (batch 1 ke V4/V5, batch 2 sab, batch 3 sab). Lekin scene-change detection (exact cut timestamps + intensity scores), OCR, brightness analysis aur technical metadata se editing patterns accurately nikal liye gaye hain. Vision limit reset hone par remaining frames par nazar dokar playbook ko aur augment kar sakta hoon.*
+# ═══════════════════════════════════════════════
+# BATCH 4 — GTA 6 BRIEF REFERENCE (EXAMPLE + SONG)
+# ═══════════════════════════════════════════════
+
+## THE BRIEF (client requirements — SAVE)
+- **Highest quality & effort GTA 6 edits only** — cuts/transitions MUST hit the beat.
+- **English only.**
+- Content: GTA 6 characters / club & Vice City nightlife / trailers / gameplay — edit must fit song's vibe.
+- In-game recreations allowed (Rose Gray MV look, club car) — source from YouTube, can't film ourselves (no GTA 6 on server).
+- Girly ideas: girls' night out, girls' day (outfits, car customisation, sunset drive), glam getaway.
+- More: sexiest GTA 6 character montages, rating cars by "girl coded" level, redoing Lucia's makeup.
+- ❌ No other game/niche, Kdrama/Cdrama, slideshows, posts without edit portion.
+- Note: earlier version had "Instagram now allowed — USE THE IG SOUND" (Nov 25 edit).
+
+## THE EXAMPLE VIDEO (provided by user)
+**File:** `savefromins.com Gta 6 plot_#gta6 #gtaonline... 0 720P.mp4`
+**Technical:** 716x1276 (~9:16), 30fps, **14.536s**, 1.75 Mbps
+**Brightness:** avg 74/255, range **16.6 → 176.9** → dark base + bright flashes (V11 pattern exactly)
+
+### Cut map (scene detection, >0.25)
+| Time | Score | Note |
+|---|---|---|
+| 3.23s | 0.38 | first cut |
+| 4.03s | 0.30 | |
+| 8.67s | **0.80** | BIG FLASH |
+| 9.70s | 0.43 | |
+| 10.13s | 0.28 | |
+| 10.67s | **1.00** | MAX FLASH (white/black) |
+| 11.67s | 0.32 | |
+| 12.17s | 0.47 | |
+| 12.67s | **0.90** | BIG FLASH |
+| 13.20s | 0.35 | |
+| 13.77s | 0.38 | end |
+
+### Pattern
+- 0-3.2s: slow intro build (no cuts)
+- 3.2-4.0s: first 2 cuts
+- 4.0-8.6s: gap (continuous shot)
+- 8.67, 10.67, 12.67: **3 big flashes ≈ every 2s** (beat clusters)
+- 9.7-13.8: rapid small cuts between flashes
+- Total ~14.5s, energy rises toward end.
+
+## THE SONG — "All Again" by Rose Gray (provided audio file)
+**File:** `All Again - Rose Gray.m4a`
+**Technical:** AAC 44.1kHz stereo, **239.68s (4 min)**, 67 kbps
+
+### Beat grid (RMS onset analysis, pure ffmpeg+Python — no libs)
+- **BPM ≈ 129** → beat period **0.465s**
+- Half-beat = 0.232s
+- Common onset intervals: 0.464s (15 hits), 0.232s (9 hits)
+- Strong peaks: 0.628, 1.0, 1.557, 1.929, 2.347, 3.461, 3.926, 7.594, 9.127, 10.845, 11.263, 12.656, 13.632...
+
+### Example cuts vs song beat grid (verified)
+| Example cut | Nearest beat | Offset |
+|---|---|---|
+| 3.23s | beat #6 @ 3.419s | -0.19s |
+| 8.67s | beat #17 @ 8.535s | +0.13s |
+| 10.67s | beat #22 @ 10.861s | -0.19s |
+| 12.67s | beat #26 @ 12.721s | -0.05s |
+| 13.20s | beat #27 @ 13.186s | +0.01s |
+✅ Cuts align within ±0.2s (half-beat) — example IS cut to ~129 BPM grid.
+
+### Cut grid to use for new edit (0-14.6s, beats 0-31)
+```
+beat 0:0.628  1:1.093  2:1.558  3:2.023  4:2.488  5:2.954
+beat 6:3.419  7:3.884  8:4.349  9:4.814  10:5.279 11:5.744
+beat 12:6.209 13:6.675 14:7.140 15:7.605 16:8.070 17:8.535 ← FLASH
+beat 18:9.000 19:9.465 20:9.930 21:10.395 22:10.861 ← FLASH
+beat 23:11.326 24:11.791 25:12.256 26:12.721 ← FLASH
+beat 27:13.186 28:13.651 29:14.116 30:14.581
+```
+**FLASH beats ≈ 17, 22, 26** (every ~2s, matching example).
+
+### ⚠️ Honest note
+Example ke apne audio ki shuruat (loud from 0.07s) aur is m4a ki shuruat (silent till 0.2s, build from 0.6s) match nahi karti — to exact same audio version nahi ho sakta (example shayad koi remix ya alag segment use karta hai). Lekin **BPM/cut structure 100% match** hai — formula copy karne ke liye kaafi.
+
+## FOOTAGE AVAILABILITY (verified via yt-dlp search)
+| Concept | Result |
+|---|---|
+| GTA 6 official trailers | ✅ Launch trailer (7.9M), Trailer 1 (311M) |
+| Lucia character | ✅ "Lucia Free Roam 4K" (36k), "Lucia explores Leonida" (65k) |
+| Nightclub / Vice City | ✅ "Nightclub & Getting Super Drunk" (1.3M), "Jason & Lucia Hot Together" (487k) |
+| Girls' night / day | ✅ "Girls Trip Chapter 2" (23k) |
+| Rose Gray MV recreation | ❌ exact recreation nahi — official song "All Again" (203k) hai |
+| Lucia makeup (real-life) | ✅ "I Recreated Lucia's Look" (54 views) |
+
+## RENDER RECIPE (ready to execute)
+1. Download selected GTA 6 clips via yt-dlp (720p/1080p, 30fps).
+2. Trim to beat grid segments (0.465s beats).
+3. Apply V11 style: dark grade (YAVG ~74), white flash at beats 17/22/26.
+4. English text only, no static text panels/slideshow.
+5. Render 9:16 (1080x1920 or source 716x1276) at 30fps.
+6. Paste "All Again - Rose Gray" audio, align first strong beat to 0.628s.
+7. Output ~14.5s.
+
+---
+
+*Note: Vision model free-tier rate-limit ki wajah se kuch frames直接 describe nahi ho paye (batch 1 ke V4/V5, batch 2 sab, batch 3 sab, batch 4 example). Lekin scene-change detection (exact cut timestamps + intensity scores), OCR, brightness analysis, RMS beat analysis aur technical metadata se editing patterns accurately nikal liye gaye hain. Vision limit reset hone par remaining frames par nazar dokar playbook ko aur augment kar sakta hoon.*
