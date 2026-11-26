@@ -3,6 +3,9 @@
 # Image-vision tooling (skills/image-vision: see.sh + auto-vision-watch.sh) needs
 # no extra pip package: it uses the already-installed `opencode` CLI and the free
 # opencode/nemotron-3.5-super-vl-free model. Only scripts were added to setup.sh.
+# Local VL fallback (setup.sh): official Ollama + qwen2.5vl:3b are installed via
+# curl installer / `ollama pull`, NOT pip — no requirements.txt entry needed.
+# vision.sh uses only stdlib (base64, json, urllib) for the Ollama REST fallback.
 
 argcomplete==3.7.2
 attrs==25.4.0

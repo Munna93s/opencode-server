@@ -19,12 +19,19 @@ bash vision.sh /path/to/image.jpg "Describe what you see and where the facecam i
 
 - First argument: image path (png/jpg/webp/gif).
 - Remaining arguments: the question, free form.
-- Optional env `VISION_MODEL=provider/model` to override the default
+- Optional env `VISION_MODEL=provider/model` to override the cloud default
   (`opencode/nemotron-3.5-super-vl-free`, free).
+- Optional env `VISION_LOCAL_ONLY=1` to skip the cloud model entirely and use
+  local Ollama vision. `VISION_LOCAL_MODEL` overrides the local model
+  (default `qwen2.5vl:3b`).
 
-The script runs `opencode run --model <vision-model> --file <image> <question>`,
-so the image is attached in a vision-capable session and the answer comes back
-as plain text you can act on. It works even when the calling model is text-only.
+`vision.sh` first tries `opencode run --model <vision-model> --file <image>
+<question>`. If the cloud free tier is exhausted (`Free usage limit reached`,
+`Permission denied on the service`), it **automatically falls back to local
+Ollama** via the REST API, so vision is never permanently blocked. The local
+model is installed by `setup.sh` (official Ollama + `qwen2.5vl:3b`) and has no
+rate limit. It is slower on CPU, so use it for identification/OCR, not long
+video-QA batches.
 
 ## When the image never arrives on disk
 

@@ -621,23 +621,28 @@ if [ -d "$OPENSORA_DIR" ]; then
   fi
 fi
 
-echo "==> Ollama: build from https://github.com/ollama/ollama.git"
-# Ollama server binary built from source (Go). CPU-only by default; GPU backends
-# (CUDA/ROCm/MLX/Vulkan) require additional build args and system libraries.
-if ! command -v ollama >/dev/null 2>&1; then
-  OLLAMA_SRC="$(mktemp -d)"
-  if git clone --depth 1 https://github.com/ollama/ollama.git "$OLLAMA_SRC/ollama" >/dev/null 2>&1; then
-    OLLAMA_VERSION="$(cd "$OLLAMA_SRC/ollama" && git describe --tags --first-parent --abbrev=7 --long --dirty --always | sed -e 's/^v//g')"
-    if ( cd "$OLLAMA_SRC/ollama" && go build -ldflags="-w -s -X=github.com/ollama/ollama/version.Version=$OLLAMA_VERSION -X=github.com/ollama/ollama/server.mode=release" -o /usr/local/bin/ollama . ) >/dev/null 2>&1; then
-      chmod +x /usr/local/bin/ollama
-      echo "    ollama $(ollama --version 2>/dev/null | head -1) installed to /usr/local/bin"
-    else
-      echo "WARNING: Ollama build from source failed" >&2
-    fi
-  else
-    echo "WARNING: Ollama git clone failed" >&2
+echo "==> Ollama: official installer (includes llama-server for VL models)"
+# IMPORTANT: the old source-built Go binary had NO llama-server, so vision
+# models (qwen2.5vl etc.) failed with "llama-server binary not found".
+# Always use the official install script — it ships the full runtime.
+if ! command -v ollama >/dev/null 2>&1 || [ ! -f /usr/local/lib/ollama/llama-server ]; then
+  curl -fsSL https://ollama.com/install.sh | sh \
+    || echo "WARNING: official Ollama install failed" >&2
+fi
+if command -v ollama >/dev/null 2>&1; then
+  echo "    ollama $(ollama --version 2>/dev/null | head -1) at $(command -v ollama)"
+  # Local vision model: no cloud rate limit, works after install on any machine.
+  # qwen2.5vl:3b is ~3.2 GB, CPU-friendly, handles image identification/OCR.
+  if ! ollama list 2>/dev/null | grep -q '^qwen2\.5vl:3b'; then
+    ( ollama serve >/tmp/opencode/ollama.log 2>&1 & ) || true
+    sleep 3
+    ollama pull qwen2.5vl:3b \
+      || echo "WARNING: qwen2.5vl:3b pull failed (vision fallback unavailable)" >&2
   fi
-  rm -rf "$OLLAMA_SRC"
+  # Keep the daemon up so skills/image-vision/vision.sh can use it instantly.
+  if ! curl -fsS http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
+    ( ollama serve >/tmp/opencode/ollama.log 2>&1 & ) || true
+  fi
 fi
 
 echo "==> Instagram Growth OS (igos): local Instagram audit/planning CLI"
