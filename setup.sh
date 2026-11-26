@@ -631,14 +631,21 @@ if ! command -v ollama >/dev/null 2>&1 || [ ! -f /usr/local/lib/ollama/llama-ser
 fi
 if command -v ollama >/dev/null 2>&1; then
   echo "    ollama $(ollama --version 2>/dev/null | head -1) at $(command -v ollama)"
-  # Local vision model: no cloud rate limit, works after install on any machine.
-  # qwen2.5vl:3b is ~3.2 GB, CPU-friendly, handles image identification/OCR.
-  if ! ollama list 2>/dev/null | grep -q '^qwen2\.5vl:3b'; then
-    ( ollama serve >/tmp/opencode/ollama.log 2>&1 & ) || true
-    sleep 3
-    ollama pull qwen2.5vl:3b \
-      || echo "WARNING: qwen2.5vl:3b pull failed (vision fallback unavailable)" >&2
-  fi
+  # Local models: no cloud rate limit, no API key, work offline after install.
+  # These are the last link in config/rate-limit-fallback.json, so a turn NEVER
+  # dies from "Free usage limit reached" — it lands on unlimited local compute.
+  #   qwen2.5vl:3b     ~3.2 GB  vision / OCR fallback for skills/image-vision
+  #   qwen2.5:7b       ~4.7 GB  general text + tool use (primary fallback)
+  #   qwen2.5-coder:7b ~4.7 GB  code-focused variant
+  #   llama3.1:8b      ~4.9 GB  alternative tool-use model
+  ( ollama serve >/tmp/opencode/ollama.log 2>&1 & ) || true
+  sleep 3
+  for M in qwen2.5vl:3b qwen2.5:7b qwen2.5-coder:7b llama3.1:8b; do
+    if ! ollama list 2>/dev/null | awk -v m="$M" '$1==m {found=1} END{exit !found}'; then
+      ollama pull "$M" \
+        || echo "WARNING: $M pull failed (local fallback unavailable)" >&2
+    fi
+  done
   # Keep the daemon up so skills/image-vision/vision.sh can use it instantly.
   if ! curl -fsS http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
     ( ollama serve >/tmp/opencode/ollama.log 2>&1 & ) || true

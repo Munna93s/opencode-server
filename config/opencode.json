@@ -11,14 +11,21 @@
           "name": "Nemotron 3.5 Super VL Free",
           "capabilities": {
             "tools": true,
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           }
         }
       }
     },
     "google": {
-      "env": ["GEMINI_API_KEY"],
+      "env": [
+        "GEMINI_API_KEY"
+      ],
       "settings": {
         "apiKey": "{env:GEMINI_API_KEY}"
       },
@@ -29,13 +36,68 @@
       }
     },
     "groq": {
-      "env": ["GROQ_API_KEY"],
+      "env": [
+        "GROQ_API_KEY"
+      ],
       "settings": {
         "apiKey": "{env:GROQ_API_KEY}"
       },
       "models": {
         "openai/gpt-oss-120b": {
           "name": "Groq GPT-OSS 120B (fallback 2)"
+        }
+      }
+    },
+    "ollama": {
+      "models": {
+        "qwen2.5:7b": {
+          "name": "Qwen 2.5 7B — LOCAL, unlimited, no API key",
+          "capabilities": {
+            "tools": true,
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "qwen2.5-coder:7b": {
+          "name": "Qwen 2.5 Coder 7B — LOCAL, unlimited, code/tool focus",
+          "capabilities": {
+            "tools": true,
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "llama3.1:8b": {
+          "name": "Llama 3.1 8B — LOCAL, unlimited, strong tool use",
+          "capabilities": {
+            "tools": true,
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "qwen2.5vl:3b": {
+          "name": "Qwen 2.5 VL 3B — LOCAL vision, unlimited",
+          "capabilities": {
+            "tools": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
         }
       }
     }

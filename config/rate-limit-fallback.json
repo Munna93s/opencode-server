@@ -1,18 +1,26 @@
 {
   "enabled": true,
-  "fallbackMode": "cycle",
-  "cooldownMs": 3600000,
+  "fallbackMode": "retry-last",
+  "cooldownMs": 60000,
+  "otherModels": "wait",
+  "maxSubagentDepth": 10,
+  "enableSubagentFallback": true,
   "fallbackModels": [
+    { "providerID": "opencode", "modelID": "big-pickle" },
+    { "providerID": "opencode", "modelID": "nemotron-3.5-lightning-free" },
+    { "providerID": "opencode", "modelID": "deepseek-v4.1-flash-free" },
+    { "providerID": "opencode", "modelID": "mimo-v2.6-flash-free" },
     { "providerID": "opencode", "modelID": "nemotron-3.5-super-vl-free" },
     { "providerID": "google", "modelID": "gemini-flash-latest" },
-    { "providerID": "groq", "modelID": "openai/gpt-oss-120b" }
+    { "providerID": "groq", "modelID": "openai/gpt-oss-120b" },
+    { "providerID": "ollama", "modelID": "qwen2.5:7b" }
   ],
   "errorPatterns": {
     "custom": [
       {
         "name": "free-limit-reached",
         "priority": 100,
-        "patterns": ["free limit reached", "free.?limit", "usage limit"]
+        "patterns": ["free limit reached", "free.?limit", "usage limit", "permission denied on the service", "rate limit", "quota exceeded"]
       }
     ],
     "ignorePatterns": ["not your plan limits", "draw from your extra usage"]
