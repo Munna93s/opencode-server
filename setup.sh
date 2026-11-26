@@ -354,6 +354,16 @@ for YT_TOOL in "$SCRIPT_DIR"/skills/yt-*/*.py; do
   [ -f "$YT_TOOL" ] && chmod +x "$YT_TOOL"
 done
 echo "    YouTube skills ready: yt-script/yt-package/yt-edit/yt-retention/yt-shorts/yt-viral/yt-seo/yt-chapters/yt-comment/yt-plan/yt-audit (voice: ~/.config/opencode/youtube/voice.md)"
+# MCP: GitMCP remote documentation server (free, no API key). Registered in the
+# global OpenCode config so any project repo can be searched for live docs/code.
+# See skills/mcp-research/SKILL.md and templates/mcp-review.md.
+if command -v opencode >/dev/null 2>&1 && [ -f "$HOME/.config/opencode/opencode.json" ]; then
+  if ! grep -q '"gitmcp"' "$HOME/.config/opencode/opencode.json"; then
+    opencode mcp add --global gitmcp --url https://gitmcp.io/docs \
+      || echo "WARNING: GitMCP MCP registration failed" >&2
+  fi
+  echo "    MCP ready: gitmcp (https://gitmcp.io/docs)"
+fi
 # Beyond GTA Clips: private venv + Whisper/face models (~220 MB) under
 # ~/.beyondgtaclips. Re-running is safe; downloads are cached. Keeps the
 # skill's heavy deps out of the system Python.

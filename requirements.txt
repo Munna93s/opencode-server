@@ -232,3 +232,11 @@ instagram-growth-os==1.0.1
 # Source/template/attribution: templates/youtube/ (voice.md, LICENSE, README.md).
 # Shared voice profile is seeded by setup.sh to ~/.config/opencode/youtube/voice.md.
 # Optional public research can use the yt-dlp pin already listed above.
+
+# --- MCP research skill: mcp-research (installed 2026-11-26) ---
+# GitMCP is a FREE REMOTE MCP server registered by setup.sh with
+# `opencode mcp add --global gitmcp --url https://gitmcp.io/docs`. No pip/npm
+# package, no API key, no local process. It exposes five tools for live GitHub
+# repo docs/code search. Catalogue review: templates/mcp-review.md. The other
+# 19 Claude/IDE repos in that review were deliberately not installed (they
+# duplicate OpenCode or require Anthropic/model API keys).
