@@ -8,6 +8,8 @@
 *.wmv
 *.flv
 *.ts
+# Remotion entry point (source, not compiled output)
+!remotion-starter/src/index.ts
 *.zip
 *.tar.gz
 *.tgz
