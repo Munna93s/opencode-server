@@ -291,6 +291,22 @@ if ! npm install -g \
 then
   echo "WARNING: npm global install failed; workflow fallback will retry essentials." >&2
 fi
+
+# OpenCode V2 auto-fallback plugin: default free model -> Gemini -> Groq on
+# 429 / rate-limit errors, then back to free after the 3600s cooldown.
+# `plugin add` is idempotent; OpenCode also auto-installs configured plugins.
+if command -v opencode >/dev/null 2>&1; then
+  opencode plugin add '@azumag/opencode-rate-limit-fallback@2.1.1' >/dev/null 2>&1 \
+    || echo "WARNING: fallback plugin install failed; OpenCode will retry on startup." >&2
+fi
+# Sanitized config backups (keys are env references only; real keys come from
+# GitHub Secrets / ~/.config/opencode/.env.local, never from this repository).
+if [ -d "$SCRIPT_DIR/config" ]; then
+  mkdir -p "$HOME/.config/opencode"
+  cp "$SCRIPT_DIR/config/opencode.json" "$HOME/.config/opencode/opencode.json"
+  cp "$SCRIPT_DIR/config/rate-limit-fallback.json" "$HOME/.config/opencode/rate-limit-fallback.json"
+fi
+
 if ! command -v pipx >/dev/null 2>&1; then
   python3 -m pip install --break-system-packages pipx
   pipx ensurepath || true
@@ -368,9 +384,12 @@ except Exception:
 cfg["$schema"] = "https://opencode.ai/config.json"
 # Vision-capable default so chat image attachments work directly in new sessions.
 cfg["model"] = "opencode/nemotron-3.5-super-vl-free"
-mods = cfg.setdefault("provider", {}).setdefault("opencode", {}).setdefault("models", {}).setdefault("nemotron-3.5-super-vl-free", {})
+# V2 uses the plural `providers` key; drop the deprecated V1 `provider` shape
+# so the fallback config from config/opencode.json stays authoritative.
+cfg.pop("provider", None)
+mods = cfg.setdefault("providers", {}).setdefault("opencode", {}).setdefault("models", {}).setdefault("nemotron-3.5-super-vl-free", {})
 mods["name"] = "Nemotron 3.5 Super VL Free"
-mods["modalities"] = {"input": ["text", "image"], "output": ["text"]}
+mods["capabilities"] = {"tools": True, "input": ["text", "image"], "output": ["text"]}
 p.parent.mkdir(parents=True, exist_ok=True)
 p.write_text(json.dumps(cfg, indent=2) + "\n")
 PY

@@ -11,6 +11,15 @@ CF_LOG="/tmp/cf.log"
 URL_FILE="$LOG_DIR/tunnel_url.txt"
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
+# Fallback API keys (GEMINI_API_KEY / GROQ_API_KEY) live outside the repo.
+ENV_FILE="$HOME/.config/opencode/.env.local"
+if [ -f "$ENV_FILE" ]; then
+  set -a
+  # shellcheck disable=SC1090
+  . "$ENV_FILE"
+  set +a
+fi
+
 mkdir -p "$LOG_DIR"
 : > "$CF_LOG" 2>/dev/null || true
 

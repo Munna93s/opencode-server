@@ -208,3 +208,12 @@ instagram-growth-os==1.0.1
 #   tensorboard>=2.14.0, omegaconf>=2.3.0, pyarrow
 # These are NOT in the global list: they are installed into ./Open-Sora/.venv by
 # setup.sh so they never clash with the global toolchain / FaceFusion / ComfyUI.
+
+# --- OpenCode auto-fallback plugin (installed 2026-11-26) ---
+# @azumag/opencode-rate-limit-fallback@2.1.1 is an npm/OpenCode plugin, not a
+# Python package. setup.sh installs it with `opencode plugin add`, and the
+# sanitized config lives in config/opencode.json + config/rate-limit-fallback.json.
+# Chain: opencode/nemotron-3.5-super-vl-free -> google/gemini-flash-latest ->
+# groq/openai/gpt-oss-120b, with a 3600s (3600000ms) cooldown and cycle-back.
+# Credentials are read from GEMINI_API_KEY / GROQ_API_KEY via {env:...} references;
+# no keys are stored in this repository. No new pip dependency is required.

@@ -17,6 +17,15 @@ CF_LOG="/tmp/cf.log"
 URL_FILE="$LOG_DIR/tunnel_url.txt"
 LOCK_DIR="$LOG_DIR/opencode-watchdog.lock"
 
+# Preserve fallback API keys when the watchdog restarts `opencode serve`.
+ENV_FILE="$HOME/.config/opencode/.env.local"
+if [ -f "$ENV_FILE" ]; then
+  set -a
+  # shellcheck disable=SC1090
+  . "$ENV_FILE"
+  set +a
+fi
+
 mkdir -p "$LOG_DIR"
 
 log() {
