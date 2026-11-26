@@ -414,8 +414,10 @@ try:
 except Exception:
     cfg = {}
 cfg["$schema"] = "https://opencode.ai/config.json"
-# Vision-capable default so chat image attachments work directly in new sessions.
-cfg["model"] = "opencode/nemotron-3.5-super-vl-free"
+# Unlimited LOCAL model is the default: no API key, no rate limit.
+# Image input goes through skills/image-vision/vision.sh -> local qwen2.5vl:3b,
+# or switch interactively with /model ollama/qwen2.5vl:3b.
+cfg["model"] = "ollama/qwen2.5:7b"
 # V2 uses the plural `providers` key; drop the deprecated V1 `provider` shape
 # so the fallback config from config/opencode.json stays authoritative.
 cfg.pop("provider", None)
@@ -675,6 +677,15 @@ chmod +x "$SCRIPT_DIR/scripts/kaam.sh" 2>/dev/null || true
 mkdir -p "$HOME/.local/bin" 2>/dev/null || true
 ln -sf "$SCRIPT_DIR/scripts/kaam.sh" "$HOME/.local/bin/kaam"
 echo "    kaam command ready: ~/.local/bin/kaam"
+
+# Unlimited local-model commands. `unlimited` opens OpenCode on the local
+# qwen2.5:7b (no API key / no rate limit); `unlimited-vl` is the local vision
+# variant. Both start ollama serve automatically if it is not up.
+for U in unlimited unlimited-vl; do
+  chmod +x "$SCRIPT_DIR/scripts/$U" 2>/dev/null || true
+  ln -sf "$SCRIPT_DIR/scripts/$U" "$HOME/.local/bin/$U"
+done
+echo "    unlimited commands ready: unlimited, unlimited-vl"
 
 # Push workflow files that the default GitHub App token cannot update.
 # Token comes from WORKFLOW_PAT / GH_PAT / ~/.config/opencode/.env.local.

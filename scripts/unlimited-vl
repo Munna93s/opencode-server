@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Unlimited LOCAL vision questions — direct Ollama REST, no OpenCode tool layer.
+# qwen2.5vl:3b has no tool support in OpenCode, so we call the API directly.
+#
+# Usage:
+#   unlimited-vl -f /path/to/image.png "What car is this?"
+#   unlimited-vl "text-only question"
+set -euo pipefail
+MODEL="${UNLIMITED_VL_MODEL:-qwen2.5vl:3b}"
+URL="${OLLAMA_URL:-http://127.0.0.1:11434}"
+
+FILE=""
+ARGS=()
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -f|--file) FILE="${2:?-f needs an image path}"; shift 2 ;;
+    *) ARGS+=("$1"); shift ;;
+  esac
+done
+if [ "${#ARGS[@]}" -eq 0 ]; then
+  echo "usage: unlimited-vl -f image.png \"question\"  |  unlimited-vl \"question\"" >&2
+  exit 2
+fi
+Q="${ARGS[*]}"
+
+if ! curl -fsS "$URL/api/tags" >/dev/null 2>&1; then
+  nohup ollama serve >/tmp/opencode/ollama.log 2>&1 &
+  for _ in $(seq 1 20); do
+    curl -fsS "$URL/api/tags" >/dev/null 2>&1 && break
+    sleep 1
+  done
+fi
+
+python3 - "$MODEL" "$URL" "$FILE" "$Q" <<'PY'
+import base64, json, sys, urllib.request
+model, url, path, question = sys.argv[1:5]
+payload = {"model": model, "prompt": question, "stream": False}
+if path:
+    with open(path, "rb") as f:
+        payload["images"] = [base64.b64encode(f.read()).decode()]
+req = urllib.request.Request(
+    url.rstrip("/") + "/api/generate",
+    data=json.dumps(payload).encode(),
+    headers={"Content-Type": "application/json"},
+)
+with urllib.request.urlopen(req, timeout=600) as r:
+    print(json.load(r).get("response", "").strip())
+PY

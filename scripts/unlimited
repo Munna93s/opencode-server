@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Unlimited local OpenCode — no API key, no rate limit, works offline.
+#
+# Usage:
+#   unlimited                          interactive TUI (config default = local model)
+#   unlimited "your prompt"            one-shot headless run
+#   unlimited -f img.png "describe"    attach a file to a headless run
+#
+# Env overrides:
+#   UNLIMITED_MODEL=ollama/llama3.1:8b   pick another local model
+#   OLLAMA_URL=http://127.0.0.1:11434    custom Ollama endpoint
+set -euo pipefail
+MODEL="${UNLIMITED_MODEL:-ollama/qwen2.5:7b}"
+URL="${OLLAMA_URL:-http://127.0.0.1:11434}"
+
+if ! curl -fsS "$URL/api/tags" >/dev/null 2>&1; then
+  nohup ollama serve >/tmp/opencode/ollama.log 2>&1 &
+  for _ in $(seq 1 20); do
+    curl -fsS "$URL/api/tags" >/dev/null 2>&1 && break
+    sleep 1
+  done
+fi
+
+# No args -> interactive TUI (opencode.json default is the local model).
+# With args -> force the local model explicitly for a one-shot run.
+if [ "$#" -eq 0 ]; then
+  exec opencode
+fi
+exec opencode run --model "$MODEL" "$@"

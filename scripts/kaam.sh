@@ -115,7 +115,10 @@ add_match() {
   echo "  [$1] $2"
 }
 
-if echo "$TASK_LOWER" | grep -qE 'reel|short|tiktok|9:16|caption|clip|shorts'; then
+if echo "$TASK_LOWER" | grep -qE 'limit|quota|free model|unlimited|local model|api key|gemini|groq'; then
+  add_match unlimited "Unlimited local OpenCode model (qwen2.5:7b, no key/rate-limit), alias: unlimited"
+  add_match unlimited-vl "Unlimited local vision (qwen2.5vl:3b via Ollama REST), alias: unlimited-vl"
+elif echo "$TASK_LOWER" | grep -qE 'reel|short|tiktok|9:16|caption|clip|shorts'; then
   add_match neonclipping "YouTube/Twitch/Kick link ya local MP4 se captioned 9:16 clip (app: http://127.0.0.1:8770, skills/neonclipping)"
   add_match ortha-clipper "Live stream ya VOD highlight (chat/audio spike), skills/ortha-clipper/clipper.py"
   add_match beyondgtaclips "Kisi bhi game (default GTA 6) ke clips, 5 styles, hook card, 9:16 reels"
@@ -124,7 +127,7 @@ if echo "$TASK_LOWER" | grep -qE 'reel|short|tiktok|9:16|caption|clip|shorts'; t
 elif echo "$TASK_LOWER" | grep -qE 'face|swap|deepfake|lip-sync|lip sync|colourise|background'; then
   add_match facefusion "Face swap, face restore, lip-sync, colourise, background-remove (facefusion venv)"
 elif echo "$TASK_LOWER" | grep -qE 'image|foto|photo|generate|screenshot|meme|chart|diagram|dekhein|samajh'; then
-  add_match image-vision "Image dekhna/samajhna (vision.sh, free VL model opencode/nemotron-3.5-super-vl-free)"
+  add_match image-vision "Image dekhna/samajhna (vision.sh: cloud VL -> local ollama/qwen2.5vl:3b fallback; unlimited-vl command)"
   add_match ocr "Image/screenshot se text nikalna (Tesseract eng+hin, ocr alias)"
   add_match comfyui "Image/video generation workflow (ComfyUI venv)"
   add_match opensora "Text/video-to-video generation (Open-Sora, CPU-only)"

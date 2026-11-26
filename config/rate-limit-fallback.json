@@ -11,8 +11,6 @@
     { "providerID": "opencode", "modelID": "deepseek-v4.1-flash-free" },
     { "providerID": "opencode", "modelID": "mimo-v2.6-flash-free" },
     { "providerID": "opencode", "modelID": "nemotron-3.5-super-vl-free" },
-    { "providerID": "google", "modelID": "gemini-flash-latest" },
-    { "providerID": "groq", "modelID": "openai/gpt-oss-120b" },
     { "providerID": "ollama", "modelID": "qwen2.5:7b" }
   ],
   "errorPatterns": {
