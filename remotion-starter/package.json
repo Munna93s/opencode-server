@@ -8,6 +8,7 @@
     "dev": "remotion preview",
     "studio": "remotion studio",
     "build": "remotion render src/index.ts ReelsTemplate out.mp4 --image-format jpeg",
+    "build:reel": "remotion render src/index.ts LuxeOctaneReel out/luxe-octane-reel.mp4 --image-format jpeg",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

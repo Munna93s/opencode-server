@@ -12,9 +12,14 @@ import { SmoothZoom } from "./components/SmoothZoom";
 import { TrendyTextOverlay } from "./components/TrendyTextOverlay";
 import { DynamicBroll } from "./components/DynamicBroll";
 import { DriftReelComp } from "./components/DriftReel";
+import { CarReel, WIDTH as CAR_REEL_WIDTH, HEIGHT as CAR_REEL_HEIGHT } from "./components/CarReel";
 
 export const FPS = 30;
 export const DURATION_IN_FRAMES = 300; // 10 seconds
+
+// LuxeOctaneReel — Instagram Reel: 60 FPS, 8s = 480 frames, 1080x1920 (9:16)
+export const LUXE_FPS = 60;
+export const LUXE_DURATION_IN_FRAMES = 480;
 
 const REELS_VIDEO = staticFile("assets/videos/reels-background.mp4");
 const YT_VIDEO = staticFile("assets/videos/youtube-background.mp4");
@@ -60,12 +65,24 @@ export const YouTubeTemplate = () => (
   />
 );
 
-/** Root rendered by Remotion Studio — exposes both templates. */
+export const LuxeOctaneReel = () => (
+  <Composition
+    id="LuxeOctaneReel"
+    component={CarReel}
+    durationInFrames={LUXE_DURATION_IN_FRAMES}
+    fps={LUXE_FPS}
+    width={CAR_REEL_WIDTH}
+    height={CAR_REEL_HEIGHT}
+  />
+);
+
+/** Root rendered by Remotion Studio — exposes all templates. */
 export const Root = () => (
   <>
     <ReelsTemplate />
     <YouTubeTemplate />
     <DriftReelComp />
+    <LuxeOctaneReel />
   </>
 );
 
