@@ -224,3 +224,11 @@ instagram-growth-os==1.0.1
 # lacking `workflows` permission. It reads WORKFLOW_PAT / GH_PAT from the env or
 # ~/.config/opencode/.env.local; no token is stored in the repo. Documented as
 # skills/gh-workflow-push/SKILL.md so kaam.sh can discover it. No pip package.
+
+# --- YouTube agent skills: yt-* (installed 2026-11-26) ---
+# 11 skills vendored from Jakeschincariol/youtube-agent-skill (MIT), adapted for
+# OpenCode. Six tools (hookscore.py, title.py, deadair.py, chapters.py,
+# retention.py, swipe.py) use Python 3 stdlib only -- NO new pip dependency.
+# Source/template/attribution: templates/youtube/ (voice.md, LICENSE, README.md).
+# Shared voice profile is seeded by setup.sh to ~/.config/opencode/youtube/voice.md.
+# Optional public research can use the yt-dlp pin already listed above.

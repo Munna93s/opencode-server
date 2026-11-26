@@ -342,6 +342,18 @@ if [ -d "$SCRIPT_DIR/skills" ]; then
   cp -a "$SCRIPT_DIR/skills/." "$HOME/.config/opencode/skill/"
   echo "    restored: $(find "$SCRIPT_DIR/skills" -name SKILL.md | wc -l) skill(s)"
 fi
+# YouTube agent skills (11 yt-* skills vendored from
+# Jakeschincariol/youtube-agent-skill, MIT; see templates/youtube/README.md).
+# Six stdlib-only Python tools need no pip install. All skills share one voice
+# profile; seed it once from the template and never overwrite a user's edits.
+mkdir -p "$HOME/.config/opencode/youtube"
+if [ ! -f "$HOME/.config/opencode/youtube/voice.md" ] && [ -f "$SCRIPT_DIR/templates/youtube/voice.md" ]; then
+  cp "$SCRIPT_DIR/templates/youtube/voice.md" "$HOME/.config/opencode/youtube/voice.md"
+fi
+for YT_TOOL in "$SCRIPT_DIR"/skills/yt-*/*.py; do
+  [ -f "$YT_TOOL" ] && chmod +x "$YT_TOOL"
+done
+echo "    YouTube skills ready: yt-script/yt-package/yt-edit/yt-retention/yt-shorts/yt-viral/yt-seo/yt-chapters/yt-comment/yt-plan/yt-audit (voice: ~/.config/opencode/youtube/voice.md)"
 # Beyond GTA Clips: private venv + Whisper/face models (~220 MB) under
 # ~/.beyondgtaclips. Re-running is safe; downloads are cached. Keeps the
 # skill's heavy deps out of the system Python.

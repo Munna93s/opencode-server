@@ -9,6 +9,14 @@ Use this skill to help the user grow YouTube/Instagram with **free tools and man
 
 ## Installed tools on this server
 
+- **Specialised YouTube writing/analysis skills (`yt-*`, installed 2026-11-26, MIT from Jakeschincariol/youtube-agent-skill):**
+  - `yt-script` — 21 hook formulas + scored hooks, then the script with retention beats. Use instead of writing hooks from scratch.
+  - `yt-package` — lint title + thumbnail as one pairing (truncation, duplication, vagueness).
+  - `yt-edit` — transcript → edit decision list (dead air, filler, retakes).
+  - `yt-retention` — YouTube Studio retention CSV → hook leak, cliffs, slide.
+  - `yt-chapters`, `yt-seo`, `yt-shorts`, `yt-comment`, `yt-plan`, `yt-audit`, `yt-viral` — chapters, metadata, Shorts ideas, comment replies, weekly plan, channel audit, niche outliers.
+  - Six stdlib-only Python tools live inside those skill folders; see `templates/youtube/README.md`. Shared voice profile: `~/.config/opencode/youtube/voice.md`.
+
 - **Research / metadata**
   - `yt-dlp` — search/fetch video metadata, formats, subtitles info, and public content details.
   - `youtube-transcript-api` (Python lib) — fetch YouTube transcripts/captions when available.
