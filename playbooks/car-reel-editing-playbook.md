@@ -454,6 +454,12 @@
 - Flash beats 8.53 / 10.86 / 12.72s (white, score 1.0)
 - Output: `~/gta_reels/lucia_montage_final.mp4`
 
+**🎧 Reference-audio match (BATCH 6 — DONE):**
+- Target mein audio na ho to reference ki audio direct map karo
+- Grade ko reference YAVG ke hisaab se darken karo (target 99.7 → 75.8, ref 72.9)
+- Beat cuts RMS peaks par: 1.856 / 4.864 / 6.848 / 8.832 / 10.816s
+- Output: `~/gta_reels/bloody_mary_1192_edit.mp4`
+
 ---
 
 # ═══════════════════════════════════════════════
@@ -775,4 +781,39 @@ Example ke apne audio ki shuruat (loud from 0.07s) aur is m4a ki shuruat (silent
 
 ---
 
-*Note: Vision model free-tier rate-limit ki wajah se kuch frames直接 describe nahi ho paye (batch 1 ke V4/V5, batch 2 sab, batch 3 sab, batch 4 example, batch 5 final). Lekin scene-change detection, OCR, brightness analysis, RMS beat analysis aur technical metadata se editing patterns accurately nikal liye gaye hain. Vision limit reset hone par remaining frames par nazar dokar playbook ko aur augment kar sakta hoon.*
+# ═══════════════════════════════════════════════
+# BATCH 6 — REFERENCE-AUDIO MATCH EDIT (26 Nov 2026)
+# ═══════════════════════════════════════════════
+
+## Task
+User ne 2 files diye: (1) reference reel (savefrom, Bloody Mary / Porsche AI drift), (2) target `11929750_1080_1920_60fps.mp4`. Ask: reference ki **audio** ke saath match karke target ka edit banao.
+
+## Reference analysis
+- 1080x1920, 30fps, **11.733s**, H.264 + AAC 44.1kHz stereo, 3.1 Mbps.
+- **Koi hard cut nahi** (scene >0.25 par kuch nahi) — continuous cinematic AI clip.
+- Brightness: min 59.3 / max 100.1 / **avg 72.9** → dark cinematic grade.
+- Audio: **music** (faster-whisper tiny ne koi speech nahi pakda). RMS peaks 0.32, 0.576, 0.832, 1.856, 4.864, 5.824, 6.848, 8.320, 8.832, 9.856, 10.816s.
+- Autocorrelation: 0.256s / 0.320s grid (fast 117-234 BPM subdivision).
+
+## Target analysis
+- 1080x1920, **60fps**, **17.217s**, 6.95 Mbps, **NO AUDIO stream** → reference audio hi lagana pada.
+- Brightness avg **99.7** → reference (72.9) se match ke liye darken karna pada.
+
+## Edit recipe (VERIFIED)
+- Reference audio directly target ke upar lagayi (`ref_audio.m4a`, 11.733s).
+- Target ko 6 segments mein cut kiya — beat boundaries: **0, 1.856, 4.864, 6.848, 8.832, 10.816, 11.733s** (strong RMS peaks).
+- Source offsets target se: 0, 2.4, 5.2, 8.0, 10.8, 13.6s.
+- Grade: `eq=contrast=1.08:brightness=-0.08:saturation=0.90` → output YAVG **75.8** (reference 72.9 se ±3).
+- 60fps → 30fps downscale (reference jaisa).
+- White flash accents at beats **4.864s (f145-146)** aur **8.832s (f264-265)**.
+- Output: `~/gta_reels/bloody_mary_1192_edit.mp4` — 9.1 MB, 1080x1920, 30fps, 11.749s.
+
+## Save-worthy lessons
+1. **Reference audio reuse** jab target mein audio hi na ho — direct `-i ref_audio -map 1:a`.
+2. **Match grade by YAVG** — reference 72.9, target 99.7 → brightness -0.08 se 75.8 (near-perfect).
+3. **Beat boundaries from RMS peaks** — continuous clip mein scene detection kuch nahi deta; audio peaks hi cut points hain.
+4. **faster-whisper** available in bgc venv; PyAV 1.2.1 compatibility fix: `av.open(..., metadata_errors="ignore")` → `av.open(...)` (audio.py line 46).
+
+---
+
+*Note: Vision model free-tier rate-limit ki wajah se kuch frames直接 describe nahi ho paye (batch 1 ke V4/V5, batch 2 sab, batch 3 sab, batch 4 example, batch 5 final, batch 6 dono videos). Lekin scene-change detection, OCR, brightness analysis, RMS beat analysis aur technical metadata se editing patterns accurately nikal liye gaye hain. Vision limit reset hone par remaining frames par nazar dokar playbook ko aur augment kar sakta hoon.*
