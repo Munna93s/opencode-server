@@ -448,6 +448,12 @@
 - Footage: trailers / Lucia / nightclub / girls trip (YouTube)
 - In-game recreation khud film nahi — YouTube clips se source
 
+**✅ Lucia montage (BATCH 5 — DONE):**
+- YouTube blocked? cookies file + `--js-runtimes node` use karo
+- 720x1280, 30fps, 14.6s, 437 frames, dark grade
+- Flash beats 8.53 / 10.86 / 12.72s (white, score 1.0)
+- Output: `~/gta_reels/lucia_montage_final.mp4`
+
 ---
 
 # ═══════════════════════════════════════════════
@@ -728,4 +734,45 @@ Example ke apne audio ki shuruat (loud from 0.07s) aur is m4a ki shuruat (silent
 
 ---
 
-*Note: Vision model free-tier rate-limit ki wajah se kuch frames直接 describe nahi ho paye (batch 1 ke V4/V5, batch 2 sab, batch 3 sab, batch 4 example). Lekin scene-change detection (exact cut timestamps + intensity scores), OCR, brightness analysis, RMS beat analysis aur technical metadata se editing patterns accurately nikal liye gaye hain. Vision limit reset hone par remaining frames par nazar dokar playbook ko aur augment kar sakta hoon.*
+# ═══════════════════════════════════════════════
+# BATCH 5 — GTA 6 LUCIA MONTAGE PRODUCTION (26 Nov 2026)
+# ═══════════════════════════════════════════════
+
+## YouTube download workaround (IMPORTANT — save)
+- Direct `yt-dlp` gave **"Sign in to confirm you're not a bot"** on all player clients (web/android/ios/tv/mweb).
+- **Fix 1 (worked):** cookies file (Netscape format) + JS runtime:
+  ```
+  yt-dlp --cookies /tmp/opencode/gta_edit/youtube_cookies.txt --js-runtimes node \
+    --no-playlist -f 'worst[height>=720]/worst' -o 'lucia1.%(ext)s' <URL>
+  ```
+  ✅ 720p60, 385 MB / 21.8 min downloaded.
+- **Fix 2 (fallback):** public Invidious API `https://yt.chocolatemoo53.com/api/v1/videos/<id>`
+  → `adaptiveFormats` me direct googlevideo URLs (itag 135=480p, 298=720p60).
+  Piped/cobalt free instances auth/down the the.
+- ⚠️ Googlevideo URLs IP-bound hote hain — Invidious wala URL seedha server se download nahi hota; cookies wala yt-dlp hi reliable hai.
+
+## Footage used
+| Source | Video ID | Size | Shots |
+|---|---|---|---|
+| Lucia Free Roam Gameplay PS5 4K | AcH4GSXhQYU | 385 MB | 7 |
+| Lucia Explores Leonida PS5 Pro 4K | sZPlz2VXco0 | 900 MB | 7 |
+
+## Render recipe (example style copy — VERIFIED)
+- Output: **720x1280 (9:16), 30fps, 437 video frames / 14.6s with audio**
+- Source crop: `crop=405:720:(iw-405)/2:0` (1280x720 → center 9:16), scale 720x1280 lanczos.
+- Grade: `eq=contrast=1.12:brightness=-0.03:saturation=0.92` (dark, YAVG ~75).
+- 14 segments; boundaries at song beats: **frames 0,103,117,256,284,298,312,326,354,368,382,396,410,423,437**
+- **White flash overlay** frames **256-257, 326-327, 382-383** → song beats 17/22/26 = **8.53s / 10.86s / 12.72s**
+- Audio: `All Again - Rose Gray.m4a` from 0s (0.628s pe pehla strong beat, slow intro ke saath align).
+- Slow intro: 103 frames (3.43s) bina cut — example ke 0-3.2s build jaisa.
+- ⚠️ **Gotcha:** `-loop 1 -i white.png` + overlay = infinite loop (23 min tak chala, 168 MB). Fix: finite white video (`color=c=white... -frames:v 437`) ya `overlay=...:shortest=1`.
+
+## QA results (final render)
+- Scene cuts detected at: 3.43 (0.38), 3.90 (0.69), **8.53 (1.00)**, 9.47, 9.93, 10.40, **10.87 (1.00)**, 11.80, 12.27, **12.73 (1.00)**, 13.20, 13.67, 14.10.
+- Flash frames YAVG = **235** vs neighbors ~75-82 → dramatic white flashes confirmed.
+- 438 frames in final container (extra 1 frame from 14.6s audio pad), AAC audio present, 5.6 Mbps.
+- Final file: `~/gta_reels/lucia_montage_final.mp4` (9.8 MB).
+
+---
+
+*Note: Vision model free-tier rate-limit ki wajah se kuch frames直接 describe nahi ho paye (batch 1 ke V4/V5, batch 2 sab, batch 3 sab, batch 4 example, batch 5 final). Lekin scene-change detection, OCR, brightness analysis, RMS beat analysis aur technical metadata se editing patterns accurately nikal liye gaye hain. Vision limit reset hone par remaining frames par nazar dokar playbook ko aur augment kar sakta hoon.*
