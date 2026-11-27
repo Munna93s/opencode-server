@@ -1,0 +1,58 @@
+{
+  "source": "savefromins.com  0 1080P.mp4",
+  "analyzed": "2026-11-27",
+  "type": "square action-movie character-burst montage",
+  "technical": {
+    "canvas": "1080x1080 (1:1)",
+    "fps": 60,
+    "duration_source_sec": 37.05,
+    "audio": "AAC stereo, music-led, mean -16.6 dB, peak -1.8 dB"
+  },
+  "watermark": {
+    "type": "burned-in editor handle, bottom-center (name intentionally omitted)",
+    "bbox_px": [400, 882, 740, 930],
+    "cleanup": {
+      "delogo": "x=410:y=848:w=430:h=88",
+      "trim_end_sec": 35.28,
+      "end_card_cut": true,
+      "verified": "3 frames at 2.5s / 20.5s / 31.5s - no handle text remains"
+    }
+  },
+  "output": "reference_clean_1080.mp4 (gitignored, local only)",
+  "playbook": "playbooks/action-movie-montage-editing-playbook.md",
+  "hard_cuts_sec": [
+    0.65, 0.85, 2.30, 2.90, 2.97, 4.05, 4.45, 5.20, 6.20, 6.80, 7.30, 7.80,
+    8.55, 9.37, 9.82, 10.17, 10.40, 11.23, 12.68, 13.85, 14.35, 15.60,
+    16.27, 18.00, 21.45, 21.90, 22.60, 23.00, 23.50, 24.50, 24.95, 25.25,
+    25.63, 26.03, 26.83, 27.17, 27.62, 28.00, 28.28, 28.55, 29.37, 30.13,
+    31.83, 35.30
+  ],
+  "audio_peaks_sec": [
+    0.77, 2.90, 4.10, 4.93, 6.20, 8.70, 9.73, 11.78, 12.03, 14.08, 16.00,
+    18.11, 21.63, 22.91, 24.90, 25.66, 26.18, 27.20, 28.99, 29.25, 30.27,
+    31.81, 32.96, 33.79, 35.26
+  ],
+  "saved_skills": [
+    "object-macro cold open before character reveal",
+    "character-burst clusters: detail -> medium action -> wide",
+    "one detail insert per cluster",
+    "grade changes at cluster boundaries only",
+    "breath-burst-breath pacing (3.45s static hold at 18-21.45s)",
+    "motion-blur acceleration as climax",
+    "progressive push-in over 3 frames",
+    "0.25s bokeh/blur flash inserts instead of dissolves",
+    "static tableau hold as ending breath",
+    "hard cuts synced to RMS peaks"
+  ],
+  "excluded": [
+    "editor watermark / handle name",
+    "closing handle card",
+    "in-scene movie text treated as overlay"
+  ],
+  "verification": [
+    "7 broad 2fps contact sheets, all 74 tiles viewed",
+    "scene-score thresholds 0.4/0.5 plus 20fps frame-diff peaks",
+    "RMS envelope 579 samples",
+    "full-res watermark crop and 3x zoom check"
+  ]
+}
