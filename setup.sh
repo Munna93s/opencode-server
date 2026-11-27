@@ -646,6 +646,7 @@ if command -v ollama >/dev/null 2>&1; then
   #   qwen2.5:7b       ~4.7 GB  general text, opt-in local model
   #   qwen2.5-coder:7b ~4.7 GB  code-focused variant
   #   llama3.1:8b      ~4.9 GB  alternative local model
+  #   nemotron3-nano:4b ~2.8 GB official NVIDIA reasoning SLM, chat-only
   ( ollama serve >/tmp/opencode/ollama.log 2>&1 & ) || true
   sleep 3
   for M in qwen2.5vl:3b qwen2.5:7b qwen2.5-coder:7b llama3.1:8b; do
@@ -654,6 +655,28 @@ if command -v ollama >/dev/null 2>&1; then
         || echo "WARNING: $M pull failed (local fallback unavailable)" >&2
     fi
   done
+  # NVIDIA Nemotron 3 Nano 4B is not in the Ollama library; import the official
+  # Q4_K_M GGUF once. CPU-only friendly, no key, no cloud quota. Tools stay off
+  # in opencode.json because a 4B model loops on the 82-skill tool schema.
+  NEMOTRON_GGUF="$HOME/.cache/opencode-models/NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf"
+  if ! ollama list 2>/dev/null | awk '$1=="nemotron3-nano:4b" {found=1} END{exit !found}'; then
+    mkdir -p "$(dirname "$NEMOTRON_GGUF")" /tmp/opencode
+    if [ ! -f "$NEMOTRON_GGUF" ]; then
+      curl -L --fail --retry 3 \
+        'https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF/resolve/main/NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf' \
+        -o "$NEMOTRON_GGUF" \
+        || echo "WARNING: Nemotron 3 Nano GGUF download failed" >&2
+    fi
+    if [ -f "$NEMOTRON_GGUF" ]; then
+      # 8K context keeps CPU prefill fast; the 4B model stalls on the huge
+      # AGENTS.md + 82-skill prompt in this repo workspace. Use it from a
+      # clean directory (or plain `ollama run`), not as a coding agent here.
+      printf 'FROM %s\nPARAMETER num_ctx 8192\n' "$NEMOTRON_GGUF" \
+        > /tmp/opencode/nemotron3-nano.Modelfile
+      ollama create nemotron3-nano:4b -f /tmp/opencode/nemotron3-nano.Modelfile \
+        || echo "WARNING: nemotron3-nano:4b import failed" >&2
+    fi
+  fi
   # Keep the daemon up so skills/image-vision/vision.sh can use it instantly.
   if ! curl -fsS http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
     ( ollama serve >/tmp/opencode/ollama.log 2>&1 & ) || true

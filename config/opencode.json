@@ -51,6 +51,14 @@
             "output": ["text"]
           }
         },
+        "nemotron3-nano:4b": {
+          "name": "Nemotron 3 Nano 4B Q4_K_M — LOCAL chat-only; use from clean dirs, not this 82-skill workspace",
+          "capabilities": {
+            "tools": false,
+            "input": ["text"],
+            "output": ["text"]
+          }
+        },
         "qwen2.5vl:3b": {
           "name": "Qwen 2.5 VL 3B — LOCAL vision, unlimited (no tools)",
           "capabilities": {
