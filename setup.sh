@@ -292,8 +292,8 @@ then
   echo "WARNING: npm global install failed; workflow fallback will retry essentials." >&2
 fi
 
-# OpenCode V2 auto-fallback plugin: default free model -> Gemini -> Groq on
-# 429 / rate-limit errors, then back to free after the 3600s cooldown.
+# OpenCode V2 auto-fallback plugin: default free model -> other free models on
+# 429 / rate-limit errors, then back to the default after the 3600s cooldown.
 # `plugin add` is idempotent; OpenCode also auto-installs configured plugins.
 if command -v opencode >/dev/null 2>&1; then
   opencode plugin add '@azumag/opencode-rate-limit-fallback@2.1.1' >/dev/null 2>&1 \
@@ -414,10 +414,12 @@ try:
 except Exception:
     cfg = {}
 cfg["$schema"] = "https://opencode.ai/config.json"
-# Unlimited LOCAL model is the default: no API key, no rate limit.
-# Image input goes through skills/image-vision/vision.sh -> local qwen2.5vl:3b,
-# or switch interactively with /model ollama/qwen2.5vl:3b.
-cfg["model"] = "ollama/qwen2.5:7b"
+# Default is the free `big-pickle` model: it reliably uses tools, AGENTS.md and
+# all 82 skills. Local Ollama models are opt-in (`unlimited` command, or /model
+# in the TUI) — a 7B model loops on OpenCode's tool protocol with this many
+# skills, so it must NOT be the default.
+# Image input goes through skills/image-vision/vision.sh -> local qwen2.5vl:3b.
+cfg["model"] = "opencode/big-pickle"
 # V2 uses the plural `providers` key; drop the deprecated V1 `provider` shape
 # so the fallback config from config/opencode.json stays authoritative.
 cfg.pop("provider", None)
@@ -634,12 +636,13 @@ fi
 if command -v ollama >/dev/null 2>&1; then
   echo "    ollama $(ollama --version 2>/dev/null | head -1) at $(command -v ollama)"
   # Local models: no cloud rate limit, no API key, work offline after install.
-  # These are the last link in config/rate-limit-fallback.json, so a turn NEVER
-  # dies from "Free usage limit reached" — it lands on unlimited local compute.
-  #   qwen2.5vl:3b     ~3.2 GB  vision / OCR fallback for skills/image-vision
-  #   qwen2.5:7b       ~4.7 GB  general text + tool use (primary fallback)
+  # Opt-in via `unlimited`, UNLIMITED_MODEL=..., or /model in the TUI. They are
+  # the last link in config/rate-limit-fallback.json (offline safety net), never
+  # the default: 7B models loop on tools with the full 82-skill tool schema.
+  #   qwen2.5vl:3b     ~3.2 GB  vision / OCR for skills/image-vision
+  #   qwen2.5:7b       ~4.7 GB  general text, opt-in local model
   #   qwen2.5-coder:7b ~4.7 GB  code-focused variant
-  #   llama3.1:8b      ~4.9 GB  alternative tool-use model
+  #   llama3.1:8b      ~4.9 GB  alternative local model
   ( ollama serve >/tmp/opencode/ollama.log 2>&1 & ) || true
   sleep 3
   for M in qwen2.5vl:3b qwen2.5:7b qwen2.5-coder:7b llama3.1:8b; do

@@ -25,6 +25,7 @@ Before starting any user task, always run `./scripts/kaam.sh "<task>"` (or `~/.l
 
 ## Supporting notes
 
+- Default OpenCode model is `opencode/big-pickle` (free, reliable tool use with all skills + this AGENTS.md). Local Ollama models (`qwen2.5:7b`, etc.) are opt-in via the `unlimited` command or `/model` in the TUI — they are offline fallbacks only, because small 7B models loop on the tool-call protocol when 82 skills are loaded. Do not set a local 7B model as the default again.
 - Git push authentication is configured automatically on server start by `.github/workflows/server.yml` using the repository's `GH_PAT` secret. Do not ask the user for a token unless that secret is missing or invalid.
 - Large binaries are listed in `.gitignore` and stay local only; captions, SRT, JSON and text manifests are backed up.
 - After any install, run `bash -n setup.sh` and validate `.github/workflows/server.yml` before committing.

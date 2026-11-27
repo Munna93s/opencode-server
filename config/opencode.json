@@ -1,12 +1,20 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "ollama/qwen2.5:7b",
+  "model": "opencode/big-pickle",
   "plugins": [
     "@azumag/opencode-rate-limit-fallback@2.1.1"
   ],
   "providers": {
     "opencode": {
       "models": {
+        "big-pickle": {
+          "name": "Big Pickle — default, free, reliable tool use (repo skills/AGENTS.md)",
+          "capabilities": {
+            "tools": true,
+            "input": ["text"],
+            "output": ["text"]
+          }
+        },
         "nemotron-3.5-super-vl-free": {
           "name": "Nemotron 3.5 Super VL Free",
           "capabilities": {
@@ -20,7 +28,7 @@
     "ollama": {
       "models": {
         "qwen2.5:7b": {
-          "name": "Qwen 2.5 7B — LOCAL, unlimited, no API key",
+          "name": "Qwen 2.5 7B — LOCAL, no API key. Opt-in via /model or `unlimited`; small model can loop on tools",
           "capabilities": {
             "tools": true,
             "input": ["text"],

@@ -116,7 +116,7 @@ add_match() {
 }
 
 if echo "$TASK_LOWER" | grep -qE 'limit|quota|free model|unlimited|local model|api key|gemini|groq'; then
-  add_match unlimited "Unlimited local OpenCode model (qwen2.5:7b, no key/rate-limit), alias: unlimited"
+  add_match unlimited "Opt-in local OpenCode model (qwen2.5:7b, no key/rate-limit); default is opencode/big-pickle"
   add_match unlimited-vl "Unlimited local vision (qwen2.5vl:3b via Ollama REST), alias: unlimited-vl"
 elif echo "$TASK_LOWER" | grep -qE 'reel|short|tiktok|9:16|caption|clip|shorts'; then
   add_match neonclipping "YouTube/Twitch/Kick link ya local MP4 se captioned 9:16 clip (app: http://127.0.0.1:8770, skills/neonclipping)"

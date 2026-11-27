@@ -2,8 +2,8 @@
 # Unlimited local OpenCode — no API key, no rate limit, works offline.
 #
 # Usage:
-#   unlimited                          interactive TUI (config default = local model)
-#   unlimited "your prompt"            one-shot headless run
+#   unlimited                          interactive TUI (then /model to pick local)
+#   unlimited "your prompt"            one-shot headless run, forced to local model
 #   unlimited -f img.png "describe"    attach a file to a headless run
 #
 # Env overrides:
@@ -21,7 +21,7 @@ if ! curl -fsS "$URL/api/tags" >/dev/null 2>&1; then
   done
 fi
 
-# No args -> interactive TUI (opencode.json default is the local model).
+# No args -> interactive TUI (now defaults to big-pickle; use /model for local).
 # With args -> force the local model explicitly for a one-shot run.
 if [ "$#" -eq 0 ]; then
   exec opencode

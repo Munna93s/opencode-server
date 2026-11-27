@@ -6,7 +6,6 @@
   "maxSubagentDepth": 10,
   "enableSubagentFallback": true,
   "fallbackModels": [
-    { "providerID": "opencode", "modelID": "big-pickle" },
     { "providerID": "opencode", "modelID": "nemotron-3.5-lightning-free" },
     { "providerID": "opencode", "modelID": "deepseek-v4.1-flash-free" },
     { "providerID": "opencode", "modelID": "mimo-v2.6-flash-free" },
