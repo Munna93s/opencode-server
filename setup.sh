@@ -305,6 +305,9 @@ if [ -d "$SCRIPT_DIR/config" ]; then
   mkdir -p "$HOME/.config/opencode"
   cp "$SCRIPT_DIR/config/opencode.json" "$HOME/.config/opencode/opencode.json"
   cp "$SCRIPT_DIR/config/rate-limit-fallback.json" "$HOME/.config/opencode/rate-limit-fallback.json"
+  # Kilo Code free gateway models (kilo/*) are declared in config/opencode.json.
+  # Opt-in only via /model — the default stays opencode/big-pickle. No API key
+  # is needed; free gateways may log prompts, so avoid confidential data.
 fi
 
 if ! command -v pipx >/dev/null 2>&1; then
