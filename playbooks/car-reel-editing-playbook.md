@@ -817,3 +817,349 @@ User ne 2 files diye: (1) reference reel (savefrom, Bloody Mary / Porsche AI dri
 ---
 
 *Note: Vision model free-tier rate-limit ki wajah se kuch frames直接 describe nahi ho paye (batch 1 ke V4/V5, batch 2 sab, batch 3 sab, batch 4 example, batch 5 final, batch 6 dono videos). Lekin scene-change detection, OCR, brightness analysis, RMS beat analysis aur technical metadata se editing patterns accurately nikal liye gaye hain. Vision limit reset hone par remaining frames par nazar dokar playbook ko aur augment kar sakta hoon.*
+
+---
+
+# ═══════════════════════════════════════════════
+# BATCH 7 — 8 NEW BMW REELS (27 Nov 2026)
+# ═══════════════════════════════════════════════
+
+*Is baar vision (contact sheets) + scene-score detection + OCR + brightness + RMS beat analysis — sab chal gaye. Social handles aur watermarks **JAAN-BUJH KAR IGNORE** kiye gaye (copy nahi). Car badges, plate text aur in-scene signage (JOE'S TIRE / CENTER / POLICE decal) scene ka hissa hona chahiye isliye note kiye gaye hain — lekin unhe text overlay ki tarah copy nahi karna.*
+
+## VIDEO 15 — "Peak edit 🗿" (Variety Blitz)
+**File:** `savefromins.com Peak edit 🗿 0 1440P.mp4`
+**Technical:** 1440x2560 (9:16, 1440p), ~30fps, 12.63s, H.264 10.8 Mbps, AAC stereo 44.1kHz
+**Brightness:** avg 88.3/255 (35.4–178.5) → mixed day/night
+**OCR:** koi text overlay nahi mila.
+
+### ⚠️ Watermark handling
+- Is file mein koi handle/watermark nahi mila — sirf caption 🗿 tha. Kuch copy karne ki zarurat nahi.
+
+### Cut analysis
+- Scene scores ≥0.15 lagatare **~0.6s ke interval** par: 1.20, 1.80, 2.43, 3.03, 3.60, 4.33, 4.90, 5.53, **5.97 (1.00)**, 6.40, 6.77, **7.07 (0.90)**, 7.40 (0.73), 8.43, 8.83, 9.20, **9.73 (1.00)**, 10.40, 10.97, 12.27.
+- ≈ 20 cuts / 12.6s → rapid slideshow-beat pattern. **2 max flash hits** (5.97s, 9.73s).
+- Audio RMS ≈ 113 BPM → beat ~0.53s, cuts usi grid ke paas.
+
+### Visuals (vision se verify)
+- Har ~0.6s par **alag BMW**: orange M3/M4, white M-Power race car, red classic coupe (night motion-blur), showroom green/white wrap, interior red-stitch seats, cyan M4 (checkered wall), silver tunnel shot, white widebody #20 race car, black + cyan street frame.
+- Hook = pehle frame se hi action (orange BMW, city street) — text nahi.
+
+### Technique (SAVE KARNE LAYAK)
+- **"Variety blitz"** — hero ek nahi, *diversity* hai: alag color/angle/location har beat par.
+- **Beat-matched rapid cuts (~0.6s)** + 2 white flash peaks.
+- Day/night aur clean/blur frames mix karke energy banayi.
+- Heavy text nahi — car khud content hai.
+
+### Effort level
+- **Medium:** 15-20 source clips + beat sync. Shoot nahi, clip collection.
+
+### Reuse for user's car videos
+- Apni car ke 15-20 alag angles/colors/locations ikatthe karo → har 0.6s par cut.
+- 6s aur 9.7s ke aas-paas 2 flash daalo.
+- Ek hi car ho to bhi "alag angle = alag clip" rule rakho.
+
+---
+
+## VIDEO 16 — "DM for paid edits" Blue M4 Showcase
+**File:** `savefromins.com Dm for paid edits.💌 ... Thanks to @yonatan_raymond for the clips ... Editor - @thedarkshaders ... 0 1440P.mp4`
+**Technical:** 1440x2560 (9:16, 1440p), **60fps**, 13.75s, H.264 10.8 Mbps, AAC stereo
+**Brightness:** avg 61.6/255 (28.6–218.3) → dark base + bright flash frames
+
+### ⚠️ Watermark handling
+- **"THEDARKSHADERS"** watermark har frame par tha + caption mein **@yonatan_raymond** (clips), **@thedarkshaders** (editor) — **IGNORE kiye**. Ye editor branding hai, hamari template ka hissa nahi.
+
+### Cut analysis — FLASH-OPEN pattern (NAYA)
+- Score **1.00** at **0.63s, 1.40s, 2.00s, 4.83s** = 4 white flashes, pehle 2s mein 3.
+- Uske baad 4.83–12.9s tak **koi hard cut nahi** — slow 60fps angle tour.
+
+### Beat structure
+1. **0.63 / 1.40 / 2.00s:** triple flash opener → scroll-stop.
+2. **2–4.8s:** detail shots ke beech 4th flash.
+3. **4.83–12.9s:** continuous slow showcase (flash ke baad "calm").
+4. **13s:** end.
+
+### Visuals (vision se verify)
+- Dark metallic-blue BMW M4, dusk city street: front 3/4 with L-DRLs → front wheel + red caliper → hood bulge/grille → taillight bar + quad exhaust → rear 3/4 → cabin (steering, glowing M headrest badge, red M trim) → wide city/bridge beauty shot.
+
+### Technique (SAVE KARNE LAYAK)
+- **Flash-open (slow-build ka ulta):** pehle 3 flashes, phir slow. V11 (3.8s build → burst) se bilkul opposite — dono alag tools hain.
+- 60fps + low-key cool grade + warm headlight glow.
+- **M-detail chain:** red caliper → M badge → illuminated headrest = premium proof.
+- Editor watermark consistency: branding har frame par — **hamare liye ignore**, lekin "apna identity mark" ka idea useful.
+
+### Effort level
+- **Medium:** 60fps night shoot + 4 flashes + multiple angles.
+
+### Reuse for user's car videos
+- Night/blue-hour shoot karo, 60fps.
+- First 2s mein 3 white flashes → uske baad 8s tak sirf slow angles.
+- Har angle ek M/AMG/detail cue dikhaaye.
+
+---
+
+## VIDEO 17 — "No drama, just horsepower" M5 (SQUARE)
+**File:** `savefromins.com No drama, just horsepower 🐎Ⓜ️__By 👨🏼_🍳 @vernexjon 0 1080P.mp4`
+**Technical:** **1080x1080 (SQUARE 1:1)**, 60fps, 13.42s, H.264 8.0 Mbps, AAC stereo
+**Brightness:** avg 120.8/255 (16–233) → high contrast, bright + blowouts
+
+### ⚠️ Watermark handling
+- Caption credit **@vernexjon** — **IGNORE kiya**. Plate **NZTCS** aur wall signage **JOE'S TIRE** scene ke andar hain, unhe sach ki tarah note kiya — copy nahi.
+
+### Cut analysis
+- 0.43 (0.55), 1.48 (0.92), **2.87 (1.00)**, 3.42, 4.15, 4.65, 5.02, 5.87, 6.62, 7.35, 8.05, **8.73 (1.00)**, **9.43 (1.00)**, 10.10, **10.77 (1.00)**, **11.43 (1.00)**, **12.18 (1.00)**.
+- ≈ 0.6–0.9s steady cuts + **6 flash frames** — square format mein aggressive rhythm.
+
+### Visuals (vision se verify)
+- Grey/silver BMW M5, concrete garage/detail bay: rear 3/4 → hood/grille macro → straight rear (taillights) → front 3/4 → straight front → **rain/wet droplets** closeups → **dotted halftone/screen-grid overlay** (ek frame) → 2 blown-out white flash frames → "JOE'S TIRE" wall ke saamne wet-pavement hero shot.
+
+### Technique (SAVE KARNE LAYAK)
+- **Square 1:1 feed post** (V8 jaisa, lekin zyada aggressive).
+- **Halftone overlay** sirf ek frame par — texture accent, full-time effect nahi.
+- **Rain/wet macro** = paint ko premium banane ka easy trick.
+- White blowout flashes ~har 4s par.
+- Clean hard cuts, koi speedramp nahi.
+
+### Effort level
+- **Medium-High:** 60fps + rain setup + overlays + 6 flashes.
+
+### Reuse for user's car videos
+- Feed post chahiye to 1:1 shoot karo, 60fps.
+- Garage mein static angles: front / rear / 3/4 / macro grille.
+- Ek frame halftone, do frame white blowout — bas.
+- Paint wet karke close-up lo.
+
+---
+
+## VIDEO 18 — "This is really a monster" CGI Widebody M4
+**File:** `savefromins.com This is really a monster 💀💀 _@bmw __#blender3d #blender #bmw 0 1080P.mp4`
+**Technical:** 1920x1080 (LANDSCAPE), 29.97fps, **28.09s** (sabse lambi), H.264 3.1 Mbps, AAC stereo
+**Brightness:** avg 64.7/255 (16–104.7) → dark cinematic
+
+### ⚠️ Watermark handling
+- Caption mein **@bmw** (account tag) — **IGNORE kiya**. "POLICE" door decal scene ka hissa hai — car livery hai, overlay nahi.
+
+### Cut analysis — two-speed structure
+- **0.57 → 4.17s:** cuts har ~0.5s par (fast barrage: 0.57, 1.10, 1.60, 2.17, 2.67, 3.14, 3.70, 4.17).
+- **4.17 → 13.35s:** bada gap (continuous shot / build).
+- **13.35 → 26.86s:** cuts har ~1s par (14.41, 15.48, 17.48, 18.55, 19.55, 20.62, 21.65, 22.69, 23.72, 24.76, **26.86 (0.89)**).
+- Vision ne pehle live-action kaha tha, lekin file/caption (#blender3d) aur render smoothness se **CGI/Blender** confirm.
+
+### Visuals (vision se verify)
+- Dark matte widebody BMW M4, city streets; ek version police-liveried ("POLICE" decal).
+- Front drives-toward-camera, rear 3/4 with big wing, grille+headlight macro, driving-away shots with **horizontal motion blur**.
+- **Black spacer frames** shots ke beech.
+- **Single-word white text** har cut par: "IVE / B / BMW M4 / THIS / MONSTER / REPEAT / A" — lyric-style one-word-per-beat (exact words copy mat karna, technique lena).
+
+### Technique (SAVE KARNE LAYAK)
+- **Two-speed edit:** pehle 4s me 0.5s barrage, phir 9s gap, phir 1s rhythm — energy waves.
+- **Black frames** between shots = rhythm punctuation (cross-dissolve se better).
+- **One word per cut** lyric style — text chhota, white, center/lower.
+- 28s length = CGI/showcase ke liye approved long format.
+
+### Effort level
+- **HIGH:** 3D model + render + long timeline.
+
+### Reuse for user's car videos
+- 3D/CGI ya long showcase ho to 25-28s lena.
+- Opening 4s me 0.5s ke 8 cuts, phir 8-9s continuous, phir 1s beats.
+- Har cut par ek chhota white word (apna likha), beech me black frame.
+
+---
+
+## VIDEO 19 — "BMW M3 Comp Black Edition" Speedramp Edit
+**File:** `savefromins.com BMW M3 Comp Black Edition 😤 _#caredits #speedramp #bmwm3 #cars 0 1080P.mp4`
+**Technical:** 1080x1920 (9:16), 30fps, 12.83s, H.264 4.7 Mbps, AAC stereo
+**Brightness:** avg 91.3/255 (23.4–198.1)
+
+### ⚠️ Watermark handling
+- Vision ne **"XO"** watermark lower-right/center par pakda — **IGNORE kiya**. Koi handle caption mein nahi tha.
+
+### Cut analysis
+- **1.83 (1.00)**, 2.93 (0.56), **3.97 (0.88)**, 4.50, **5.67 (0.33)**, **6.20 (0.78)**, 7.77 (0.38), 8.07, 8.37, 9.97 (0.42), **12.20 (1.00)**.
+- ≈ 0.9s beat cuts + 2 big flashes (1.83s, 12.20s).
+
+### Visuals (vision se verify)
+- Black BMW M3 Competition, wet overcast street/cobblestones, plate "KA 2222 KH".
+- Yellow/orange DRLs + taillights, **orange brake calipers** (selective color pop on monochrome), **spark shower VFX** near rear wheel, macro wheel/grille/interior, whip-pan speed ramps, heavy motion blur.
+
+### Technique (SAVE KARNE LAYAK)
+- **Speedramp + whip-pan** har ~1s par (slow entry → fast smear → slow).
+- **Selective color:** grey/wet background, sirf orange lights + calipers + sparks pop.
+- **Spark VFX** ek beat me — aggression ka "signal".
+- Monochrome grade + wet reflections = premium dark look.
+
+### Effort level
+- **Medium-High:** speedramp keyframes + VFX sparks + 30fps shoot.
+
+### Reuse for user's car videos
+- Black/dark car + wet road + warm lights = ready recipe.
+- Har 1s par speed ramp; ek beat me spark overlay daalo.
+- Background desaturate karo, sirf caliper/light color rakho.
+
+---
+
+## VIDEO 20 — BMW X6 2025 Showroom Ad (38s)
+**File:** `savefromins.com BMW X6 2025_BRAND NEW ... Contact us 01099119667 ... 0 1080P.mp4`
+**Technical:** 1080x1920 (9:16), 60fps, **38.17s** (sabse lambi ad), H.264 11.3 Mbps, AAC stereo
+**Brightness:** avg 82.7/255 (16.1–223.7)
+
+### ⚠️ Watermark handling
+- Phone numbers / showroom address / feature list = **business CTA content**, editing technique nahi → **IGNORE kiya** (apne reel me apna CTA likhna).
+
+### Cut analysis — steady ad rhythm
+- 1.08, 5.43, 7.08, 9.80, 12.53, 14.17, 15.80, 16.90, 19.13, **20.60 (0.90)**, 22.88, 25.13, 33.23, 37.07.
+- ≈ har **1.6–2s** par cut, 20.6s par ek big flash, end dark.
+
+### Visuals (vision se verify)
+- Dark blue BMW X6, palm-lined paved road, golden-hour warm light.
+- Exterior beauty angles (front, side profile, rear 3/4) ↔ interior (brown leather seats, steering, digital cluster, door panel).
+- **Circular "bullseye" inset mask** 3 baar (frames 3, 21, 23) — wheel/detail zoom.
+- Wheel + headlight macro, end me haze/silhouette frame + dark card.
+
+### Technique (SAVE KARNE LAYAK)
+- **Long-form 38s dealer ad** — feature sampling ke liye time chahiye.
+- **Circular inset mask = signature move** (3 repeat) — view ko "detail zoom" deta hai bina naya clip shoot kiye.
+- Exterior ↔ interior alternation har 2s par.
+- Golden-hour + palms = premium showroom vibe (studio nahi).
+- Hazy/silhouette ending = soft close, flash ending nahi.
+
+### Effort level
+- **Medium-High:** 38s footage + 3 composited insets + grading.
+
+### Reuse for user's car videos
+- Dealership/feature reel ho to 30-40s lo.
+- Har 2s par exterior/interior badlo.
+- Circular mask 3 baar repeat karo (wohi signature ban jata hai).
+- CTA caption me rakho, video me nahi.
+
+---
+
+## VIDEO 21 — "M2 blacked" After Effects Edit
+**File:** `savefromins.com M2 blacked 🚀_#edit #aftereffects #bmw #m2 #fypage_Clips @yonatan_raymond 0 1080P.mp4`
+**Technical:** 1080x1920 (9:16), 30fps, 17.37s, H.264 5.9 Mbps, AAC stereo
+**Brightness:** avg 81.0/255 (23.9–215.6)
+
+### ⚠️ Watermark handling
+- Clip credit **@yonatan_raymond** + vision ne **"XO"** watermark pakda — **dono IGNORE kiye**. Car + editing technique save ki.
+
+### Cut analysis — opening burst → accelerating cuts
+- **0.30 (0.59), 0.70 (0.65), 1.10 (0.75)** = pehle 1.1s me 3 flashes.
+- 2.60, **4.43 (1.00)**, 6.30, 7.00, 7.47, 8.17, 10.00, 10.47, **10.90 (0.65)**, 11.37, 11.80, 12.27, 13.20, 13.67, 14.13, 14.57, 15.07, **15.53 (0.69)**.
+- Final 6s me cuts ~0.45s par → **pacing accelerate**.
+
+### Visuals (vision se verify)
+- Black BMW (badge "M340i"), street with zebra crosswalk + red brick building, daylight.
+- Macro chain: wheel + red caliper → BMW roundel → quad exhaust → "M340i" badge → M steering wheel (orange stitching) → dark seat/interior → full hero shots.
+- **Black cat interlude** at ~4–5s on plain background (pattern break).
+- Flash glint on rim, subtle shake/blur in cabin.
+
+### Technique (SAVE KARNE LAYAK)
+- **Pattern-break interlude:** car sequence ke beech 1-2s ka unrelated cute shot (ye cat tha) — attention reset. Ye naya hai.
+- **Opening flash burst** (V10 jaisa) + **accelerating rhythm**: shuru me 1s, end me 0.45s cuts.
+- Macro detail chain = "premium proof" sequence.
+- After Effects polish: glint, shake, clean high-contrast.
+
+### Effort level
+- **Medium-High:** 3 flashes + interlude + AE polish + accelerate timeline.
+
+### Reuse for user's car videos
+- Apni car reel me ek 1s ka "pattern break" daalo (dog/cat/hand/key — kuch bhi unrelated).
+- Pehle 1s me 3 flashes, last 6s me cuts 0.45s par tez karo.
+- Macro details ka fixed order rakho: wheel → badge → exhaust → steering.
+
+---
+
+## VIDEO 22 — "Pure aggression in every single frame" G82 M4
+**File:** `savefromins.com Pure aggression in every single frame. 🔵🔥 ... Rate this build 1–10!_🏎️ @nd_tama93 _#BMWM4 #G82M4 #Bmw 0 1080P.mp4`
+**Technical:** 1080x1920 (9:16), 29.97fps, 22.09s, H.264 4.7 Mbps, AAC stereo
+**Brightness:** avg 116.1/255 (58.9–149.0) → bright/hazy (dark nahi!)
+
+### ⚠️ Watermark handling
+- Handle **@nd_tama93** + **"WALKING visuals"** watermark — **IGNORE kiye**. In-scene "CENTER / SURANCE" signage scene ka hissa hai.
+
+### Cut analysis — beat CLUSTERS (NAYA)
+- Sparse: 2.60, 7.44, 9.81.
+- **Cluster 1 (10.48–12.35s):** 10.48 (0.66), 11.11, 11.75, 12.35 (0.59) → ~0.6s cuts.
+- Gap: 17.18.
+- **Cluster 2 (20.25–21.52s):** 20.25 (0.66), 20.89, 21.52 → ~0.6s cuts.
+- Audio RMS median ~0.58s → ~103 BPM; clusters isi grid par.
+
+### Visuals (vision se verify)
+- Dark-blue G82 M4, parking lot under a canopy ("CENTER" signage), city skyline, yellow road line.
+- Static hero angles ↔ **motion-blur / radial-zoom blur** speed shots (frames 5–7, 11, 14).
+- **Wheel spin blur with reflection inset**, 2 hazy low-contrast frames (16–17), front DRL hero, rear taillight end.
+- Caption: "Rate this build 1–10!" → engagement CTA.
+
+### Technique (SAVE KARNE LAYAK)
+- **Beat clusters:** 22s me 2 chhote 1.5s ke bursts (10–12s, 20–21.5s), baaki me slow static shots. Pure 0.6s non-stop nahi — contrast se aggression zyada.
+- **Bright hazy grade** — aggression dark grade ka exclusive nahi hai (V7/V11 se alag).
+- **Radial zoom blur** + wheel reflection inset = 2 signature effects.
+- Question caption ("Rate this build 1–10") = comments trigger.
+
+### Effort level
+- **Medium:** 22s footage + 2 clusters + 2 effects + hazy grade.
+
+### Reuse for user's car videos
+- 20-22s reel me 2 burst clusters rakho, beech me static shots.
+- Bright/hazy grade try karo (hamesha dark mat karo).
+- 2 frames par radial zoom blur, 1 frame par wheel reflection inset.
+- Caption me "Rate this build 1–10?" type sawaal.
+
+---
+
+## BATCH 7 — CROSS-PATTERNS (naye)
+
+### 19. Flash-open = slow-build ka ulta (V16)
+- Pehle 2s me 3 flashes → uske baad 8s slow showcase.
+- V11 (3.8s slow → burst) aur V16 (burst → slow) dono valid; mood decide kare.
+
+### 20. Variety blitz (V15)
+- Ek car ki jagah "alag-alag car/color/angle" har 0.6s par. Hero = diversity.
+
+### 21. Texture accents (V17)
+- Halftone overlay + rain droplets sirf 1-2 frames par — poore video par nahi.
+
+### 22. Long format do alag kaam ke liye (V18, V20)
+- 28s = CGI/showcase (two-speed energy waves), 38s = dealer ad (feature sampling).
+- Purana rule "9-19s" ab limited hai: ad/CGI ke liye 28-38s bhi sahi.
+
+### 23. Circular inset mask = repeatable signature (V20)
+- Ek hi effect 3 baar repeat karna = identity banata hai (watermark copy karne se behtar).
+
+### 24. Pattern-break interlude (V21)
+- Beeches me 1-2s unrelated shot (cat/dog/key/hand) attention reset karta hai.
+
+### 25. Accelerating cuts (V21)
+- Shuru 1s beats → last 6s me 0.45s beats. Energy build without new effects.
+
+### 26. Beat clusters + bright haze (V22)
+- Non-stop cuts ki jagah 2 chhote bursts; bright/hazy grade bhi aggressive ho sakta hai.
+
+### 27. Watermark/handle policy (confirm again)
+- Ignore kiye: THEDARKSHADERS (V16), @vernexjon (V17), @bmw (V18), XO (V19, V21), @yonatan_raymond (V16, V21), @nd_tama93 + WALKING visuals (V22).
+- **In-scene text** (plates, POLICE decal, JOE'S TIRE, CENTER signage) scene ka hissa hai — alag.
+- **Visible works but never copied** — principle unchanged from batch 1.
+
+---
+
+## QUICK REFERENCE — BATCH 7 ADDITIONS
+
+**🎨 Variety blitz →** V15: 15-20 clips, 0.6s cuts, 2 flashes (6s / 9.7s).
+
+**⚡ Flash-open →** V16: 3 flashes in first 2s → 8s slow 60fps detail tour (dark blue + M cues).
+
+**⬜ Square aggressive →** V17: 1:1, 60fps, 0.6-0.9s cuts, halftone accent, rain macro, white blowouts.
+
+**🎬 CGI two-speed →** V18: 28s landscape, 0.5s barrage (0-4s) → 9s gap → 1s beats, black spacers, one word per cut.
+
+**🏎️ Speedramp black car →** V19: wet road + orange calipers + spark VFX, 0.9s cuts, selective color.
+
+**🏢 Dealer ad →** V20: 38s, 1.6-2s cuts, circular inset mask ×3, exterior↔interior, CTA in caption.
+
+**🐈 Pattern break →** V21: 3-flash opener + 1s unrelated interlude + cuts accelerate to 0.45s.
+
+**🔥 Beat clusters →** V22: 22s, 2 bursts at 10-12s & 20-21.5s, bright haze, radial zoom, "rate 1-10" caption.
+
+---
+
+*Batch 7 note: is baar 8/8 contact sheets vision se directly dekhe gaye (free VL model available tha). Scene-score, OCR aur RMS cross-check bhi kiya — isliye beat/cluster numbers measurement hain, andaza nahi. Handles/watermarks sirf "ignore" kiye gaye, kahin replicate nahi.*
