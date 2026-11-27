@@ -50,8 +50,9 @@ jobs:
         run: |
           command -v ffmpeg >/dev/null || { sudo apt-get update -y && sudo apt-get install -y ffmpeg; }
           python3 -m pip --version >/dev/null 2>&1 || sudo apt-get install -y python3-pip
-          command -v opencode >/dev/null || npm install -g @opencode/cli
-          command -v cloudflared >/dev/null || npm install -g cloudflared
+          command -v opencode >/dev/null || sudo npm install -g @opencode/cli
+          command -v cloudflared >/dev/null || sudo npm install -g cloudflared
+
 
       - name: Start Server & Show Link
         env:
